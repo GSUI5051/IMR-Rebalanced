@@ -269,8 +269,6 @@ function updateTickspeedHTML() {
 		tmp.el.tickspeed_auto.setDisplay(FORMS.tickspeed.autoUnl())
 		tmp.el.tickspeed_auto.setTxt(player.autoTickspeed?"ON":"OFF")
 	}
-}
-function updateFBHTML() {
 tmp.el.cryz_div.setDisplay(hasTree("c8"))
 	tmp.el.crx_div.setDisplay(hasTree("c8"))
 	if(hasTree("c8")){
@@ -450,9 +448,6 @@ function updateHTML() {
 			if (tmp.stab[4] == 3) updateBDHTML()
 		}
 		if (tmp.tab == 7) {
-			updateFBHTML()
-		}
-		if (tmp.tab == 8) {
 			updateOptionsHTML()
 		}
 	}
