@@ -1020,7 +1020,7 @@ const TREE_UPGS = {
         },
 		c8: {    
             branch: ["c7"],
-            desc: `Unlock Explorations (2 Break Dilation Buyables)`,
+            desc: `Unlock Explorations (2 Mass Tab Upgrades)`,
 			req() {return player.supernova.stardust.gte(7500)},
             reqDesc: `7500 Stardust`,
             cost: E('1e7805000'),
