@@ -8,10 +8,12 @@ const STARS = {
     },
     softGain() {
         let s = E("e1000").pow(tmp.fermions.effs[1][0]||1)
+       if (hasTree("c16")) s = E("e10").pow(tmp.fermions.effs[1][0]||1)
         return s
     },
     softPower() {
         let p = E(0.75)
+		if (hasTree("c16")) p = E(0.000001)
         return p
     },
     effect() {
@@ -85,6 +87,8 @@ function updateStarsTemp() {
     tmp.stars.generator_boost_base = E(2)
     if (hasElement(57)) tmp.stars.generator_boost_base = tmp.stars.generator_boost_base.mul(tmp.elements.effect[57])
     if (hasUpgrade('br',5)) tmp.stars.generator_boost_base = tmp.stars.generator_boost_base.mul(upgEffect(4,5))
+    if (hasUpgrade('br',16)) tmp.stars.generator_boost_base = tmp.stars.generator_boost_base.mul(upgEffect(4,16))
+    if (hasElement(121)) tmp.stars.generator_boost_base = tmp.stars.generator_boost_base.pow(tmp.elements.effect[121])
     tmp.stars.generator_boost_base = tmp.stars.generator_boost_base.softcap(1e13,0.5,0)
 
     tmp.stars.generator_boost_eff = tmp.stars.generator_boost_base.pow(player.stars.boost.mul(tmp.chal?tmp.chal.eff[11]:1)).softcap('e3e18',0.95,2)

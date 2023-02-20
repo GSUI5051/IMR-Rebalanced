@@ -70,7 +70,7 @@ const QUANTUM = {
             if (!force) keep.push('unl1')
             keep.push('qol8','qol9')
         }
-		        if (hasTree("c5")) keep.push('c1','c2','c3','c4','c5','c6','c7','c8')
+		        if (hasTree("c5")) keep.push('c1','c2','c3','c4','c5','c6','c7','c8','c9','c10','c11','c12','c13','c14','c15', 'c16')
         if (hasUpgrade('br',6) && !keep.includes('unl1')) keep.push('unl1')
 
         let save_keep = []
@@ -110,6 +110,7 @@ const QUANTUM = {
         if (tmp.qu.mil_reached[5]) x = x.mul(tmp.preQUGlobalSpeed.root(2).softcap(1e50,0.95,2))
         if (hasTree('qu5')) x = x.mul(tmp.supernova.tree_eff.qu5)
         if (hasTree('c7')) x = x.mul(tmp.supernova.tree_eff.c7)
+        if (hasElement(129))x = x.mul(tmp.elements.effect[129])
         x = x.mul(tmp.qu.cosmic_str_eff.eff)
         return x
     },
@@ -239,7 +240,7 @@ function calcQuantum(dt, dt_offline) {
 
         if (hasUpgrade('br',8)) {
             player.qu.points = player.qu.points.add(tmp.qu.gain.mul(dt/10))
-            if (player.qu.rip.active) player.qu.rip.amt = player.qu.rip.amt.add(tmp.rip.gain.mul(dt/10))
+            if (player.qu.rip.active || (hasTree("c16"))) player.qu.rip.amt = player.qu.rip.amt.add(tmp.rip.gain.mul(dt/10))
         }
     }
 
@@ -252,6 +253,9 @@ function calcQuantum(dt, dt_offline) {
         player.md.break.energy = player.md.break.energy.add(tmp.bd.energyGain.mul(dt))
         player.md.break.mass = player.md.break.mass.add(tmp.bd.massGain.mul(dt))
         player.md.break.curX = player.md.break.curX.add(tmp.bd.curXgain.mul(dt))
+        player.md.break.curY = player.md.break.curY.add(tmp.bd.curYgain.mul(dt))
+        player.md.break.curZ = player.md.break.curZ.add(tmp.bd.curZgain.mul(dt))
+        player.md.break.dist = player.md.break.dist.add(tmp.bd.distGain.mul(dt))
     }
 
     if (hasTree("qu_qol1")) for (let x = 0; x < tmp.supernova.auto_tree.length; x++) TREE_UPGS.buy(tmp.supernova.auto_tree[x], true)
@@ -299,7 +303,7 @@ function updateQuantumHTML() {
 
     unl = hasTree("unl4")
     tmp.el.br_div.setDisplay(unl)
-    if (unl) tmp.el.brAmt.setHTML(player.qu.rip.amt.format(0)+"<br>"+(player.qu.rip.active?gain2?player.qu.rip.amt.formatGain(tmp.rip.gain.div(10)):`(+${tmp.rip.gain.format(0)})`:"(inactive)"))
+    if (unl) tmp.el.brAmt.setHTML(player.qu.rip.amt.format(0)+"<br>"+(player.qu.rip.active || (hasTree("c16"))?gain2?player.qu.rip.amt.formatGain(tmp.rip.gain.div(10)):`(+${tmp.rip.gain.format(0)})`:"(inactive)"))
 
     if (tmp.tab == 0 && tmp.stab[0] == 4) {
         tmp.el.bpAmt.setTxt(format(player.qu.bp,1)+" "+formatGain(player.qu.bp,tmp.qu.bpGain))

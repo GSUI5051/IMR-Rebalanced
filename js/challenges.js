@@ -125,6 +125,7 @@ const CHALS = {
         if (hasTree("chal4b") && (i==9))  x = x.add(100)
         if (hasTree("chal8") && (i>=9))  x = x.add(200)
         if (hasElement(104) && (i>=9))  x = x.add(200)
+        if (hasElement(122) && (i>=9))  x = x.add(1000)
         return x.floor()
     },
     getScaleName(i) {
@@ -137,15 +138,18 @@ const CHALS = {
         let x = E(1)
         if (hasElement(2)) x = x.mul(0.75)
         if (hasElement(26)) x = x.mul(tmp.elements.effect[26])
+        if (player.md.break.upgs[11].gte(1)) x = x.mul(0.8)
         return x
     },
     getPower2(i) {
         let x = E(1)
         if (hasElement(92)) x = x.mul(0.75)
+		        if (player.md.break.upgs[11].gte(1)) x = x.mul(0.8)
         return x
     },
     getPower3(i) {
         let x = E(1)
+		        if (player.md.break.upgs[11].gte(1)) x = x.mul(0.8)
         return x
     },
     getChalData(x, r=E(-1)) {

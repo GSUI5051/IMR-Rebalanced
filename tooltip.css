@@ -1,3 +1,4 @@
+
 [tooltip] {
 	position: relative;
 	z-index: 2;
@@ -58,7 +59,7 @@
 	margin-left: -5px;
 	width: 0;
 	text-align: center;
-	border-top: 5px solid #000;
+	border-top: 5px solid white;
 	border-top: 5px solid hsla(0, 0%, 5%, 0.9);
 	border-right: 5px solid transparent;
 	border-left: 5px solid transparent;
@@ -77,4 +78,27 @@
 	filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
 	opacity: 1;
 	white-space: pre-wrap;
+}
+
+#tooltip-div {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+
+    background-color: #000e;
+    min-width: 20px;
+    max-width: 300px;
+    min-height: 10px;
+	font-size: 13px;
+	padding: 5px 10px;
+
+	border: solid 3px white;
+	border-radius: 10px;
+    border-color: white;
+    color: white;
+    text-align: center;
+
+    pointer-events: none;
 }

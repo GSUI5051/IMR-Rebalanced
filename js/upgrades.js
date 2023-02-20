@@ -135,12 +135,12 @@ const UPGS = {
                 if (player.mainUpg.atom.includes(9)) sp *= 1.15
                 if (player.ranks.tier.gte(30)) sp *= 1.1
                 let sp2 = 0.1
-                let ss2 = E(5e15)
+                let ss2 = E(5e10)
                 if (hasElement(85)) {
-                    sp2 **= 0.9
+                    sp2 **= 0.3
                     ss2 = ss2.mul(3)
                 }
-                let ret = step.mul(xx.mul(hasElement(80)?25:1)).add(1).softcap(ss,sp,0).softcap(1.8e5,hasPrestige(0,12)?0.525:0.5,0)
+                let ret = step.mul(xx.mul(hasElement(80)?25:1)).add(1).softcap(ss,sp,0).softcap(1.8e5,hasPrestige(0,12)?0.525:0.5,0).softcap(1.8e7,hasTree("c16")?0.15:0.5,0)
                 ret = ret.mul(tmp.prim.eff[0])
                 if (!player.ranks.pent.gte(15)) ret = ret.softcap(ss2,sp2,0)
                 return {step: step, eff: ret, ss: ss}
@@ -169,16 +169,15 @@ const UPGS = {
                 let step = E(1.5).add(RANKS.effect.tetr[2]())
                 let sp = 0.5
                 let sp2 = 0.1
-                let ss2 = E(5e15)
-                let ret = step.mul(xx.mul(hasElement(80)?25:1)).add(1).softcap(ss,sp,0).softcap(1.8e5,hasPrestige(0,12)?0.525:0.5,0)
-                ret = ret.mul(tmp.prim.eff[0])
-                if (!player.ranks.pent.gte(15)) ret = ret.softcap(ss2,sp2,0)
+                let ss2 = E(5e12)
+                let ret = step.add(1).softcap(ss,sp,0).softcap(1.8e2,0.02,0)
+                if (hasTree("c1")) ret = step.add(1).mul(hasTree("c18")?tmp.supernova.tree_eff.c18:1).softcap(ss2,sp2,0)
                 return {step: step, eff: ret, ss: ss}
             },
             effDesc(eff) {
                 return {
                     step: "+x"+format(eff.step),
-                    eff: "x"+format(eff.eff)+" to Stronger"+(eff.eff.gte(eff.ss)?` <span class='soft'>(softcapped${eff.eff.gte(1.8e5)?eff.eff.gte(5e15)&&!player.ranks.pent.gte(15)?"^3":"^2":""})</span>`:"")
+                    eff: "x"+format(eff.eff)+" to Stronger Power"+(eff.eff.gte(eff.ss)?` <span class='soft'>(softcapped${eff.eff.gte(1.8e5)?eff.eff.gte(5e15)&&!player.ranks.pent.gte(15)?"^3":"^2":""})</span>`:"")
                 }
             },
             bonus() {
@@ -629,7 +628,7 @@ if (player.mainUpg.rp.includes(5)) x = x.add(1)
                 }
             },
             auto_unl() { return false },
-            lens: 15,
+            lens: 16,
             1: {
                 desc: `Start with Hydrogen-1 unlocked in Big Rip.`,
                 cost: E(5),
@@ -715,6 +714,17 @@ if (player.mainUpg.rp.includes(5)) x = x.add(1)
                 unl() { return player.md.break.active },
                 desc: `Blueprint Particles give slightly more Pre-Quantum Global Speed.`,
                 cost: E(1e23),
+            },
+            16: {
+                unl() { return player.md.break.active },
+                desc: `Stardust boosts Star Booster at reduced amount (stronger in Big Rip)`,
+                cost: E(1e32),
+                effect() {
+                    let x = player.supernova.stardust.pow(1.55)
+                    if (player.qu.rip.active) x = player.supernova.stardust.pow(120.55)
+                    return x
+                },
+                effDesc(x=this.effect()) { return "x"+format(x) },
             },
         },
     },

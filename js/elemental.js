@@ -1,6 +1,6 @@
 const ELEMENTS = {
-    map: `x_________________xvxx___________xxxxxxvxx___________xxxxxxvxxx_xxxxxxxxxxxxxxxvxxx_xxxxxxxxxxxxxxxvxxx1xxxxxxxxxxxxxxxvxxx2xxxxxxxxxxxxxxxv_v___3xxxxxxxxxxxxxx_v___4xxxxxxxxxxxxxx_`,
-    la: [null,'*','**','*','**'],
+    map: `x_________________xvxx___________xxxxxxvxx___________xxxxxxvxx_xxxxxxxxxxxxxxxxvxx_xxxxxxxxxxxxxxxxvxx1xxxxxxxxxxxxxxxxvxx2xxxxxxxxxxxxxxxxv_v__3xxxxxxxxxxxxxx__v__4xxxxxxxxxxxxxx__v_vxxxxxxxxxxx`,
+    la: [null,'*','**','*','**','***'],
     names: [
         null,
         'H','He','Li','Be','B','C','N','O','F','Ne',
@@ -14,7 +14,8 @@ const ELEMENTS = {
         'Ti','Pb','Bi','Po','At','Rn','Fr','Ra','Ac','Th',
         'Pa','U','Np','Pu','Am','Cm','Bk','Cf','Es','Fm',
         'Md','No','Lr','Rf','Db','Sg','Bh','Hs','Mt','Ds',
-        'Rg','Cn','Nh','Fl','Mc','Lv','Ts','Og'
+        'Rg','Cn','Nh','Fl','Mc','Lv','Ts','Og','Uue','Ubn',
+        'Ubu','Ubb', 'Ubt','Ubq','Ubp','Ubh','Ubs',"Ubo","Ube"
     ],
     fullNames: [
         null,
@@ -29,12 +30,15 @@ const ELEMENTS = {
         'Thallium','Lead','Bismuth','Polonium','Astatine','Radon','Francium','Radium','Actinium','Thorium',
         'Protactinium','Uranium','Neptunium','Plutonium','Americium','Curium','Berkelium','Californium','Einsteinium','Fermium',
         'Mendelevium','Nobelium','Lawrencium','Ruthefordium','Dubnium','Seaborgium','Bohrium','Hassium','Meitnerium','Darmstadium',
-        'Roeritgenium','Copernicium','Nihonium','Flerovium','Moscovium','Livermorium','Tennessine','Oganesson'
+        'Roeritgenium','Copernicium','Nihonium','Flerovium','Moscovium','Livermorium','Tennessine','Oganesson','Ununennium','Unbinilium',
+        'Unbiunium','Unbibium','Unbitrium','Unbiquadium','Unbipentium','Unbihexium','Unbiseptium',"Unbioctium","Unbiennium"
     ],
-    canBuy(x) { return player.atom.quarks.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? true : x <= 86) && !tmp.elements.cannot.includes(x) },
+    canBuy(x) {        let res = this.upgs[x].sd ? player.supernova.stardust : player.atom.quarks
+return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? true : !BR_ELEM.includes(x)) && !tmp.elements.cannot.includes(x)},
     buyUpg(x) {
         if (this.canBuy(x)) {
              {
+				 if (this.upgs[x].sd) player.supernova.stardust =  player.supernova.stardust.sub(this.upgs[x].cost)
                 player.atom.quarks = player.atom.quarks.sub(this.upgs[x].cost)
                 player.atom.elements.push(x)
             }
@@ -185,7 +189,7 @@ const ELEMENTS = {
             desc: `Passively gain 100% of the atoms you would get from resetting each second. Atomic Power boost Relativistic particles gain at a reduced rate.`,
             cost: E(2e72),
             effect() {
-                let x = hasPrestige(0,40) ? player.atom.atomic.max(1).log10().add(1).log10().add(1).root(2) : player.atom.atomic.max(1).log10().add(1).pow(0.4)
+                let x = hasPrestige(0,40) ? player.atom.atomic.max(1).log10().add(1).log10().add(1).root(2).softcap(3.5,0.01,0) : player.atom.atomic.max(1).log10().add(1).pow(0.4).softcap(3.5,0.01,0)
                 return x
             },
             effDesc(x) { return hasPrestige(0,40) ? "^"+format(x) : format(x)+"x" },
@@ -223,7 +227,7 @@ const ELEMENTS = {
             desc: `Dilated mass boost Relativistic particles gain.`,
             cost: E(1e144),
             effect() {
-                let x = player.md.mass.add(1).pow(0.0125)
+                let x = player.md.mass.add(1).pow(0.0125).softcap(E('ee27'),0.01,0)
                 return x
             },
             effDesc(x) { return format(x)+"x" },
@@ -706,8 +710,89 @@ const ELEMENTS = {
             cost: E("e5e16"),
         },
         {
-            desc: `Enter the <span id="final_118">Portal</span>.`,
+            desc: `Unlock <span id="final_118">Constellations</span>.`,
             cost: E("e1.5e17"),
+        },
+        {br: true,
+            desc: `Exponent Stardust gain by Distance.`,
+            effect() {let x = E(0)
+                if (hasElement(119)) x = player.md.break.dist.pow(0.05).root(1.15)
+                else x = E(1)
+                return x
+            },
+            effDesc(x) { return "^"+format(x) },
+            cost: E("e1.92e19"),
+        },
+        {
+            desc: `Boost mass gain based on stardust`,
+            effect() {let x = E(0)
+                x = player.supernova.stardust.pow(0.05).softcap(3,0.01,0)
+                return x
+            },
+            effDesc(x) { return "^"+format(x) },
+            cost: E("e5e28"),
+        },
+        {
+            desc: `Root Supernova Requirements based on X position`,
+            effect() {let x = E(0)
+                x = player.md.break.curX.pow(0.25)
+                return x
+            },
+            effDesc(x) { return "^"+format(x) },
+            cost: E("e1e30"),
+        },
+        {br: true,
+            desc: `Add 1000 C9-12 completions`,
+            cost: E("e4.9e20"),
+        },
+        {
+            desc: `Increase [Strange] and [Neutrino] cap up to 250 and unlock More Break Dilation upgrades`,
+            cost: E("e3.5e31"),
+        },
+        {
+            desc: `Auto-complete C9-C12 challenges`,
+            cost: E("e1e32"),
+        },
+        {br: true,
+            desc: `Uncap [Bottom] and [Strange]`,
+            cost: E("e1.3e23"),
+        },
+		        {sd: true,
+            desc:  `Decrease requirements of Pent by Stardust`,
+            effect() {let x = E(0)
+                x = player.supernova.stardust.log(4).pow(0.55)
+                return x
+            },
+            effDesc(x) { return "/"+format(x) },
+            cost: E("1e13"),
+        },
+        {sd: true,
+            desc:  `Increase Forward Speed Booster I power by distance`,
+            effect() {let x = E(0)
+                x = player.md.break.dist.log(1.1).pow(1.75)
+                return x
+            },
+            effDesc(x) { return "x"+format(x) },
+            cost: E("5e13"),
+        },
+        {sd: true,
+            desc:  `Increase distance gain by Pent Effect`,
+            effect() {let x = E(0)
+                x = player.ranks.sept.add(1).pow(3).add(player.ranks.sept.mul(4))
+                return x
+            },
+            effDesc(x) { return "x"+format(x) },
+            cost: E("1e14"),
+        },
+        {sd: true,
+            desc:  `Death Shards affects Pre-Quantum Global Speed at reduced rate`,
+            effect() {let x = E(0)
+               if (hasElement(129)) x = player.qu.rip.amt.pow(0.35).root(3)
+               else x = E(1)
+                return x
+            },
+            effDesc(x) { return "x"+format(x) },
+            cost: E("1e25"),
         },
     ],
     /*
@@ -723,7 +808,6 @@ const ELEMENTS = {
     */
     getUnlLength() {
         let u = 4
-
         if (quUnl()) u = 77+3
         else {
             if (player.supernova.times.gte(1)) u = 49+5
@@ -741,11 +825,21 @@ const ELEMENTS = {
         if (hasTree('unl3')) u += 3
         if (player.qu.rip.first) u += 9
         if (hasUpgrade("br",9)) u += 23 // 23
+		if (hasTree("c13")) u += 11
 
         return u
     },
 }
-
+const BR_ELEM = (()=>{
+    let x = []
+    for (let i in ELEMENTS.upgs) if (i>86&&i<=118 || i>0&&ELEMENTS.upgs[i].br) x.push(Number(i))
+    return x
+})()
+const SD_ELEM = (()=>{
+    let x = []
+    for (let i in ELEMENTS.upgs) if (i>0&&ELEMENTS.upgs[i].sd) x.push(Number(i))
+    return x
+})()
 function hasElement(x) { return player.atom.elements.includes(x) }
 
 function setupElementsHTML() {
@@ -759,10 +853,11 @@ function setupElementsHTML() {
         else if (m=='x') {
             num++
             table += ELEMENTS.upgs[num]===undefined?`<div style="width: 50px; height: 50px"></div>`
-            :`<button class="elements ${num == 119 ? 'final' : ''}" id="elementID_${num}" onclick="ELEMENTS.buyUpg(${num}); ssf[0]('${ELEMENTS.names[num]}')" onmouseover="tmp.elements.choosed = ${num}" onmouseleave="tmp.elements.choosed = 0"><div style="font-size: 12px;">${num}</div>${ELEMENTS.names[num]}</button>`
+            :`<button class="elements ${num == 121 ? 'final' : ''}" id="elementID_${num}" onclick="ELEMENTS.buyUpg(${num}); ssf[0]('${ELEMENTS.names[num]}')" onmouseover="tmp.elements.choosed = ${num}" onmouseleave="tmp.elements.choosed = 0"><div style="font-size: 12px;">${num}</div>${ELEMENTS.names[num]}</button>`
             if (num==57 || num==89) num += 14
             else if (num==71) num += 18
             else if (num==118) num = 57
+			else if (num==103) num = 118
         }
 	}
     table += "</div>"
@@ -773,8 +868,10 @@ function updateElementsHTML() {
     let ch = tmp.elements.choosed
     tmp.el.elem_ch_div.setVisible(ch>0)
     if (ch) {
+        let eu = ELEMENTS.upgs[ch]
+        let res = eu.sd?" Stardust":" Quarks"
         tmp.el.elem_desc.setHTML("<b>["+ELEMENTS.fullNames[ch]+"]</b> "+ELEMENTS.upgs[ch].desc)
-        tmp.el.elem_cost.setTxt(format(ELEMENTS.upgs[ch].cost,0)+" Quarks"+(ch>86?" in Big Rip":"")+(player.qu.rip.active&&tmp.elements.cannot.includes(ch)?" [CANNOT AFFORD in Big Rip]":""))
+        tmp.el.elem_cost.setTxt(format(eu.cost,0)+res+(BR_ELEM.includes(ch)?" in Big Rip":"")+(player.qu.rip.active&&tmp.elements.cannot.includes(ch)?" [CANNOT AFFORD in Big Rip]":""))
         tmp.el.elem_eff.setHTML(ELEMENTS.upgs[ch].effDesc?"Currently: "+ELEMENTS.upgs[ch].effDesc(tmp.elements.effect[ch]):"")
     }
     tmp.el.element_la_1.setVisible(tmp.elements.unl_length>57)
@@ -786,7 +883,7 @@ function updateElementsHTML() {
         if (upg) {
             upg.setVisible(x <= tmp.elements.unl_length)
             if (x <= tmp.elements.unl_length) {
-                upg.setClasses({elements: true, locked: !ELEMENTS.canBuy(x), bought: hasElement(x), br: x > 86 && x < 118, final: x == 119})
+                upg.setClasses({elements: true, locked: !ELEMENTS.canBuy(x), bought: hasElement(x), br: BR_ELEM.includes(x), sd: SD_ELEM.includes(x),final: x == 118})
             }
         }
     }
@@ -794,7 +891,7 @@ function updateElementsHTML() {
 
 function updateElementsTemp() {
     let cannot = []
-    if (player.qu.rip.active) cannot.push(58,74)
+    if (player.qu.rip.active && (!hasTree("c11"))) cannot.push(58,74)
     tmp.elements.cannot = cannot
 
     if (!tmp.elements.upg_length) tmp.elements.upg_length = ELEMENTS.upgs.length-1

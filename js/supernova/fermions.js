@@ -122,6 +122,7 @@ const FERMIONS = {
                     let x = 15
                     if (hasTree("fn9")) x += 2
                     if (hasTree("fn11")) x += 5
+					if (hasElement(123)) x = 250
                     return x
                 },
                 nextTierAt(x) {
@@ -147,6 +148,7 @@ const FERMIONS = {
                 maxTier() {
                     let x = 30
                     if (hasTree("fn11")) x += 5
+					if (hasElement(125)) return Infinity
                     return x
                 },
                 nextTierAt(x) {
@@ -161,7 +163,7 @@ const FERMIONS = {
                 },
                 eff(i, t) {
                     let x = i.add(1).log10().div(500).mul(t.root(2)).add(1)
-                    return x.softcap(1.15,0.5,0).softcap(1.8,1/3,0).min(2)
+                    return x.softcap(1.15,0.5,0).softcap(1.8,1/3,0).softcap(2,0.65,0).min(12)
                 },
                 desc(x) {
                     return `Radiation Boosters are ${format(x)}x cheaper`+(x.gte(1.15)?" <span class='soft'>(softcapped)</span>":"")
@@ -173,6 +175,7 @@ const FERMIONS = {
                 maxTier() {
                     let x = 10
                     if (hasTree("fn11")) x += 5
+					if (hasElement(125)) return Infinity
                     return x
                 },
                 nextTierAt(x) {
@@ -186,8 +189,8 @@ const FERMIONS = {
                     return FERMIONS.getTierScaling(x, true)
                 },
                 eff(i, t) {
-                    let x = i.add(1).log10().pow(0.5).div(150).add(1).pow(t)
-                    return x.min(500)
+                    let x = i.add(1).log10().pow(0.5).div(150).add(1).pow(t).softcap(1000,0.0105,0)
+                    return x.min(2e11)
                 },
                 desc(x) {
                     return `Meta-Tickspeed starts ${format(x)}x later`
@@ -270,6 +273,7 @@ const FERMIONS = {
                     let x = 15
                     if (hasTree("fn9")) x += 2
                     if (hasTree("fn11")) x += 5
+					if (hasElement(123)) x = 250
                     return x
                 },
                 nextTierAt(x) {

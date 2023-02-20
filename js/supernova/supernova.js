@@ -74,6 +74,10 @@ const SUPERNOVA = {
         if (hasTree("c1")) xx = xx.mul(tmp.supernova.tree_eff.c1)
 		        if (hasTree("c2")) xx = xx.mul(tmp.supernova.tree_eff.c2)
         if (hasTree("c5")) xx = xx.mul(tmp.supernova.tree_eff.c5)
+        if (player.md.break.dist.gte(1)) xx = xx.mul(tmp.bd.distBoost)
+        xx = xx.pow(tmp.elements.effect[119])
+	      if (player.ranks.sept.gte(1)) xx = xx.mul(RANKS.effect.sept[1]())
+          if (hasTree("c20")) xx = xx.mul(tmp.supernova.tree_eff.c20)
         return xx
     },
     req(x=player.supernova.times) {

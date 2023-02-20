@@ -1,6 +1,6 @@
 const RANKS = {
-    names: ['rank', 'tier', 'tetr', 'pent'],
-    fullNames: ['Rank', 'Tier', 'Tetr', 'Pent'],
+    names: ['rank', 'tier', 'tetr', 'pent','sept'],
+    fullNames: ['Rank', 'Tier', 'Tetr', 'Pent','Sept'],
     reset(type) {
         if (tmp.ranks[type].can) {
             player.ranks[type] = player.ranks[type].add(1)
@@ -9,6 +9,7 @@ const RANKS = {
             if (type == "tier" && player.mainUpg.bh.includes(4)) reset = false
             if (type == "tetr" && hasTree("qol5")) reset = false
             if (type == "pent" && hasTree("qol8")) reset = false
+            if (type == "sept" && player.md.break.upgs[12].gte(1)) reset = false
             if (reset) this.doReset[type]()
             updateRanksTemp()
         }
@@ -21,6 +22,7 @@ const RANKS = {
             if (type == "tier" && player.mainUpg.bh.includes(4)) reset = false
             if (type == "tetr" && hasTree("qol5")) reset = false
             if (type == "pent" && hasTree("qol8")) reset = false
+			if (type == "sept" && player.md.break.upgs[12].gte(1)) reset = false
             if (reset) this.doReset[type]()
             updateRanksTemp()
         }
@@ -29,6 +31,7 @@ const RANKS = {
         tier() { return player.ranks.rank.gte(3) || player.ranks.tier.gte(1) || player.mainUpg.atom.includes(3) || tmp.radiation.unl },
         tetr() { return player.mainUpg.atom.includes(3) || tmp.radiation.unl },
         pent() { return tmp.radiation.unl },
+        sept() { return player.md.break.upgs[12].gte(1) },
     },
     doReset: {
         rank() {
@@ -47,6 +50,10 @@ const RANKS = {
             player.ranks.tetr = E(0)
             this.tetr()
         },
+       sept() {
+            player.ranks.pent = E(0)
+            this.pent()
+        },
     },
     autoSwitch(rn) { player.auto_ranks[rn] = !player.auto_ranks[rn] },
     autoUnl: {
@@ -54,6 +61,7 @@ const RANKS = {
         tier() { return player.mainUpg.rp.includes(6) },
         tetr() { return player.mainUpg.atom.includes(5) },
         pent() { return hasTree("qol8") },
+        sept() { return player.md.break.upgs[12].gte(1) },
     },
     desc: {
         rank: {
@@ -107,15 +115,18 @@ const RANKS = {
             '8': "Mass gain softcap^4 starts later based on Pent.",
             '15': "remove 3rd softcap of Stronger's effect.",
         },
+        sept: {
+            '1': "Boost stardust gain by ((x^3)+x*4) where x is Sept.",
+        },
     },
     effect: {
         rank: {
             '2'() {
-                let ret = E(player.massUpg[1]||0).div(20)
+                let ret = E(player.massUpg[1]||0).div(20).softcap(1e20,0.1,0)
                 return ret
             },
             '3'() {
-                let ret = E(player.massUpg[2]||0).div(40)
+                let ret = E(player.massUpg[2]||0).div(40).softcap(1e20,0.1,0)
                 return ret
             },
             '6'() {
@@ -123,7 +134,7 @@ const RANKS = {
                 return ret
             },
             '8'() {
-                let ret = E(player.massUpg[2]||0).div(10)
+                let ret = E(player.massUpg[2]||0).div(10).softcap(1e120,0.0001,0)
                 return ret
             },
             '40'() {
@@ -153,16 +164,16 @@ const RANKS = {
             '4'() {
                 let ret = E(0)
                 if (player.ranks.tier.gte(12)) ret = player.ranks.tier.mul(0.1)
-                else ret = player.ranks.tier.mul(0.05).add(1).softcap(1.4,0.75,0).sub(1)
+                else ret = player.ranks.tier.mul(0.05).add(1).softcap(1.4,0.75,0).sub(1).softcap(1e110,0.08,0)
                 return ret
             },
             '6'() {
                 let ret = E(2).pow(player.ranks.tier)
-                if (player.ranks.tier.gte(8)) ret = ret.pow(RANKS.effect.tier[8]())
+                if (player.ranks.tier.gte(8)) ret = ret.pow(RANKS.effect.tier[8]()).softcap(1e120,0.1,0)
                 return ret
             },
             '8'() {
-                let ret = player.bh.dm.max(1).log10().add(1).root(2)
+                let ret = player.bh.dm.max(1).log10().add(1).root(2).softcap(1e13,0,0)
                 return ret
             },
             '55'() {
@@ -198,10 +209,16 @@ const RANKS = {
                 return ret
             },
             '8'() {
-                let ret = E(1.1).pow(player.ranks.pent)
+                let ret = E(1.1).pow(player.ranks.pent).softcap(50,0.001,0)
                 return ret
             },
         },
+		sept:{
+			            '1'() {
+                let ret = player.ranks.sept.add(1).pow(3).add(player.ranks.sept.add(1).mul(4))
+                return ret
+            },
+		},
     },
     effDesc: {
         rank: {
@@ -231,6 +248,9 @@ const RANKS = {
             4(x) { return format(x)+"x later" },
             5(x) { return format(x)+"x later" },
             8(x) { return "^"+format(x)+" later" },
+        },
+        sept: {
+            1(x) { return format(x)+"x" },
         },
     },
     fp: {
@@ -344,7 +364,7 @@ const PRESTIGES = {
                 return x
             },x=>x.format()+"x"],
             "15": [_=>{
-                let x = player.md.mass.max(1).pow(0.65).log(10).max(1)
+                let x = player.md.mass.max(1).pow(0.65).log(10).max(1).softcap(1e28,0.01,0)
                 return x
              }, x=>x.format()+"x"],
             "32": [_=>{
@@ -417,6 +437,7 @@ function updateRanksTemp() {
     if (hasElement(9)) fp = fp.mul(1/0.85)
     if (player.ranks.pent.gte(1)) fp = fp.mul(1/0.85)
     if (hasElement(72)) fp = fp.mul(1/0.85)
+    if (hasElement(126)) fp = fp.mul(tmp.elements.effect[126])
     tmp.ranks.tetr.req = player.ranks.tetr.div(fp2).scaleEvery('tetr').div(fp).pow(pow).mul(3).add(10).floor()
     tmp.ranks.tetr.bulk = player.ranks.tier.sub(10).div(3).max(0).root(pow).mul(fp).scaleEvery('tetr',true).mul(fp2).add(1).floor();
 
@@ -425,6 +446,10 @@ function updateRanksTemp() {
     tmp.ranks.pent.req = player.ranks.pent.scaleEvery('pent').div(fp).pow(pow).add(15).floor()
     tmp.ranks.pent.bulk = player.ranks.tetr.sub(15).gte(0)?player.ranks.tetr.sub(15).max(0).root(pow).mul(fp).scaleEvery('pent',true).add(1).floor():E(0);
 
+    fp = E(1)
+    pow = 1.15
+    tmp.ranks.sept.req = player.ranks.sept.scaleEvery('sept').div(fp).pow(pow).add(38).floor()
+    tmp.ranks.sept.bulk = player.ranks.pent.sub(38).gte(0)?player.ranks.pent.sub(38).max(0).root(pow).mul(fp).scaleEvery('sept',true).add(1).floor():E(0);
     for (let x = 0; x < RANKS.names.length; x++) {
         let rn = RANKS.names[x]
         if (x > 0) {

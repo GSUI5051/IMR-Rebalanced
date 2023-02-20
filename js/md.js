@@ -18,7 +18,7 @@ const MASS_DILATION = {
         if (FERMIONS.onActive("01")) x = x.div(10)
         if (QCs.active()) x = x.mul(tmp.qu.qc_eff[4])
         if (hasElement(24) && hasPrestige(0,40)) x = x.mul(tmp.elements.effect[24])
-        return x
+        return x.softcap("ee29",0.00000001,0)
     },
     RPmultgain() {
         let x = E(1).mul(tmp.md.upgs[2].eff)
@@ -27,12 +27,12 @@ const MASS_DILATION = {
         if (hasElement(34)) x = x.mul(tmp.elements.effect[34])
         if (hasElement(45)) x = x.mul(tmp.elements.effect[45])
         x = x.mul(tmp.fermions.effs[0][1]||1)
-        return x
+        return x.softcap("ee29",0.00000001,0)
     },
     RPgain(m=player.mass) {
         if (CHALS.inChal(11)) return E(0)
         let x = m.div(1.50005e22).max(1).log10().div(40).sub(14).max(0).pow(tmp.md.rp_exp_gain).mul(tmp.md.rp_mult_gain)
-        return x.sub(player.md.particles).max(0).floor()
+        return x.sub(player.md.particles).max(0).floor().softcap("ee29",0.00000001,0)
     },
     massGain() {
         if (CHALS.inChal(11)) return E(0)
@@ -45,7 +45,9 @@ const MASS_DILATION = {
         if (hasElement(32)) x = x.pow(1.05)
         if (QCs.active()) x = x.pow(tmp.qu.qc_eff[4])
 		if (hasTree("mdn1")) x = x.mul(tmp.supernova.tree_eff.mdn1)
-        return x.softcap(mlt(1e12),0.5,0)
+        if (hasTree("c17")) return x.softcap(mlt(1e6),0.0008,0)
+        if (player.ranks.pent.gte(43)) return x.softcap(mlt(1e12),0.4,0)
+       else return x.softcap(mlt(1e12),0.5,0)
     },
     mass_req() {
         let x = E(10).pow(player.md.particles.add(1).div(tmp.md.rp_mult_gain).root(tmp.md.rp_exp_gain).add(14).mul(40)).mul(1.50005e22)
@@ -202,20 +204,37 @@ const MASS_DILATION = {
 		curXgain() {
 			           if (!player.md.break.active) return E(0)   
 					   let x = E(0)
-				   x = x.add(player.currentX.div(10))
+				   x = x.add(player.currentX.div(4))
+                   if (hasTree("c12")) x = x.times(tmp.supernova.tree_eff.c12)
+                   if (hasElement(127)) x = x.mul(tmp.elements.effect[127])
 					   return x
 		},
 		curYgain() {
 			           if (!player.md.break.active) return E(0)
 						  					   let x = E(0)
+                       x = x.add(player.currentYZ.div(2.5))
+                       if (hasTree("c14")) x = x.times(tmp.supernova.tree_eff.c14)
 					   return x
 		},
 		curZgain() {
-			           if (!player.md.break.active) return E(0)
-						   
-					   let x = E(0)
-					   return x
-		},
+            if (!player.md.break.active) return E(0)
+                                      let x = E(0)
+            x = x.add(player.currentYZ.div(2.5))
+            if (hasTree("c14")) x = x.times(tmp.supernova.tree_eff.c14)
+            return x
+},
+distGain() {
+    let x = E(0)
+    x = x.add(player.md.break.curX.add(player.md.break.curY).add(player.md.break.curZ).pow(0.35).root(1.5))
+    if (hasElement(128)) x = x.mul(tmp.elements.effect[128])
+    return x
+},
+distBoost() {
+    let x = E(0)
+    x = x.add(player.md.break.dist.pow(0.25))
+    if (hasTree("c10")) x = x.mul(tmp.supernova.tree_eff.c10)
+    return x
+},
         massGain() {
             let x = player.md.break.energy.max(0).pow(2)
             x = x.mul(tmp.bd.upgs[0].eff||1)
@@ -248,7 +267,7 @@ const MASS_DILATION = {
                     bulk() { return player.md.break.mass.gte(1e5)?player.md.break.mass.div(1e5).max(1).log10().root(1.1).add(1).floor():E(0) },
                     effect(y) {
                         let x = Decimal.pow(2,y)
-
+                        if (hasTree("c19")) x = Decimal.pow(12,y)
                         return x.softcap(1e15,0.5,0)
                     },
                     effDesc(x) { return format(x,0)+"x"+x.softcapHTML(1e15) },
@@ -342,6 +361,20 @@ const MASS_DILATION = {
                     effDesc(x) { return format(x)+"x" },
                     bulk() { return player.md.break.mass.gte(uni(1e120))?E(1):E(0) },
                 },
+                {
+                    desc: `All challenges scale is 20% weaker`,
+					unl() {return (hasElement(123))},
+                    maxLvl: 1,
+                    cost(x) { return uni('1e750') },
+                    bulk() { return player.md.break.mass.gte(uni(1e120))?E(1):E(0) },
+                },
+                {
+                    desc: `Unlock a new rank, that boosts Stardust`,
+									unl() {return (hasElement(123))},
+                    maxLvl: 1,
+                    cost(x) { return uni('1e940') },
+                    bulk() { return player.md.break.mass.gte(uni(1e120))?E(1):E(0) },
+                },
             ],
         }
     },
@@ -433,6 +466,8 @@ function updateBDTemp() {
 	bd.curXgain = MASS_DILATION.break.curXgain()
 	bd.curYgain = MASS_DILATION.break.curYgain()
 		bd.curZgain = MASS_DILATION.break.curZgain()
+		bd.distGain = MASS_DILATION.break.distGain()
+		bd.distBoost = MASS_DILATION.break.distBoost()
 
     for (let x = 0; x < MASS_DILATION.break.upgs.ids.length; x++) {
         let upg = MASS_DILATION.break.upgs.ids[x]
@@ -465,6 +500,7 @@ function updateMDHTML() {
 
     tmp.el.dmSoft1.setDisplay(player.md.mass.gte(mlt(1e12)))
     tmp.el.dmSoftStart1.setTxt(formatMass(mlt(1e12)))
+	
 }
 
 function updateBDHTML() {
@@ -473,7 +509,7 @@ function updateBDHTML() {
     tmp.el.bd_btn.setTxt(bd.active?"Fix Dilation":"Break Dilation")
 
     tmp.el.bd_energy.setTxt(bd.energy.format(1)+" "+bd.energy.formatGain(tmp.bd.energyGain))
-    tmp.el.bd_mass.setTxt(format(bd.mass)+" "+bd.mass.formatGain(tmp.bd.massGain))
+    tmp.el.bd_mass.setTxt(formatMass(bd.mass)+" "+bd.mass.formatGain(tmp.bd.massGain,true))
 
     for (let x = 0; x < MASS_DILATION.break.upgs.ids.length; x++) {
         let upg = MASS_DILATION.break.upgs.ids[x]
@@ -483,7 +519,7 @@ function updateBDHTML() {
             tmp.el["bd_upg"+x+"_div"].setClasses({btn: true, full: true, bd: true, locked: !tmp.bd.upgs[x].can})
             if ((upg.maxLvl||1/0) > 1) tmp.el["bd_upg"+x+"_lvl"].setTxt(format(bd.upgs[x],0)+(upg.maxLvl!==undefined?" / "+format(upg.maxLvl,0):""))
             if (upg.effDesc) tmp.el["bd_upg"+x+"_eff"].setHTML(upg.effDesc(tmp.bd.upgs[x].eff))
-            tmp.el["bd_upg"+x+"_cost"].setTxt(bd.upgs[x].lt(upg.maxLvl||1/0)?"Cost: "+format(tmp.bd.upgs[x].cost):"")
+            tmp.el["bd_upg"+x+"_cost"].setTxt(bd.upgs[x].lt(upg.maxLvl||1/0)?"Cost: "+formatMass(tmp.bd.upgs[x].cost):"")
         }
     }
 }

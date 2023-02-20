@@ -28,28 +28,43 @@ const TREE_IDS = [
         ['chal4','chal7a'],
         ['fn4','fn3','fn9','fn2','fn5','qf4','rad4','rad5'],
         ['prim3','prim2','prim1','qu4','qc1','qc2','qc3'],
-        ['c4','c5'],
+        ['c4','c6','c5'],
     ],[
         ['s3','m3', 'bh3','gr2','sn3'],
         ['qol9','unl1','qol8','unl2','unl3','qu_qol8','qu_qol9','unl4'],
         ['chal5','chal6','chal7','chal8'],
         ['fn12','fn11','fn6','fn10','rad6',""],
         ['en1','qu5','br1'],
-        ['c8','c7','c6'],
+        ['c19','','c8','c7','c10','','c20'],
     ],[
         ['s4','qn1','sn5','mdn1','sn4'],
         ['','','','qu_qol8a'],
         [],
         ['fn7','fn8'],
         ['qu6','qu7','qu8','qu9','qu10','qu11'],
-        [],
+        ['c18','','c9','','c17'],
     ],[
         [],
         [],
         [],
         [],
         [],
+        ['c11','c12'],
+    ],[
         [],
+        [],
+        [],
+        [],
+        [],
+        ['c13','','','c16'],
+    ],
+    [
+        [],
+        [],
+        [],
+        [],
+        [],
+        ['c14','c15'],
     ],
 ]
 
@@ -586,7 +601,7 @@ const TREE_UPGS = {
             desc: `Neutron Star boosts Dilated mass gain`,
             cost: E(1e153),
             effect() {
-                let x = E(1e80).pow(player.supernova.stars.add(1).log10().pow(10).softcap(1e3,0.25,0))
+                let x = E(1e80).pow(player.supernova.stars.add(1).log10().pow(10).softcap(1e3,0.25,0)).softcap('ee28',0.05,0)
                 return x
             },
             effDesc(x) { return format(x)+"x" },
@@ -940,7 +955,7 @@ const TREE_UPGS = {
             cost: E(1e42),
         },
         c1: {
-            desc: `Radiation Frequency boosts Stardust gain`,
+            desc: `Radiation Frequency boosts Stardust gain.`,
             req() {return player.supernova.stardust.gte(3)},
             reqDesc: `3 Stardust`,
             effect() {
@@ -954,7 +969,7 @@ const TREE_UPGS = {
             branch: ["c1"],
             req() {return player.supernova.stardust.gte(12)},
             reqDesc: `12 Stardust`,
-            desc: `Break Dilation boosts Stardust gain`,
+            desc: `Break Dilation boosts Stardust gain.`,
             effect() {
                 let x = player.md.break.mass.max(1).log(12).pow(0.35).max(1)
                 return x
@@ -963,12 +978,12 @@ const TREE_UPGS = {
             cost: E('1e3978000'),
         },
         c3: {    
-            branch: ["c2"],
-            desc: `Stardust boosts Break Dilation Energy`,
+            branch: ["c1"],
+            desc: `Stardust boosts Break Dilation Energy.`,
 			req() {return player.supernova.stardust.gte(140)},
             reqDesc: `140 Stardust`,
             effect() {
-                let x = player.supernova.stardust.max(1).pow(6.45).softcap(3e8,0.75,0)
+                let x = player.supernova.stardust.max(1).pow(6.45).softcap(3e8,0.75,0).max(1)
                 return x
             },
             effDesc(x) { return "x"+format(x) },
@@ -976,18 +991,18 @@ const TREE_UPGS = {
         },
         c4: {    
             branch: ["c2"],
-            desc: `Unlock the ability to generate Relavistic Particles outside of Bif Rip (at reduced amount)`,
+            desc: `Unlock the ability to generate Relavistic Particles outside of Big Rip (at reduced amount).`,
 			req() {return player.supernova.stardust.gte(340)},
             reqDesc: `340 Stardust`,
             cost: E('1e4300000'),
         },
 		c5: {    
             branch: ["c3"],
-            desc: `While in Big Rip, your stardust gain will be boosted based on Death Shards, also keep Stardust upgrades on Big Rip`,
-			req() {return player.supernova.stardust.gte(880)},
-            reqDesc: `880 Stardust`,
+            desc: `While in Big Rip, your stardust gain will be boosted based on Death Shards, also keep Stardust upgrades on Big Rip.`,
+			req() {return player.supernova.stardust.gte(480)},
+            reqDesc: `480 Stardust`,
             effect() {
-                if (player.qu.rip.active) x = player.qu.rip.amt.max(1).log(2).softcap(3e10,0.75,0)
+                if (player.qu.rip.active ||(hasTree('c16'))) x = player.qu.rip.amt.max(1).log(2).softcap(3e10,0.75,0).max(1)
 					else return E(1)
                 return x
             },
@@ -995,12 +1010,12 @@ const TREE_UPGS = {
             cost: E('1e4500000'),
         },
 		c6: {    
-            branch: ["c5"],
-            desc: ` Supernovas boosts Relativistic Energy`,
+            branch: ["c2",'c3'],
+            desc: ` Supernovas boosts Relativistic Energy.`,
 			req() {return player.supernova.stardust.gte(1500)},
             reqDesc: `1500 Stardust`,
             effect() {
-               let x = player.supernova.times.max(1).pow(12.5)
+               let x = player.supernova.times.max(1).pow(4.5).max(1)
                 return x
             },
             effDesc(x) { return "x"+format(x) },
@@ -1008,23 +1023,151 @@ const TREE_UPGS = {
         },
 		c7: {    
             branch: ["c6"],
-            desc: `Stardust boosts Pre-Quantum Global Speed`,
+            desc: `Stardust boosts Pre-Quantum Global Speed.`,
 			req() {return player.supernova.stardust.gte(2500)},
             reqDesc: `2500 Stardust`,
             effect() {
-                 let x = player.supernova.stardust.max(1).pow(4.5).softcap(3e8,0.75,0)
+                 let x = player.supernova.stardust.max(1).pow(2.5).softcap(3e45,0.75,0).max(1)
                 return x
             },
             effDesc(x) { return "x"+format(x) },
             cost: E('1e4695000'),
         },
 		c8: {    
-            branch: ["c7"],
-            desc: `Unlock Explorations (2 Mass Tab Upgrades)`,
+            branch: ["c6",'c4'],
+            desc: `Unlock Explorations (2 Mass Tab Upgrades).`,
 			req() {return player.supernova.stardust.gte(7500)},
             reqDesc: `7500 Stardust`,
-            cost: E('1e7805000'),
+            cost: E('1e7425000'),
         },
+		c9: {    
+            unl() {return (player.md.break.dist.gte(500))},
+            branch: ["c8",'c7'],
+            desc: `X Coordinates scales Mass Softcap Later.`,
+			req() {return player.supernova.stardust.gte(75000)},
+            effect() {
+                let x = player.md.break.curX.max(1).pow(2).max(1)
+               return x
+           },
+           effDesc(x) { return "^"+format(x) },
+            reqDesc: `75000 Stardust`,
+            cost: E('1e7800000'),
+        },
+        c10: {  
+            unl() {return ((player.md.break.dist.gte(500)))},  
+            branch: ["c5",'c9'],
+            desc: `Scale distance effect by Supernova in Big Rip.`,
+			req() {return player.supernova.stardust.gte(125000)},
+            effect() {
+                let x = E(1)
+                if (player.qu.rip.active || (hasTree('c16'))) x = player.supernova.times.max(1).pow(0.35).max(1)
+                else return x = E(1)
+               return x
+           },
+           effDesc(x) { return "x"+format(x) },
+            reqDesc: `125000 Stardust`,
+            cost: E('1e8500000'),
+        },
+        c11: {    
+            unl() {return (hasTree('c10'))},
+            desc: `Allow you to buy 57th and 74th elements in Big Rip.(Finish Leaf Constellation)`,
+			req() {return player.supernova.stardust.gte(425000)},
+            reqDesc: `425000 Stardust`,
+            cost: E('1e8700000'),
+        },
+        c12: {    
+branch: ['c11'],
+            desc: `Forward Speed Booster I boosts itself`,
+			req() {return player.supernova.stardust.gte(800000)},
+            effect() {
+                let x = E(1)
+                x = player.currentX.max(1).pow(1.65).max(1)
+               return x
+           },
+           effDesc(x) { return "x"+format(x) },
+            reqDesc: `800000 Stardust`,
+            cost: E('1e9000000'),
+        },
+        c13: {    
+            branch: ['c11','c12'],
+                        desc: `Unlock more Elements`,
+                        req() {return player.supernova.stardust.gte(900000)},
+                        reqDesc: `900000 Stardust`,
+                        cost: E('1e9250000'),
+         },
+         c14: {    
+            branch: ['c13'],
+                 desc: `Forward Speed Booster II boosts itself`,
+                req() {return player.supernova.stardust.gte(7e6)},
+                 effect() {
+                let x = E(1)
+                x = player.currentYZ.max(1).pow(3.45).max(1)
+               return x
+                 },
+                  effDesc(x) { return "x"+format(x) },
+                   reqDesc: `7e6 Stardust`,
+                   cost: E('1e10000000'),
+                    },
+                    c15: {    
+                        branch: ['c14'],
+                          desc: `Stardust boosts Quark gain at boosted rate`,
+                          effect() {
+                            let x = E(1)
+                            x = player.supernova.stardust.max(1).pow(1.85).root(1.25).max(1)
+                           return x
+                             },
+                              effDesc(x) { return "x"+format(x) },
+                         req() {return player.supernova.stardust.gte(2.8e7)},
+                          reqDesc: `2.8e7 Stardust`,
+                          cost: E('1e10500000'),
+                     },
+                     c16: {    
+                        branch: ['c15','c12'],
+                          desc: `Allow you to generate Death Shards outside of Big Rip. <br>All [Only In Big Rip] boosts now will work outside of Big Rip (Finish Diamond-ish Constellation)`,
+                         req() {return player.supernova.stardust.gte(7.6e7)},
+                          reqDesc: `7.6e7 Stardust`,
+                          cost: E('1e11000000'),
+                     },
+                     c17: {    
+                        branch: ['c12'],
+                        unl() {return player.md.break.dist.gte(1e7)},
+                          desc: `Boost Entropy gain by distance`,
+                          effect() {
+                            let x = E(1)
+                            x = player.md.break.dist.root(4).max(1)
+                           return x
+                             },
+                             effDesc(x) { return "x"+format(x) },
+                          cost: E('e2511000000'),
+                     },
+                     c18: {    
+                        branch: ['c11'],
+                        unl() {return player.md.break.dist.gte(1e7)},
+                          desc: `Increase [Powered] effect based on its level`,
+                          effect() {
+                            let x = E(1)
+                            x = player.massUpg[4].pow(1.25).max(1)
+                           return x
+                             },
+                             effDesc(x) { return "x"+format(x) },
+                          cost: E('e18000000000'),
+                     },
+                     c19: {    
+                        branch: ['c18'],
+                          desc: `First BD upgrade will obtain a better formula`,
+                          cost: E('e20000000000'),
+                     },
+                     c20: {    
+                        branch: ['c17'],
+                          desc: `Relativistic Energy boosts stardust gain`,
+                          effect() {
+                            let x = E(1)
+                            x = player.md.break.energy.root(24).pow(0.12).max(1)
+                           return x
+                             },
+                             effDesc(x) { return "x"+format(x) },
+                          cost: E('e23000000000'),
+                     },
         /*
         x: {
             unl() { return true },
@@ -1063,7 +1206,7 @@ function setupTreeHTML() {
             for (let k = 0; k < TREE_IDS[i][j].length; k++) {
                 let id = TREE_IDS[i][j][k]
                 let option = id == "" ? `style="visibility: hidden"` : ``
-                let img = TREE_UPGS.ids[id]?`<img src="images/tree/${id}.png">`:""
+                let img = TREE_UPGS.ids[id]?`<img src="images/tree/${id}.png">`:``
                 table += `<button id="treeUpg_${id}" class="btn_tree" onclick="TREE_UPGS.buy('${id}'); tmp.supernova.tree_choosed = '${id}'" ${option}>${img}</button>`
             }
             table += `</div>`

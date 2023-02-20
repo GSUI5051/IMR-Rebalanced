@@ -64,9 +64,10 @@ const FORMS = {
         .softcap(tmp.massSoftGain3,tmp.massSoftPower3,0)
         .softcap(tmp.massSoftGain4,tmp.massSoftPower4,0)
         .softcap(tmp.massSoftGain5,tmp.massSoftPower5,0)
+        .softcap(tmp.massSoftGain6,tmp.massSoftPower6,0)
 
         if (hasElement(117)) x = x.pow(10)
-
+        if (hasElement(120)) x = x.pow(tmp.elements.effect[120]||1)
         return x
     },
     massSoftGain() {
@@ -130,10 +131,19 @@ const FORMS = {
         let s = mlt(player.qu.rip.active?1e4:1e12)
         if (hasPrestige(0,8)) s = s.pow(prestigeEff(0,8))
         if (hasUpgrade("br",12)) s = s.pow(upgEffect(4,12))
+        if (hasTree("c9")) s = s.pow(tmp.supernova.tree_eff.c9)
         return s
     },
     massSoftPower5() {
         let p = E(0.05)
+        return p
+    },
+    massSoftGain6() {
+        let s = mlt(player.qu.rip.active?1e21:1e28)
+        return s
+    },
+    massSoftPower6() {
+        let p = E(0.0001)
         return p
     },
     tickspeed: {
@@ -194,26 +204,29 @@ const FORMS = {
         can() { return player.supernova.stardust.gte(tmp.cxCost) },
         buy() {
             if (this.can()) {
-			player.supernova.stardust = player.supernova.stardust.sub(tmp.cxCost).max(0)
+			player.supernova.stardust = player.supernova.stardust.max(0)
                 player.currentX = player.currentX.add(1)
             }
         },
         buyMax() { 
             if (this.can()) {
                 player.currentX = tmp.cxBulk
-					player.supernova.stardust = player.supernova.stardust.sub(E(7500).mul(E(10).pow(player.currentX.sub(1).max(1))))
+                player.supernova.stardust = player.supernova.stardust.sub(E(750).mul(E(10).pow(player.currentX.max(1))))
             }
         },
         effect() {
 			let step = E(0.25)
+            if (hasElement(127)) step = step.mul(tmp.elements.effect[127])
             let x = step.mul(player.currentX)
+            if (hasTree("c12")) x = x.times(tmp.supernova.tree_eff.c12)
             let ss = E(100)
             let p = 0.1
             let ss2 = E(200)
             let p2 = 0.1	
 			return {step: step, eff: x,  ss: ss}
         },
-        autoUnl() { return false },
+		        autoSwitch() { player.autoCx = !player.autoCx },
+        autoUnl() { return true },
     },
 	    cryz: {
         cost(x=player.currentYZ) { return E(10).pow(x).times(125000).floor() },
@@ -227,19 +240,21 @@ const FORMS = {
         buyMax() { 
             if (this.can()) {
                 player.currentYZ = tmp.cyzBulk
-					player.supernova.stardust = player.supernova.stardust.sub(E(12500).mul(E(10).pow(player.currentYZ.sub(1).max(1))))
+					player.supernova.stardust = player.supernova.stardust.sub(E(12500).mul(E(10).pow(player.currentYZ).max(1)))
             }
         },
         effect() {
-			let step = E(0.45)
-            let x = step.mul(player.currentX)
+			let step = E(0.4)
+            let x = step.mul(player.currentYZ)
+            if (hasTree("c14")) x = x.times(tmp.supernova.tree_eff.c14)
             let ss = E(100)
             let p = 0.1
             let ss2 = E(200)
             let p2 = 0.1	
 			return {step: step, eff2: x,  ss: ss}
         },
-        autoUnl() { return false },
+	    autoSwitch() { player.autoCyz = !player.autoCyz },
+        autoUnl() { return true },
     },
     rp: {
         gain() {
@@ -416,6 +431,7 @@ const FORMS = {
             md: "Dilate mass, then cancel",
             br: "Big Rip the Dimension, then go back",
             st: "Earn stardust to explore the constellations (Neutron Tree Extension)",
+            ls: "You've come so far... Lose your stardust, but unlock <span class='sing_text'>Singularity</span>",
         },
         set(id) {
             if (id=="sn") {

@@ -70,6 +70,8 @@ function calc(dt, dt_offline) {
 
     if (tmp.pass) {
         player.mass = player.mass.add(tmp.massGain.mul(du_gs))
+					        if (FORMS.crx.autoUnl() && player.autoCx) FORMS.crx.buyMax()
+			        if (FORMS.cryz.autoUnl() && player.autoCyz) FORMS.cryz.buyMax()
         if (player.mainUpg.rp.includes(3)) for (let x = 1; x <= UPGS.mass.cols; x++) if (player.autoMassUpg[x] && (player.ranks.rank.gte(x) || player.mainUpg.atom.includes(1))) UPGS.mass.buyMax(x)
         if (FORMS.tickspeed.autoUnl() && player.autoTickspeed) FORMS.tickspeed.buyMax()
         if (FORMS.bh.condenser.autoUnl() && player.bh.autoCondenser) FORMS.bh.condenser.buyMax()
@@ -117,6 +119,7 @@ function calc(dt, dt_offline) {
     
             if (hasTree("qu_qol3")) for (let x = 1; x <= 4; x++) player.chal.comps[x] = player.chal.comps[x].max(tmp.chal.bulk[x].min(tmp.chal.max[x]))
             if (hasTree("qu_qol5")) for (let x = 5; x <= 8; x++) player.chal.comps[x] = player.chal.comps[x].max(tmp.chal.bulk[x].min(tmp.chal.max[x]))
+            if (hasElement(124)) for (let x = 9; x <= 12; x++) player.chal.comps[x] = player.chal.comps[x].max(tmp.chal.bulk[x].min(tmp.chal.max[x]))
         }
     }
 
@@ -141,6 +144,7 @@ function getPlayerData() {
             tier: E(0),
             tetr: E(0),
             pent: E(0),
+            sept: E(0),
         },
         auto_ranks: {
             rank: false,
@@ -154,6 +158,7 @@ function getPlayerData() {
         autoMassUpg: [null,false,false,false],
         autoTickspeed: false,
         autoCx: false,
+        autoCyz: false,
         mainUpg: {
             
         },
@@ -203,6 +208,7 @@ function getPlayerData() {
                 curX: E(0),
                 curY: E(0),
                 curZ: E(0),
+                dist: E(0),
                 upgs: [],
             },
         },
@@ -217,6 +223,7 @@ function getPlayerData() {
             post_10: false,
             stars: E(0),
 			stardust: E(0),
+            lastStar: E(0),
             tree: [],
             chal: {
                 noTick: true,

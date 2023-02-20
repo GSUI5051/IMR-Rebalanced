@@ -57,8 +57,5 @@ const TABS = {
             { id: "Primordium", unl() { return PRIM.unl() } },
             { id: "Entropy", unl() { return player.qu.en.unl } },
         ],
-        7: [
-            { id: "Explorations" },
-        ],
     },
 }

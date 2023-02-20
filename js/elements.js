@@ -232,8 +232,12 @@ function updateUpperHTML() {
 	if (unl) tmp.el.sdAmt.setHTML(format(player.supernova.stardust,2)+"<br>"+formatGain(player.supernova.stardust, tmp.supernova.stardust_gain))
 		
 		unl = hasTree("c8")
-		tmp.el.cp_div.setDisplay(unl)
-	    tmp.el.curPos.setHTML("Current Coordinates: {"+format(player.md.break.curX)+";"+format(player.md.break.curY)+";"+format(player.md.break.curZ)+"}<br>"+formatGain(player.md.break.curX, tmp.bd.curXgain)+" to X"+", "+formatGain(player.md.break.curX, tmp.bd.curYgain)+" to Y & Z")
+		tmp.el.curPos.setHTML("Current Coordinates: {"+format(player.md.break.curX)+";"+format(player.md.break.curY)+";"+format(player.md.break.curZ)+"} in a total distance of "+format(player.md.break.dist) + " "+ formatGain(player.md.break.dist,tmp.bd.distGain) +"<br>"+formatGain(player.md.break.curX, tmp.bd.curXgain)+" to X"+", "+formatGain(player.md.break.curX, tmp.bd.curYgain)+" to Y & Z" + `. <br> <span class="green">[Boosts stardust gain by x` + format(tmp.bd.distBoost)+ `]</span><span class='yellow'><br> [At 500, 1e7, 1e9, 1e24 distance - unlocks new constellation]</span>`)
+
+		unl = player.supernova.stardust.gte(1e26)
+		tmp.el.ls_div.setDisplay(unl)
+		if (unl) tmp.el.lsAmt.setHTML("Explored Space up to Last Star")
+
 }
 
 function updateMassUpgradesHTML() {
@@ -278,13 +282,15 @@ tmp.el.cryz_div.setDisplay(hasTree("c8"))
 		tmp.el.crx_cost.setTxt(format(tmp.cxCost,0))
 		tmp.el.crx_step.setHTML("+"+format(eff.step)+"/s")
 		tmp.el.crx_eff.setHTML("+"+format(eff.eff)+"/s to X gain")
+				tmp.el.crx_auto.setTxt(player.autoCx?"ON":"OFF")
 
 		let eff2 = tmp.cyzEffect
 		tmp.el.cryz_lvl.setTxt(format(player.currentYZ,0))
 		tmp.el.cryz_btn.setClasses({btn: true, locked: !FORMS.cryz.can()})
 		tmp.el.cryz_cost.setTxt(format(tmp.cyzCost,0))
 		tmp.el.cryz_step.setHTML("+"+format(eff2.step)+"/s")
-		tmp.el.cryz_eff.setHTML("+"+format(eff2.eff)+"/s to Y and Z gain")
+		tmp.el.cryz_eff.setHTML("+"+format(eff2.eff2)+"/s to Y and Z gain")
+					tmp.el.cryz_auto.setTxt(player.autoCyz?"ON":"OFF")
 	}
 }
 function updateRanksRewardHTML() {
@@ -419,6 +425,8 @@ function updateHTML() {
 				tmp.el.massSoftStart5.setTxt(formatMass(tmp.massSoftGain4))
 				tmp.el.massSoft6.setDisplay(tmp.massGain.gte(tmp.massSoftGain5))
 				tmp.el.massSoftStart6.setTxt(formatMass(tmp.massSoftGain5))
+				tmp.el.massSoft7.setDisplay(tmp.massGain.gte(tmp.massSoftGain6))
+				tmp.el.massSoftStart7.setTxt(formatMass(tmp.massSoftGain6))
 			}
 			if (tmp.stab[0] == 1) {
 				updateBlackHoleHTML()
