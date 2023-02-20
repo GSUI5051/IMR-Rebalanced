@@ -224,13 +224,13 @@ const MASS_DILATION = {
             return x
 },
 distGain() {
-    let x = E(0)
+    let x = E(1)
     x = x.add(player.md.break.curX.add(player.md.break.curY).add(player.md.break.curZ).pow(0.35).root(1.5))
     if (hasElement(128)) x = x.mul(tmp.elements.effect[128])
     return x
 },
 distBoost() {
-    let x = E(0)
+    let x = E(1)
     x = x.add(player.md.break.dist.pow(0.25))
     if (hasTree("c10")) x = x.mul(tmp.supernova.tree_eff.c10)
     return x
