@@ -1167,7 +1167,7 @@ branch: ['c11'],
                            return x
                              },
                              effDesc(x) { return "x"+format(x) },
-                          cost: E('e23000000000'),
+                          cost: E('e22000000000'),
                      },
         /*
         x: {
