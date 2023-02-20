@@ -224,7 +224,7 @@ const MASS_DILATION = {
             return x
 },
 distGain() {
-    let x = E(1)
+    let x = E(0)
     x = x.add(player.md.break.curX.add(player.md.break.curY).add(player.md.break.curZ).pow(0.35).root(1.5))
     if (hasElement(128)) x = x.mul(tmp.elements.effect[128])
     return x
