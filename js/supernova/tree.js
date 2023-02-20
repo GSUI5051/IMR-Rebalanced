@@ -1146,7 +1146,8 @@ branch: ['c11'],
                           desc: `Increase [Powered] effect based on its level`,
                           effect() {
                             let x = E(1)
-                            x = player.massUpg[4].pow(1.25).max(1)
+                           if (hasTree("c18")) x = player.massUpg[4].max(1).pow(1.25).max(1)
+                           else return E(1)
                            return x
                              },
                              effDesc(x) { return "x"+format(x) },
