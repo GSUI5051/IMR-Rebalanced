@@ -792,7 +792,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
                 return x
             },
             effDesc(x) { return "x"+format(x) },
-            cost: E("1e25"),
+            cost: E("5e23"),
         },
     ],
     /*
