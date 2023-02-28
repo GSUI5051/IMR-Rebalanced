@@ -372,7 +372,7 @@ distBoost() {
                     desc: `Unlock a new rank, that boosts Stardust`,
 									unl() {return (hasElement(123))},
                     maxLvl: 1,
-                    cost(x) { return uni('1e940') },
+                    cost(x) { return uni('1e930') },
                     bulk() { return player.md.break.mass.gte(uni(1e120))?E(1):E(0) },
                 },
             ],
