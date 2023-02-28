@@ -782,7 +782,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
                 return x
             },
             effDesc(x) { return "x"+format(x) },
-            cost: E("1e14"),
+            cost: E("3e13"),
         },
         {sd: true,
             desc:  `Death Shards affects Pre-Quantum Global Speed at reduced rate`,
