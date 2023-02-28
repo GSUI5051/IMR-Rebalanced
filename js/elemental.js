@@ -764,7 +764,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
                 return x
             },
             effDesc(x) { return "/"+format(x) },
-            cost: E("1e12"),
+            cost: E("5e11"),
         },
         {sd: true,
             desc:  `Increase Forward Speed Booster I power by distance`,
