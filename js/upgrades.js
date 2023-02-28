@@ -81,7 +81,7 @@ const UPGS = {
                 let x = E(0)
                 if (player.mainUpg.rp.includes(1)) x = x.add(tmp.upgs.main?tmp.upgs.main[1][1].effect:E(0))
                 if (player.mainUpg.rp.includes(2)) x = x.add(tmp.upgs.mass[2].bonus)
-				 if (player.mainUpg.rp.includes(6)) x = x.add(tmp.upgs.mass[4].bonus)
+				 if (player.mainUpg.rp.includes(6)) x.add(tmp.upgs.mass[4].bonus)
                 x = x.mul(getEnRewardEff(4))
                 return x
             },
@@ -107,7 +107,7 @@ const UPGS = {
             bonus() {
                 let x = E(0)
                 if (player.mainUpg.rp.includes(2)) x = x.add(tmp.upgs.main?tmp.upgs.main[1][2].effect:E(0))
-								if (player.mainUpg.rp.includes(6))x = x.add(tmp.upgs.mass[4].bonus)
+								if (player.mainUpg.rp.includes(6)) x.add(tmp.upgs.mass[4].bonus)
                 if (player.mainUpg.rp.includes(7)) x = x.add(tmp.upgs.mass[3].bonus)
                 x = x.mul(getEnRewardEff(4))
                 return x
@@ -153,7 +153,6 @@ const UPGS = {
             },
             bonus() {
                 let x = E(0)
-									                if (player.mainUpg.rp.includes(7)) x = x.add(tmp.upgs.main?tmp.upgs.main[1][7].effect:E(0))
 				if (player.mainUpg.rp.includes(6)) x = x.add(tmp.upgs.mass[4].bonus)
                 x = x.mul(getEnRewardEff(4))
                 return x
@@ -167,12 +166,12 @@ const UPGS = {
             effect(x) {
                 let xx = x.add(tmp.upgs.mass[4].bonus)
                 let ss = E(10)
-                let step = E(1.5).add(RANKS.effect.tier[20]())
+                let step = E(1.5).add(RANKS.effect.tetr[2]())
                 let sp = 0.5
                 let sp2 = 0.1
-                let ss2 = E(5e8)
-                let ret = step.add(1).mul(xx).softcap(ss,sp,0).softcap(1.8e2,0.02,0)
-                if (hasTree("c1")) ret = step.add(1).mul(xx).mul(hasTree("c18")?tmp.supernova.tree_eff.c18:1).softcap(ss2,sp2,0)
+                let ss2 = E(5e12)
+                let ret = step.add(1).softcap(ss,sp,0).softcap(1.8e2,0.02,0)
+                if (hasTree("c1")) ret = step.add(1).mul(hasTree("c18")?tmp.supernova.tree_eff.c18:1).softcap(ss2,sp2,0)
                 return {step: step, eff: ret, ss: ss}
             },
             effDesc(eff) {
