@@ -764,7 +764,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
                 return x
             },
             effDesc(x) { return "/"+format(x) },
-            cost: E("1e13"),
+            cost: E("1e12"),
         },
         {sd: true,
             desc:  `Increase Forward Speed Booster I power by distance`,
@@ -773,7 +773,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
                 return x
             },
             effDesc(x) { return "x"+format(x) },
-            cost: E("5e13"),
+            cost: E("1e13"),
         },
         {sd: true,
             desc:  `Increase distance gain by Pent Effect`,
