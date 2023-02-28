@@ -754,7 +754,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
             cost: E("e1e32"),
         },
         {br: true,
-            desc: `Uncap [Bottom] and [Strange]`,
+            desc: `Uncap [Bottom] and [Top]`,
             cost: E("e1.3e23"),
         },
 		        {sd: true,
