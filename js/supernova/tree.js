@@ -963,7 +963,7 @@ const TREE_UPGS = {
                 return x
             },
             effDesc(x) { return "x"+format(x) },
-            cost: E('1e3900000'),
+            cost: E('1e7900000'),
         },
         c2: {
             branch: ["c1"],
@@ -975,7 +975,7 @@ const TREE_UPGS = {
                 return x
             },
             effDesc(x) { return "x"+format(x) },
-            cost: E('1e3978000'),
+            cost: E('1e8978000'),
         },
         c3: {    
             branch: ["c1"],
@@ -987,14 +987,14 @@ const TREE_UPGS = {
                 return x
             },
             effDesc(x) { return "x"+format(x) },
-            cost: E('1e4100000'),
+            cost: E('1e9100000'),
         },
         c4: {    
             branch: ["c2"],
             desc: `Unlock the ability to generate Relavistic Particles outside of Big Rip (at reduced amount).`,
 			req() {return player.supernova.stardust.gte(340)},
             reqDesc: `340 Stardust`,
-            cost: E('1e4300000'),
+            cost: E('1e10300000'),
         },
 		c5: {    
             branch: ["c3"],
@@ -1002,12 +1002,12 @@ const TREE_UPGS = {
 			req() {return player.supernova.stardust.gte(480)},
             reqDesc: `480 Stardust`,
             effect() {
-                if (player.qu.rip.active ||(hasTree('c16'))) x = player.qu.rip.amt.max(1).log(2).softcap(3e10,0.75,0).max(1)
+                if (player.qu.rip.active ||(hasTree('c16'))) x = player.qu.rip.amt.max(1).log(1.15).softcap(3e10,0.75,0).max(1)
 					else return E(1)
                 return x
             },
             effDesc(x) { return "x"+format(x) },
-            cost: E('1e4500000'),
+            cost: E('1e11500000'),
         },
 		c6: {    
             branch: ["c2",'c3'],
@@ -1019,7 +1019,7 @@ const TREE_UPGS = {
                 return x
             },
             effDesc(x) { return "x"+format(x) },
-            cost: E('1e4600000'),
+            cost: E('1e12600000'),
         },
 		c7: {    
             branch: ["c6"],
@@ -1031,14 +1031,14 @@ const TREE_UPGS = {
                 return x
             },
             effDesc(x) { return "x"+format(x) },
-            cost: E('1e4695000'),
+            cost: E('1e13695000'),
         },
 		c8: {    
             branch: ["c6",'c4'],
             desc: `Unlock Explorations (2 Mass Tab Upgrades).`,
 			req() {return player.supernova.stardust.gte(7500)},
             reqDesc: `7500 Stardust`,
-            cost: E('1e7425000'),
+            cost: E('1e17425000'),
         },
 		c9: {    
             unl() {return (player.md.break.dist.gte(500))},
@@ -1051,7 +1051,7 @@ const TREE_UPGS = {
            },
            effDesc(x) { return "^"+format(x) },
             reqDesc: `75000 Stardust`,
-            cost: E('1e7800000'),
+            cost: E('1e19800000'),
         },
         c10: {  
             unl() {return ((player.md.break.dist.gte(500)))},  
@@ -1066,14 +1066,14 @@ const TREE_UPGS = {
            },
            effDesc(x) { return "x"+format(x) },
             reqDesc: `125000 Stardust`,
-            cost: E('1e8500000'),
+            cost: E('1e22500000'),
         },
         c11: {    
             unl() {return (hasTree('c10'))},
             desc: `Allow you to buy 57th and 74th elements in Big Rip.(Finish Leaf Constellation)`,
 			req() {return player.supernova.stardust.gte(425000)},
             reqDesc: `425000 Stardust`,
-            cost: E('1e8700000'),
+            cost: E('1e25700000'),
         },
         c12: {    
 branch: ['c11'],
@@ -1086,14 +1086,14 @@ branch: ['c11'],
            },
            effDesc(x) { return "x"+format(x) },
             reqDesc: `800000 Stardust`,
-            cost: E('1e9000000'),
+            cost: E('1e29000000'),
         },
         c13: {    
             branch: ['c11','c12'],
                         desc: `Unlock more Elements`,
                         req() {return player.supernova.stardust.gte(900000)},
                         reqDesc: `900000 Stardust`,
-                        cost: E('1e9250000'),
+                        cost: E('1e34050000'),
          },
          c14: {    
             branch: ['c13'],
@@ -1106,7 +1106,7 @@ branch: ['c11'],
                  },
                   effDesc(x) { return "x"+format(x) },
                    reqDesc: `7e6 Stardust`,
-                   cost: E('1e10000000'),
+                   cost: E('1e36000000'),
                     },
                     c15: {    
                         branch: ['c14'],
@@ -1119,14 +1119,14 @@ branch: ['c11'],
                               effDesc(x) { return "x"+format(x) },
                          req() {return player.supernova.stardust.gte(2.8e7)},
                           reqDesc: `2.8e7 Stardust`,
-                          cost: E('1e10500000'),
+                          cost: E('1e38500000'),
                      },
                      c16: {    
                         branch: ['c15','c12'],
                           desc: `Allow you to generate Death Shards outside of Big Rip. <br>All [Only In Big Rip] boosts now will work outside of Big Rip (Finish Diamond-ish Constellation)`,
                          req() {return player.supernova.stardust.gte(7.6e7)},
                           reqDesc: `7.6e7 Stardust`,
-                          cost: E('1e11000000'),
+                          cost: E('1e41000000'),
                      },
                      c17: {    
                         branch: ['c12'],
@@ -1151,12 +1151,12 @@ branch: ['c11'],
                            return x
                              },
                              effDesc(x) { return "x"+format(x) },
-                          cost: E('e18000000000'),
+                          cost: E('e17500000000'),
                      },
                      c19: {    
                         branch: ['c18'],
                           desc: `First BD upgrade will obtain a better formula`,
-                          cost: E('e20000000000'),
+                          cost: E('e18300000000'),
                      },
                      c20: {    
                         branch: ['c17'],
@@ -1167,7 +1167,7 @@ branch: ['c11'],
                            return x
                              },
                              effDesc(x) { return "x"+format(x) },
-                          cost: E('e22000000000'),
+                          cost: E('e20500000000'),
                      },
         /*
         x: {

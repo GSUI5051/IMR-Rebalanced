@@ -21,7 +21,7 @@ const MASS_DILATION = {
         return x.softcap("ee29",0.00000001,0)
     },
     RPmultgain() {
-        let x = E(1).mul(tmp.md.upgs[2].eff)
+        let x = E(100).mul(tmp.md.upgs[2].eff)
         if (hasElement(24) && !hasPrestige(0,40)) x = x.mul(tmp.elements.effect[24])
         if (hasElement(31)) x = x.mul(tmp.elements.effect[31])
         if (hasElement(34)) x = x.mul(tmp.elements.effect[34])
