@@ -241,6 +241,7 @@ const RANKS = {
             4(x) { return "+"+format(x.mul(100))+"%" },
             6(x) { return format(x)+"x" },
             8(x) { return "^"+format(x) },
+			20(x) { return "+"+format(x) },
             55(x) { return "^"+format(x) },
         },
         tetr: {
