@@ -166,12 +166,12 @@ const UPGS = {
             effect(x) {
                 let xx = x.add(tmp.upgs.mass[4].bonus)
                 let ss = E(10)
-                let step = E(1.5).add(RANKS.effect.tetr[2]())
+                let step = E(1.5).add(RANKS.effect.tier[20]())
                 let sp = 0.5
                 let sp2 = 0.1
                 let ss2 = E(5e12)
-                let ret = step.add(1).softcap(ss,sp,0).softcap(1.8e2,0.02,0)
-                if (hasTree("c1")) ret = step.add(1).mul(hasTree("c18")?tmp.supernova.tree_eff.c18:1).softcap(ss2,sp2,0)
+                let ret = step.add(1).mul(xx).softcap(ss,sp,0).softcap(1.8e2,0.02,0)
+                if (hasTree("c1")) ret = step.add(1).mul(hasTree("c18")?tmp.supernova.tree_eff.c18:1).mul(xx).softcap(ss2,sp2,0)
                 return {step: step, eff: ret, ss: ss}
             },
             effDesc(eff) {
