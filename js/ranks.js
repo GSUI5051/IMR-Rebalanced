@@ -95,6 +95,7 @@ const RANKS = {
             '6': "make rage powers boosted by tiers.",
             '8': "make tier 6's reward effect stronger by dark matters.",
             '12': "make tier 4's reward effect twice effective and remove softcap.",
+			            '20': "mass upgrade 4 boosts itself.",
             '30': "stronger effect's softcap is 10% weaker.",
             '55': "make rank 380's effect stronger based on tier.",
             '100': "Super Tetr scale 5 later.",
@@ -174,6 +175,10 @@ const RANKS = {
             },
             '8'() {
                 let ret = player.bh.dm.max(1).log10().add(1).root(2).softcap(1e13,0,0)
+                return ret
+            },
+			            '20'() {
+                let ret = E(player.massUpg[3]||0).pow(0.45)
                 return ret
             },
             '55'() {

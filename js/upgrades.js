@@ -152,7 +152,7 @@ const UPGS = {
             },
             bonus() {
                 let x = E(0)
-				                if (player.mainUpg.rp.includes(7)) x = x.add(tmp.upgs.main?tmp.upgs.main[1][7].effect:E(0))
+				if (player.mainUpg.rp.includes(7)) x = x.add(tmp.upgs.main?tmp.upgs.main[1][7].effect:E(0))
 				if (player.mainUpg.rp.includes(6)) x = x.add(tmp.upgs.mass[4].bonus)
                 x = x.mul(getEnRewardEff(4))
                 return x
