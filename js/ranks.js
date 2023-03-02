@@ -135,7 +135,7 @@ const RANKS = {
                 return ret
             },
             '8'() {
-                let ret = E(player.massUpg[2]||0).div(10).softcap(1e120,0.0001,0)
+                let ret = E(player.massUpg[3]||0).div(5).softcap(1e120,0.0001,0)
                 return ret
             },
             '40'() {
