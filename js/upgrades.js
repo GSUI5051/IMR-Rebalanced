@@ -123,7 +123,7 @@ const UPGS = {
                 let ss = E(50)
                 if (player.ranks.rank.gte(34)) ss = ss.add(2)
                 if (player.mainUpg.bh.includes(9)) ss = ss.add(tmp.upgs.main?tmp.upgs.main[2][9].effect:E(0))
-                let step = E(1.5).add(RANKS.effect.tetr[2]())
+                let step = E(1).add(RANKS.effect.tetr[2]())
 			                step = step.mul(tmp.upgs.mass[4]?tmp.upgs.mass[4].eff.eff:1)
 				if (player.ranks.rank.gte(8)) step = step.add(RANKS.effect.rank[8]())
                 if (player.mainUpg.rp.includes(9)) step = step.add(0.75)
@@ -170,8 +170,8 @@ const UPGS = {
                 let sp = 0.5
                 let sp2 = 0.1
                 let ss2 = E(5e12)
-                let ret = step.add(1).mul(x.add(tmp.upgs.mass[4].bonus)).softcap(ss,sp,0).softcap(1.8e2,0.02,0)
-                if (hasTree("c1")) ret = step.add(1).mul(hasTree("c18")?tmp.supernova.tree_eff.c18:1).mul(x.add(tmp.upgs.mass[4].bonus)).softcap(ss2,sp2,0)
+                let ret = step.mul(xx).add(1).softcap(ss,sp,0).softcap(1.8e2,0.02,0)
+                if (hasTree("c1")) ret = step.mul(xx).add(1).mul(hasTree("c18")?tmp.supernova.tree_eff.c18:1).softcap(ss2,sp2,0)
                 return {step: step, eff: ret, ss: ss}
             },
             effDesc(eff) {
