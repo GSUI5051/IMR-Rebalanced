@@ -178,7 +178,7 @@ const RANKS = {
                 return ret
             },
 			            '20'() {
-                let ret = E(player.massUpg[3]||0).pow(0.45)
+                let ret = E(player.massUpg[4]||0).pow(0.45)
                 return ret
             },
             '55'() {
