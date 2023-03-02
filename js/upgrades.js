@@ -368,7 +368,7 @@ if (player.mainUpg.rp.includes(5)) x = x.add(1)
             },
             lens: 15,
             1: {
-                desc: "Mass Upgardes no longer spends mass.",
+                desc: "Mass Upgrades no longer spends mass.",
                 cost: E(1),
             },
             2: {
