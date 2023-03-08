@@ -104,7 +104,7 @@ function calcSupernova(dt, dt_offline) {
         }
     }
     if (su.times.gte(1) || quUnl()) su.stars = su.stars.add(tmp.supernova.star_gain.mul(dt_offline).mul(tmp.preQUGlobalSpeed))
-    if (hasElement(118)) su.stardust = su.stardust.add(tmp.supernova.stardust_gain)
+    if (hasElement(118)) su.stardust = su.stardust.add(tmp.supernova.stardust_gain.mul(dt))
     if (!su.post_10 && su.times.gte(10)) {
         su.post_10 = true
         addPopup(POPUP_GROUPS.supernova10)

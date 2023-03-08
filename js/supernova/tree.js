@@ -983,10 +983,11 @@ const TREE_UPGS = {
 			req() {return player.supernova.stardust.gte(140)},
             reqDesc: `140 Stardust`,
             effect() {
-                let x = player.supernova.stardust.max(1).pow(6.45).softcap(3e8,0.75,0).max(1)
+                let x = player.supernova.stardust.max(1).pow(6.45).softcap(3e8,0.75,0).max(1).softcap(1e170,0.01,0)
                 return x
             },
-            effDesc(x) { return "x"+format(x) },
+            effDesc(x) { if (x.gte(1e170)) return "x"+format(x)+(x.gte(1e170)?" <span class='soft'>(softcapped^2)</span>":"")
+                else return "x"+format(x)+(x.gte(3e8)?" <span class='soft'>(softcapped)</span>":"")  },
             cost: E('1e4100000'),
         },
         c4: {    
@@ -1027,10 +1028,11 @@ const TREE_UPGS = {
 			req() {return player.supernova.stardust.gte(2500)},
             reqDesc: `2500 Stardust`,
             effect() {
-                 let x = player.supernova.stardust.max(1).pow(2.5).softcap(3e45,0.75,0).max(1)
+                 let x = player.supernova.stardust.max(1).pow(2.5).softcap(3e45,0.75,0).max(1).softcap(1e60,0.01,0)
                 return x
             },
-            effDesc(x) { return "x"+format(x) },
+            effDesc(x) { if (x.gte(1e60)) return "x"+format(x)+(x.gte(1e60)?" <span class='soft'>(softcapped^2)</span>":"")
+                else return "x"+format(x)+(x.gte(1e45)?" <span class='soft'>(softcapped)</span>":"")  },
             cost: E('1e4695000'),
         },
 		c8: {    
@@ -1101,10 +1103,10 @@ branch: ['c11'],
                 req() {return player.supernova.stardust.gte(7e6)},
                  effect() {
                 let x = E(1)
-                x = player.currentYZ.max(1).pow(3.45).max(1)
+                x = player.currentYZ.max(1).pow(3.45).max(1).softcap(125000,0.01,0)
                return x
                  },
-                  effDesc(x) { return "x"+format(x) },
+                 effDesc(x) { return "x"+format(x)+(x.gte(125000)?" <span class='soft'>(softcapped)</span>":"") },
                    reqDesc: `7e6 Stardust`,
                    cost: E('1e10000000'),
                     },
@@ -1113,10 +1115,10 @@ branch: ['c11'],
                           desc: `Stardust boosts Quark gain at boosted rate`,
                           effect() {
                             let x = E(1)
-                            x = player.supernova.stardust.max(1).pow(1.85).root(1.25).max(1)
+                            x = player.supernova.stardust.max(1).pow(1.85).root(1.25).max(1).softcap(1e45,0.01,0)
                            return x
                              },
-                              effDesc(x) { return "x"+format(x) },
+                              effDesc(x) { return "x"+format(x)+(x.gte(1e45)?" <span class='soft'>(softcapped)</span>":"") },
                          req() {return player.supernova.stardust.gte(2.8e7)},
                           reqDesc: `2.8e7 Stardust`,
                           cost: E('1e10500000'),

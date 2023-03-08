@@ -220,7 +220,7 @@ const RANKS = {
         },
 		sept:{
 			            '1'() {
-                let ret = player.ranks.sept.add(1).pow(3).add(player.ranks.sept.add(1).mul(4))
+                let ret = player.ranks.sept.add(1).pow(3).add(player.ranks.sept.add(1).mul(4)).softcap(2500,0.1,0)
                 return ret
             },
 		},
@@ -256,7 +256,7 @@ const RANKS = {
             8(x) { return "^"+format(x)+" later" },
         },
         sept: {
-            1(x) { return format(x)+"x" },
+            1(x) { return format(x)+"x"+(x.gte(2500)?" (softcapped)":"") },
         },
     },
     fp: {

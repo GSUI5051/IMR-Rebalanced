@@ -233,7 +233,7 @@ distBoost() {
     let x = E(1)
     x = x.add(player.md.break.dist.pow(0.25))
     if (hasTree("c10")) x = x.mul(tmp.supernova.tree_eff.c10)
-    return x
+    return x.softcap(3500,0.1,0)
 },
         massGain() {
             let x = player.md.break.energy.max(0).pow(2)
