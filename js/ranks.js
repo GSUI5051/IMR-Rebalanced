@@ -365,7 +365,7 @@ const PRESTIGES = {
             "25": "Singularized Times boosts Stardust gain",
             "26": "Passively get Singularized Times based on Honor.",
             "28": `Get 2x of Primordium Particles you have.`,
-            "30": `Apply Sept effect to passive generation of Singularized Times at reduced rate.`,
+            "30": `Apply Sept effect to passive generation of Singularized Times at reduced rate but x is Pent.`,
             "31": `Double Singularity Gain`,
         },
     ],
@@ -422,7 +422,7 @@ const PRESTIGES = {
                 return x
             },x=>"+"+x.format() + "/s"],
             "30": [_=>{
-                let x = RANKS.effect.sept[1]().pow(0.5)
+                let x = player.ranks.pent.add(1).pow(0.75).add(player.ranks.pent.add(1).div(2)).softcap(2500,0.1,0)
                 return x
             },x=>"x"+x.format()],
         },
