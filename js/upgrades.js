@@ -188,6 +188,132 @@ if (player.mainUpg.rp.includes(5)) x = x.add(1)
             },
         },
     },
+    sing: {
+        cols: 3,
+        temp() {
+            for (let x = this.cols; x >= 1; x--) {
+                let d = tmp.upgs.sing
+                let data = this.getData(x)
+                d[x].cost = data.cost
+                d[x].bulk = data.bulk
+                
+                d[x].bonus = this[x].bonus?this[x].bonus():E(0)
+                d[x].eff = this[x].effect(player.sUpg[x]||E(0))
+                d[x].effDesc = this[x].effDesc(d[x].eff)
+            }
+        },
+        autoSwitch(x) {
+            player.autoSingUpg[x] = !player.autoSingUpg[x]
+        },
+        buy(x, manual=false) {
+            let cost = manual ? this.getData(x).cost : tmp.upgs.sing[x].cost
+            if (player.qu.s.gte(cost)) {
+                player.qu.s = player.qu.s.sub(cost)
+                if (!player.sUpg[x]) player.sUpg[x] = E(0)
+                player.sUpg[x] = player.sUpg[x].add(1)
+            }
+        },
+        buyMax(x) {
+            let d = tmp.upgs.sing[x]
+            let bulk = d.bulk
+            let cost = d.cost
+            if (player.qu.s.gte(cost)) {
+                let m = player.singUpg[x]
+                if (!m) m = E(0)
+                m = m.max(bulk.floor().max(m.plus(1)))
+                player.sUpg[x] = m
+                player.qu.s = player.qu.s.sub(cost)
+            }
+        },
+        getData(i) {
+            let upg = this[i]
+            let inc = upg.inc
+            let start = upg.start
+            let lvl = player.sUpg[i]||E(0)
+            let cost, bulk
+
+
+                cost = inc.pow(lvl.scaleEvery("sUpg")).mul(start)
+                bulk = E(0)
+                if (player.qu.s.gte(start)) bulk = player.qu.s.div(start).max(1).log(inc).scaleEvery("sUpg",true).add(1).floor()
+        
+            return {cost: cost, bulk: bulk}
+        },
+        1: {
+            unl() { return player.ranks.rank.gte(1) || player.mainUpg.atom.includes(1) },
+            title: "Encoder",
+            start: E(15),
+            inc: E(1.15),
+            effect(x) {
+                let step = E(0.3)
+                step = step.add(tmp.upgs.sing[2]?tmp.upgs.sing[2].eff.eff:1)
+                let ret = step.mul(x.add(tmp.upgs.sing[1].bonus))
+                return {step: step, eff: ret}
+            },
+            effDesc(eff) {
+                return {
+                    step: "+"+format(eff.step),
+                    eff: "+"+format(eff.eff)+" to Prestige Exponent"
+                }
+            },
+            bonus() {
+                let x = E(0)
+                return x
+            },
+        },
+        2: {
+            unl() { return player.ranks.rank.gte(2) || player.mainUpg.atom.includes(1) },
+            title: "Encrypter",
+            start: E(600),
+            inc: E(2),
+            effect(x) {
+                let step = E(0.05)
+                let ret = step.mul(x.add(tmp.upgs.sing[2].bonus))//.softcap("ee14",0.95,2)
+                return {step: step, eff: ret}
+            },
+            effDesc(eff) {
+                return {
+                    step: "+"+format(eff.step)+"",
+                    eff: "+"+format(eff.eff)+" to Encrypter"
+                }
+            },
+            bonus() {
+                let x = E(0)
+                return x
+            },
+        },
+        3: {
+            unl() { return player.ranks.rank.gte(3) || player.mainUpg.atom.includes(1) },
+            title: "Recoder",
+            start: E(10000),
+            inc: E(3),
+            effect(x) {
+                let xx = x.add(tmp.upgs.sing[3].bonus)
+                let ss = E(50)
+                let step = E(0.15)
+                let sp = 0.5
+                let sp2 = 0.1
+                let ss2 = E(5e10)
+                if (hasElement(85)) {
+                    sp2 **= 0.3
+                    ss2 = ss2.mul(3)
+                }
+                let ret = step.mul(xx).softcap(ss,sp,0)
+                if (!player.ranks.pent.gte(15)) ret = ret.softcap(ss2,sp2,0)
+                return {step: step, eff: ret, ss: ss}
+            },
+            effDesc(eff) {
+                return {
+                    step: "+"+format(eff.step) + "/s",
+                    eff: "+"+format(eff.eff)+" Memory/s"+(eff.eff.gte(eff.ss)?` <span class='soft'>(softcapped${eff.eff.gte(1.8e5)?eff.eff.gte(5e15)&&!player.ranks.pent.gte(15)?"^3":"^2":""})</span>`:"")
+                }
+            },
+            bonus() {
+                let x = E(0)
+                return x
+            },
+        },
+    },
     main: {
         temp() {
             for (let x = 1; x <= this.cols; x++) {

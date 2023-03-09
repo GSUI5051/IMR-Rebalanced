@@ -6,7 +6,7 @@
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://seder3214.github.io/IMR-Rebalanced/" />
-    <meta property="og:title" content="IMR:Rebalanced v0.5.8.1" />
+    <meta property="og:title" content="IMR:Rebalanced v0.6.1" />
     <meta property="og:description" content="Incremental Mass Rewritten made by MrRedShark77." />
     <meta property="og:image" content="https://mrredshark77.github.io/incremental-mass-rewritten//images/thumbail.jpg" />
 
@@ -194,8 +194,8 @@
                         <div tooltip="Stardust" t-size="small"><img class="res_img" src="images/sd.png" onmousemove="FORMS.reset_msg.set('st')" onmouseleave="FORMS.reset_msg.reset()" style="cursor: pointer;"></div>
                         <span style="margin-left: 5px; text-align: left;" id="sdAmt">X</span>
                     </div><div class="resources sml light_blue" id="ls_div">
-                        <div tooltip="Last Star" t-size="small"><img class="res_img" src="images/ls.png" onmousemove="FORMS.reset_msg.set('ls')" onmouseleave="FORMS.reset_msg.reset()" style="cursor: pointer;"></div>
-                        <span style="margin-left: 5px; text-align: left;" id="lsAmt">X</span>
+                        <div tooltip="Singularity" t-size="small"><img class="res_img" src="images/s.jpg" onclick="QUANTUM.enter()" onmousemove="FORMS.reset_msg.set('ls')" onmouseleave="FORMS.reset_msg.reset()" style="cursor: pointer;"></div>
+                        <span class="s_text" style="margin-left: 5px; text-align: left;" id="lsAmt">X</span>
                 </div>
             </div>
         </div><br><div style="min-height: 40px;">
@@ -214,52 +214,52 @@
                 </div>
                 <div id="rank_tab0">
                     <div id="ranks_table" class="table_center" style="min-height: 180px;"></div>
+                    <div id="mass_upgs_table"></div><br><br>
+                    <div style="width: 100%; margin-bottom: 5px;" class="table_center" id="tickspeed_div">
+                        <div style="width: 400px">
+                            <div class="resources">
+                                <img src="images/tickspeed.png">
+                                <span style="margin-left: 5px; text-align: left;"><span id="tickspeed_scale"></span>Tickspeeds [<span id="tickspeed_lvl">X</span>]</span>
+                            </div>
+                        </div><button id="tickspeed_btn" class="btn" style="width: 200px;" onclick="FORMS.tickspeed.buy()">Cost: <span id="tickspeed_cost">X</span> Rage Points</button>
+                        <button class="btn" style="width: 120px;" onclick="FORMS.tickspeed.buyMax()">Buy Max</button>
+                        <button id="tickspeed_auto" class="btn" style="width: 80px;" onclick="FORMS.tickspeed.autoSwitch()">OFF</button>
+                        <div style="margin-left: 5px; text-align: left; width: 400px">
+                            Tickspeed Power: <span id="tickspeed_step">X</span><br>
+                            Tickspeed Effect: <span id="tickspeed_eff">X</span>x to mass gain
+                                            </div></div><br><br>
+                                            <div style="width: 100%; margin-bottom: 5px;" class="table_center" id="crx_div">
+                                                <div style="width: 400px">
+                                                    <div class="resources">
+                                                        <img src="images/crx.png">
+                                                        <span style="margin-left: 5px; text-align: left;"><span id="crx_scale"></span>Forward Speed Boost I [<span id="crx_lvl">X</span>]</span>
+                                                    </div>
+                                                </div><button id="crx_btn" class="btn" style="width: 200px;" onclick="FORMS.crx.buy()">Cost: <span id="crx_cost">X</span> Stardust</button>
+                                                <button class="btn" style="width: 120px;" onclick="FORMS.crx.buyMax()">Buy Max</button>
+                                                                    <button id="crx_auto" class="btn" style="width: 80px;" onclick="FORMS.crx.autoSwitch()">OFF</button>
+                                                <div style="margin-left: 5px; text-align: left; width: 400px">
+                                                    F-Booster I Power: <span id="crx_step">X</span><br>
+                                                    F-Booster I Effect: <span id="crx_eff">X</span>
+                                                </div>
+                                             </div><div style="width: 100%; margin-bottom: 5px;" class="table_center" id="cryz_div">
+                                                <div style="width: 400px">
+                                                    <div class="resources">
+                                                        <img src="images/cryz.png">
+                                                        <span style="margin-left: 5px; text-align: left;"><span id="cryz_scale"></span>Forward Speed Boost II [<span id="cryz_lvl">X</span>]</span>
+                                                    </div>
+                                                </div><button id="cryz_btn" class="btn" style="width: 200px;" onclick="FORMS.cryz.buy()">Cost: <span id="cryz_cost">X</span> Stardust</button>
+                                                <button class="btn" style="width: 120px;" onclick="FORMS.cryz.buyMax()">Buy Max</button>
+                                                <button id="cryz_auto" class="btn" style="width: 80px;" onclick="FORMS.cryz.autoSwitch()">OFF</button>
+                                                <div style="margin-left: 5px; text-align: left; width: 400px">
+                                                    F-Booster II Power: <span id="cryz_step">X</span><br>
+                                                    F-Booster II Effect: <span id="cryz_eff">X</span>
+                                                </div>
+                    </div><br>
                 </div><div id="rank_tab1">
                     Your Prestige base is <span id="pres_base"></span> (based on products of Rank tiers)<br><br>
                     <div id="pres_table" class="table_center" style="min-height: 180px;"></div>
                 </div>
                 <br><br>
-                <div id="mass_upgs_table"></div><br><br>
-                <div style="width: 100%; margin-bottom: 5px;" class="table_center" id="tickspeed_div">
-                    <div style="width: 400px">
-                        <div class="resources">
-                            <img src="images/tickspeed.png">
-                            <span style="margin-left: 5px; text-align: left;"><span id="tickspeed_scale"></span>Tickspeeds [<span id="tickspeed_lvl">X</span>]</span>
-                        </div>
-                    </div><button id="tickspeed_btn" class="btn" style="width: 200px;" onclick="FORMS.tickspeed.buy()">Cost: <span id="tickspeed_cost">X</span> Rage Points</button>
-                    <button class="btn" style="width: 120px;" onclick="FORMS.tickspeed.buyMax()">Buy Max</button>
-                    <button id="tickspeed_auto" class="btn" style="width: 80px;" onclick="FORMS.tickspeed.autoSwitch()">OFF</button>
-                    <div style="margin-left: 5px; text-align: left; width: 400px">
-                        Tickspeed Power: <span id="tickspeed_step">X</span><br>
-                        Tickspeed Effect: <span id="tickspeed_eff">X</span>x to mass gain
-					                    </div></div>
-										<div style="width: 100%; margin-bottom: 5px;" class="table_center" id="crx_div">
-                                            <div style="width: 400px">
-                                                <div class="resources">
-                                                    <img src="images/crx.png">
-                                                    <span style="margin-left: 5px; text-align: left;"><span id="crx_scale"></span>Forward Speed Boost I [<span id="crx_lvl">X</span>]</span>
-                                                </div>
-                                            </div><button id="crx_btn" class="btn" style="width: 200px;" onclick="FORMS.crx.buy()">Cost: <span id="crx_cost">X</span> Stardust</button>
-                                            <button class="btn" style="width: 120px;" onclick="FORMS.crx.buyMax()">Buy Max</button>
-											                    <button id="crx_auto" class="btn" style="width: 80px;" onclick="FORMS.crx.autoSwitch()">OFF</button>
-                                            <div style="margin-left: 5px; text-align: left; width: 400px">
-                                                F-Booster I Power: <span id="crx_step">X</span><br>
-                                                F-Booster I Effect: <span id="crx_eff">X</span>
-                                            </div>
-                                         </div><div style="width: 100%; margin-bottom: 5px;" class="table_center" id="cryz_div">
-                                            <div style="width: 400px">
-                                                <div class="resources">
-                                                    <img src="images/cryz.png">
-                                                    <span style="margin-left: 5px; text-align: left;"><span id="cryz_scale"></span>Forward Speed Boost II [<span id="cryz_lvl">X</span>]</span>
-                                                </div>
-                                            </div><button id="cryz_btn" class="btn" style="width: 200px;" onclick="FORMS.cryz.buy()">Cost: <span id="cryz_cost">X</span> Stardust</button>
-                                            <button class="btn" style="width: 120px;" onclick="FORMS.cryz.buyMax()">Buy Max</button>
-											<button id="cryz_auto" class="btn" style="width: 80px;" onclick="FORMS.cryz.autoSwitch()">OFF</button>
-                                            <div style="margin-left: 5px; text-align: left; width: 400px">
-                                                F-Booster II Power: <span id="cryz_step">X</span><br>
-                                                F-Booster II Effect: <span id="cryz_eff">X</span>
-                                            </div>
-                </div><br>
                 <span style="margin-left: 5px; text-align: left;" id="curPos"></span><br>
                                         <br><br><div id="mass_softcaps">
                     <span id="massSoft1" class="red">After <b id="massSoftStart1">X</b> of mass gain will softcap mass gain!</span><br>
@@ -332,6 +332,9 @@
                         Cosmic Strings Effect: <span id="cosmic_str_eff">X</span>x
                     </div>
                 </div>
+            </div><div id="stab_frame0_5">
+                You have <span class="s_text">Singularized <span id="s_times_"></span></span><br>
+                <div id="sing_upgs_table"></div><br><br>
             </div></div><div id="tab_frame1">
             <div id="stab_frame1_0">
                 <button onclick="player.ranks_reward = Math.max(player.ranks_reward-1,0)" class="btn"><--</button><span id="ranks_reward_name" style="margin: 0px 10px">aaa</span><button onclick="player.ranks_reward = Math.min(player.ranks_reward+1,Math.max(...RANKS.names.map((v, i) => i==0 ? i : (RANKS.unl[v]() && i))))" class="btn">--></button><br><br>
@@ -349,7 +352,7 @@
         </div><div id="tab_frame3">
             <div id="stab_frame3_0">
                 Note 1: Click any image to show challenge description. Click again to enter any challenge<br><br>
-                <button class="btn" id="chal_exit" onclick="CHALS.exit()">Exit Challenge</button><br><br>
+                 <button class="btn" id="chal_exit" onclick="CHALS.exit()">Exit Challenge</button><br><br>
                 <div style="min-height: 120px;" id="chals_table" class="table_center"></div><br><br>
                 <div id="chal_desc_div">
                     <button class="btn" id="chal_enter" onclick="CHALS.enter()">Enter Challenge</button>
@@ -473,7 +476,7 @@
             <h2>Confirmation Settings</h2><br>
             <div id="confirm_table" class="table_center"></div>
             <br><br>
-            IMR: Rebalanced v0.5.8.1 - <b><span class='sing_text'>Singularity: Pre-Start</span></b> - made by Seder3214<br>
+            IMR: Rebalanced v0.6.1 - <b><span class='s_text'>Singularity: Part 1</span></b> - made by Seder3214<br>
             The game is inspired by Incremental Mass Rewritten v0.5.4.8 - made by MrRedShark77<br><br><br>
             Hint 1: Hover top image above tabs to show description...<br><br>
             Total time played: <span id="total_time">X</span><br><br>

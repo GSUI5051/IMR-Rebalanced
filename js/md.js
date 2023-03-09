@@ -31,8 +31,10 @@ const MASS_DILATION = {
     },
     RPgain(m=player.mass) {
         if (CHALS.inChal(11)) return E(0)
+        if (CHALS.inChal(13)) return E(0)
         let x = m.div(1.50005e22).max(1).log10().div(40).sub(14).max(0).pow(tmp.md.rp_exp_gain).mul(tmp.md.rp_mult_gain)
         return x.sub(player.md.particles).max(0).floor().softcap("ee29",0.00000001,0)
+        if (CHALS.inChal(13)) return E(0)
     },
     massGain() {
         if (CHALS.inChal(11)) return E(0)
@@ -48,6 +50,7 @@ const MASS_DILATION = {
         if (hasTree("c17")) return x.softcap(mlt(1e6),0.0008,0)
         if (player.ranks.pent.gte(43)) return x.softcap(mlt(1e12),0.4,0)
        else return x.softcap(mlt(1e12),0.5,0)
+       if (CHALS.inChal(13)) return E(0)
     },
     mass_req() {
         let x = E(10).pow(player.md.particles.add(1).div(tmp.md.rp_mult_gain).root(tmp.md.rp_exp_gain).add(14).mul(40)).mul(1.50005e22)
@@ -355,7 +358,7 @@ distBoost() {
                     maxLvl: 1,
                     cost(x) { return uni('1e300') },
                     effect(y) {
-                        let x = player.qu.rip.amt.pow(7.25).log(1.05)
+                        let x = player.qu.rip.amt.pow(7.25).log(1.05).add(1)
                         return x
                     },
                     effDesc(x) { return format(x)+"x" },

@@ -32,6 +32,8 @@ const STARS = {
     generators: {
         req: [E(1e225),E(1e254),E('e265'),E('e275'),E('e845')],
         unl(auto=false) {
+            if (hasPrestige(1,20)) player.stars.unls = 1
+            if (hasPrestige(0,450)) player.stars.unls = 5
             if (player.atom.quarks.gte(!hasTree("s4")||player.stars.unls < 5?tmp.stars.generator_req:tmp.stars.generator_boost_req)) {
                 if(hasTree("s4")&&player.stars.unls > 4) player.stars.boost = auto?player.stars.boost.max(tmp.stars.generator_boost_bulk):player.stars.boost.add(1)
                 else player.stars.unls++

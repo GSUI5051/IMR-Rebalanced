@@ -59,6 +59,7 @@ const SUPERNOVA = {
         tmp.pass = false
     },
     starGain() {
+                if (CHALS.inChal(13)) return E(0)
         let x = E(hasTree("c")?1:0)
         if (hasTree("sn1")) x = x.mul(tmp.supernova.tree_eff.sn1)
         if (hasTree("sn2")) x = x.mul(tmp.supernova.tree_eff.sn2)
@@ -78,6 +79,7 @@ const SUPERNOVA = {
         xx = xx.pow(tmp.elements.effect[119])
 	      if (player.ranks.sept.gte(1)) xx = xx.mul(RANKS.effect.sept[1]())
           if (hasTree("c20")) xx = xx.mul(tmp.supernova.tree_eff.c20)
+          if (hasPrestige(1,25)) xx = xx.mul(prestigeEff(1,25))
         return xx
     },
     req(x=player.supernova.times) {

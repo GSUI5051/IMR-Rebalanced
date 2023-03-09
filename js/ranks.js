@@ -117,7 +117,7 @@ const RANKS = {
             '15': "remove 3rd softcap of Stronger's effect.",
         },
         sept: {
-            '1': "Boost stardust gain by ((x^3)+x*4) where x is Sept.",
+            '1': "Boost stardust gain by ((x^3)+x*2) where x is Sept.",
         },
     },
     effect: {
@@ -220,7 +220,7 @@ const RANKS = {
         },
 		sept:{
 			            '1'() {
-                let ret = player.ranks.sept.add(1).pow(3).add(player.ranks.sept.add(1).mul(4)).softcap(2500,0.1,0)
+                let ret = player.ranks.sept.add(1).pow(3).add(player.ranks.sept.add(1).mul(2)).softcap(2500,0.1,0)
                 return ret
             },
 		},
@@ -279,10 +279,11 @@ const RANKS = {
 const PRESTIGES = {
     fullNames: ["Prestige Level", "Honor"],
     baseExponent() {
-        let x = 0
-        if (hasElement(100)) x += tmp.elements.effect[100]
-        if (hasPrestige(0,32)) x += prestigeEff(0,32,0)
-        return x+1
+        let x = E(0)
+        if (hasElement(100)) x.add(tmp.elements.effect[100])
+        if (hasPrestige(0,32)) x.add(prestigeEff(0,32,0))
+        if (player.sUpg[1].gte(1)) x = x.add(tmp.upgs.sing[1]?tmp.upgs.sing[1].eff.eff:0)
+        return x.add(1)
     },
     base() {
         let x = E(1)
@@ -331,7 +332,7 @@ const PRESTIGES = {
     ],
     noReset: [
         _=>hasUpgrade('br',11),
-        _=>false,
+        _=>hasPrestige(1,23),
     ],
     rewards: [
         {
@@ -349,6 +350,8 @@ const PRESTIGES = {
             "28": `Remove all softcaps from Gluon Upgrade 4's effect.`,
             "32": `Prestige Base’s exponent is increased based on Prestige Level.`,
             "40": `Chromium-24 is slightly stronger.`,
+            "450": `Re-unlock all Stars.`,
+            "465": `Honor-25 is slightly stronger based on Sept.`,
         },
         {
             "1": `All-Star resources are raised by ^2.`,
@@ -357,6 +360,13 @@ const PRESTIGES = {
             "4": `Gain 5 free levels of each Primordium Particle.`,
             "5": `Pent 5's reward is stronger based on Prestige Base.`,
             "7": `Quarks are boosted based on Honor.`,
+            "20": "Re-unlock first Star.",
+            "23": "Prestige Level no longer resets.",
+            "25": "Singularized Times boosts Stardust gain",
+            "26": "Passively get Singularized Times based on Honor.",
+            "28": `Get 2x of Primordium Particles you have.`,
+            "30": `Apply Sept effect to passive generation of Singularized Times at reduced rate.`,
+            "31": `Double Singularity Gain`,
         },
     ],
     rewardEff: [
@@ -377,6 +387,10 @@ const PRESTIGES = {
                 let x = player.prestiges[0].div(1e4).toNumber()
                 return x
             },x=>"+^"+format(x)],
+            "465": [_=>{
+                let x = player.ranks.sept.pow(0.75).softcap(15,0.3,0)
+                return x
+            },x=>"x"+format(x)],
             /*
             "1": [_=>{
                 let x = E(1)
@@ -399,6 +413,18 @@ const PRESTIGES = {
                 let x = player.prestiges[1].add(1).root(3)
                 return x
             },x=>"^"+x.format()],
+            "25": [_=>{
+                let x = player.qu.sTimes.pow(1.35).mul(hasPrestige(0,465)?prestigeEff(0,465):1).softcap(45000,0.8,1).softcap(1e9,0.0001,0)
+                return x
+            },x=>"x"+x.format()+ (prestigeEff(1,25).gte(45000)?" (softcapped)":"") ],
+            "26": [_=>{
+                let x = player.prestiges[1].add(1).root(5).mul(hasPrestige(1,30)?prestigeEff(1,30):1)
+                return x
+            },x=>"+"+x.format() + "/s"],
+            "30": [_=>{
+                let x = RANKS.effect.sept[1]().pow(0.5)
+                return x
+            },x=>"x"+x.format()],
         },
     ],
     reset(i) {
@@ -416,7 +442,6 @@ const PRESTIGES = {
         }
     },
 }
-
 const PRES_LEN = PRESTIGES.fullNames.length
 
 function hasPrestige(x,y) { return player.prestiges[x].gte(y) }

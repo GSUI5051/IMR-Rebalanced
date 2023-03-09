@@ -459,6 +459,10 @@ button {
 	color: white;
 	animation: sing_text 12s ease infinite ;
 }
+.s_text {
+	color: white;
+	animation: s_text 3s ease infinite ;
+}
 @keyframes sing_text {
 	0%,
 	100% {
@@ -486,6 +490,35 @@ button {
 
 	90% {		text-shadow: 2px -2px 0px #15aa15, -1px 1px 0px #55ff55;
 		transform: translateX(-8px);
+	}
+}
+@keyframes s_text {
+	0%,
+	100% {
+		text-shadow: 2px 2px 0px #aaa015, 1px 1px 0px #ff5555;
+		transform: translateX(0);
+	}
+
+	10%,
+	30%,
+	50%,
+	70% {
+		text-shadow: 2px 2px 0px #aa8215, 1px 1px 0px #ff55b8;
+		transform: translateX(-0.2px);
+	}
+
+	20%,
+	40%,
+	60% {		text-shadow: -2px 2px 0px #1f15aa, 1px -1px 0px #ff5555;
+		transform: translateX(0.2px);
+	}
+
+	80% {		text-shadow: 2px 2px 0px #15aa7d, -1px -1px 0px #5582ff;
+		transform: translateX(0.5px);
+	}
+
+	90% {		text-shadow: 2px -2px 0px #15aa29, -1px 1px 0px #ff5555;
+		transform: translateX(-0.5px);
 	}
 }
 .elements {

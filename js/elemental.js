@@ -176,7 +176,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
             desc: `Dilated mass gain is affected by tickspeed at a reduced rate.`,
             cost: E(1e61),
             effect() {
-                let x = E(1.25).pow(player.tickspeed.pow(0.55))
+                let x = E(1.25).pow(player.tickspeed.pow(0.55)).add(1)
                 return x
             },
             effDesc(x) { return format(x)+"x" },
@@ -716,7 +716,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
         {br: true,
             desc: `Exponent Stardust gain by Distance.`,
             effect() {let x = E(0)
-                if (hasElement(119)) x = player.md.break.dist.pow(0.05).root(1.15).max(1)
+                if (hasElement(119)) x = player.md.break.dist.add(1).pow(0.05).root(1.15).max(1)
                 else x = E(1)
                 return x
             },
@@ -726,7 +726,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
         {
             desc: `Boost mass gain based on stardust`,
             effect() {let x = E(0)
-                x = player.supernova.stardust.pow(0.05).softcap(3,0.01,0).max(1)
+                x = player.supernova.stardust.add(1).pow(0.05).softcap(3,0.01,0).max(1)
                 return x
             },
             effDesc(x) { return "^"+format(x) },
@@ -735,7 +735,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
         {
             desc: `Root Supernova Requirements based on X position`,
             effect() {let x = E(0)
-                x = player.md.break.curX.pow(0.25).max(1)
+                x = player.md.break.curX.add(1).pow(0.25).max(1)
                 return x
             },
             effDesc(x) { return "^"+format(x) },
@@ -760,7 +760,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
 		        {sd: true,
             desc:  `Decrease requirements of Pent by Stardust`,
             effect() {let x = E(0)
-                x = player.supernova.stardust.log(4).pow(0.55).max(1)
+                x = player.supernova.stardust.add(1).log(4).pow(0.55).max(1)
                 return x
             },
             effDesc(x) { return "/"+format(x) },
@@ -769,7 +769,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
         {sd: true,
             desc:  `Increase Forward Speed Booster I power by distance`,
             effect() {let x = E(0)
-                x = player.md.break.dist.log(1.1).pow(1.75).max(1)
+                x = player.md.break.dist.add(1).log(1.1).pow(1.75).max(1)
                 return x
             },
             effDesc(x) { return "x"+format(x) },
@@ -787,7 +787,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
         {sd: true,
             desc:  `Death Shards affects Pre-Quantum Global Speed at reduced rate`,
             effect() {let x = E(0)
-               if (hasElement(129)) x = player.qu.rip.amt.pow(0.35).root(3).max(1)
+               if (hasElement(129)) x = player.qu.rip.amt.max(1).pow(0.35).root(3).max(1)
                else x = E(1)
                 return x
             },

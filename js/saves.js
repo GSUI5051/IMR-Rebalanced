@@ -73,6 +73,7 @@ function calc(dt, dt_offline) {
 					        if (FORMS.crx.autoUnl() && player.autoCx) FORMS.crx.buyMax()
 			        if (FORMS.cryz.autoUnl() && player.autoCyz) FORMS.cryz.buyMax()
         if (player.mainUpg.rp.includes(3)) for (let x = 1; x <= UPGS.mass.cols; x++) if (player.autoMassUpg[x] && (player.ranks.rank.gte(x) || player.mainUpg.atom.includes(1))) UPGS.mass.buyMax(x)
+        if (player.mainUpg.rp.includes(3)) for (let x = 1; x <= UPGS.sing.cols; x++) if (player.autoSingUpg[x] && (player.ranks.rank.gte(x) || player.mainUpg.atom.includes(1))) UPGS.sing.buyMax(x)
         if (FORMS.tickspeed.autoUnl() && player.autoTickspeed) FORMS.tickspeed.buyMax()
         if (FORMS.bh.condenser.autoUnl() && player.bh.autoCondenser) FORMS.bh.condenser.buyMax()
         if (hasElement(18) && player.atom.auto_gr) ATOM.gamma_ray.buyMax()
@@ -86,6 +87,7 @@ function calc(dt, dt_offline) {
             let upg = UPGS.main[x]
             if (upg.auto_unl ? upg.auto_unl() : false) if (player.auto_mainUpg[id]) for (let y = 1; y <= upg.lens; y++) if (upg[y].unl ? upg[y].unl() : true) upg.buy(y)
         }
+        if (hasPrestige(1,26)) player.qu.sTimes = player.qu.sTimes.add(prestigeEff(1,26).mul(dt_offline))
         if (player.mainUpg.bh.includes(6) || player.mainUpg.atom.includes(6)) player.rp.points = player.rp.points.add(tmp.rp.gain.mul(du_gs))
         if (player.mainUpg.atom.includes(6)) player.bh.dm = player.bh.dm.add(tmp.bh.dm_gain.mul(du_gs))
         if (hasElement(14)) player.atom.quarks = player.atom.quarks.add(tmp.atom.quarkGain.mul(du_gs*tmp.atom.quarkGainSec))
@@ -155,7 +157,9 @@ function getPlayerData() {
             
         },
         massUpg: {},
+        sUpg: {},
         autoMassUpg: [null,false,false,false],
+        autoSingUpg: [null,false,false,false],
         autoTickspeed: false,
         autoCx: false,
         autoCyz: false,
@@ -271,6 +275,7 @@ function getPlayerData() {
             time: 0,
         },
         time: 0,
+        ls: E(0),
     }
     for (let x = 0; x < PRES_LEN; x++) s.prestiges.push(E(0))
     for (let x = 1; x <= UPGS.main.cols; x++) {
@@ -346,6 +351,7 @@ function deepUndefinedAndDecimal(obj, data) {
 
 function convertStringToDecimal() {
     for (let x = 1; x <= UPGS.mass.cols; x++) if (player.massUpg[x] !== undefined) player.massUpg[x] = E(player.massUpg[x])
+    for (let x = 1; x <= UPGS.sing.cols; x++) if (player.sUpg[x] !== undefined) player.sUpg[x] = E(player.sUpg[x])
     for (let x = 1; x <= CHALS.cols; x++) player.chal.comps[x] = E(player.chal.comps[x])
     for (let x = 0; x < MASS_DILATION.upgs.ids.length; x++) player.md.upgs[x] = E(player.md.upgs[x]||0)
     for (let x = 0; x < MASS_DILATION.break.upgs.ids.length; x++) player.md.break.upgs[x] = E(player.md.break.upgs[x]||0)

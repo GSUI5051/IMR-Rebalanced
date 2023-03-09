@@ -12,18 +12,38 @@ const QUANTUM = {
         if (hasPrestige(0,2)) x = x.mul(4)
         return x.floor()
     },
+    sGain() {
+        let x = player.supernova.stardust.max(1).div(1e21)
+        if (x.lt(1)) return E(0)
+        x = x.max(0).pow(0.1)
+        if (hasPrestige(1,31)) x = x.mul(2)
+        return x.floor()
+    },
     gainTimes() {
         let x = E(1)
         if (hasTree("qu7")) x = x.mul(treeEff("qu7"))
         if (hasTree("qu9")) x = x.mul(treeEff("qu9"))
         return x
     },
-    enter(auto=false,force=false,rip=false,bd=false) {
+    sTimes() {
+        let x = E(1)
+        return x
+    },
+    enter(auto=false,force=false,rip=false,bd=false,ls=false) {
         if (tmp.qu.gain.gte(1) || force) {
             if (player.confirms.qu&&!auto&&!force) if (confirm("Are you sure to go Quantum? Going Quantum will reset all previous except QoL mechanicals")?!confirm("ARE YOU SURE ABOUT IT???"):true) return
             if (QCs.active() && !rip && !bd && !player.qu.rip.active) {
                 player.qu.qc.shard = tmp.qu.qc_s+tmp.qu.qc_s_bouns
                 player.qu.qc.active = false
+            }
+            if (player.supernova.stardust.gte(5e21) && CHALS.inChal(13)) {
+                player.qu.s = player.qu.s.add(tmp.qu.sGain)
+                player.qu.sTimes = player.qu.sTimes.add(1)
+                player.supernova.stardust = E(0)
+                this.lsReset(force)
+                player.qu.rip.amt = E(1)
+                player.qu.points = E(0)
+player.md.mass = E(0)
             }
             if (player.qu.times.gte(10) || force) {
                 if (!force) {
@@ -44,12 +64,10 @@ const QUANTUM = {
                         addPopup(POPUP_GROUPS.qus1);
                         addPopup(POPUP_GROUPS.qus2);
                     }
-                    
                     player.qu.points = player.qu.points.add(tmp.qu.gain)
                     player.qu.times = player.qu.times.add(1)
 
                     updateQuantumTemp()
-                    
                     this.doReset(force)
                 },1000)
                 setTimeout(_=>{
@@ -70,7 +88,7 @@ const QUANTUM = {
             if (!force) keep.push('unl1')
             keep.push('qol8','qol9')
         }
-		        if (hasTree("c5")) keep.push('c1','c2','c3','c4','c5','c6','c7','c8','c9','c10','c11','c12','c13','c14','c15', 'c16')
+		        if (hasTree("c5")) keep.push('c1','c2','c3','c4','c5','c6','c7','c8','c9','c10','c11','c12','c13','c14','c15', 'c16','d17','c18','c19')
         if (hasUpgrade('br',6) && !keep.includes('unl1')) keep.push('unl1')
 
         let save_keep = []
@@ -100,6 +118,39 @@ const QUANTUM = {
         }
 
         for (let x = 1; x <= 12; x++) if (!hasTree("qu_qol7") || x <= 8 || force) player.chal.comps[x] = E(0)
+
+        SUPERNOVA.doReset()
+
+        tmp.pass = false
+    },
+    lsReset(force=false) {
+        player.supernova.times = E(0)
+        player.supernova.stars = E(0)
+
+
+        player.supernova.bosons = {
+            pos_w: E(0),
+            neg_w: E(0),
+            z_boson: E(0),
+            photon: E(0),
+            gluon: E(0),
+            graviton: E(0),
+            hb: E(0),
+        }
+        for (let x in BOSONS.upgs.ids) for (let y in BOSONS.upgs[BOSONS.upgs.ids[x]]) player.supernova.b_upgs[BOSONS.upgs.ids[x]][y] = E(0)
+
+        player.supernova.fermions.points = [E(0),E(0)]
+        player.supernova.fermions.choosed = ""
+
+        for (let x = 0; x < 2; x++) if (force) player.supernova.fermions.tiers[x] = [E(0),E(0),E(0),E(0),E(0),E(0)]
+
+        player.supernova.radiation.hz = E(0)
+        for (let x = 0; x < 7; x++) {
+            player.supernova.radiation.ds[x] = E(0)
+            for (let y = 0; y < 2; y++) player.supernova.radiation.bs[2*x+y] = E(0)
+        }
+
+        for (let x = 1; x <= 12; x++) if (force) player.chal.comps[x] = E(0)
 
         SUPERNOVA.doReset()
 
@@ -179,6 +230,8 @@ function getQUSave() {
         },
         points: E(0),
         times: E(0),
+        sTimes: E(0),
+        s: E(0),
         bp: E(0),
         cosmic_str: E(0),
 
@@ -273,6 +326,8 @@ function updateQuantumTemp() {
     tmp.qu.gain = QUANTUM.gain()
     tmp.qu.gainTimes = QUANTUM.gainTimes()
 
+    tmp.qu.sGain = QUANTUM.sGain()
+    tmp.qu.sTimes = QUANTUM.sTimes()
     tmp.qu.theories = player.qu.times.sub(player.qu.chr_get.length).max(0).min(3).toNumber()
     tmp.qu.pick_chr = tmp.qu.theories > 0
 
@@ -293,15 +348,15 @@ function updateQuantumTemp() {
 function updateQuantumHTML() {
     let gain2 = hasUpgrade('br',8)
 
-    let unl = quUnl() || player.chal.comps[12].gte(1)
+    let unl =  (quUnl() || player.chal.comps[12].gte(1)) && !CHALS.inChal(13)
     tmp.el.qu_div.setDisplay(unl)
     if (unl) tmp.el.quAmt.setHTML(format(player.qu.points,0)+"<br>"+(gain2?player.qu.points.formatGain(tmp.qu.gain.div(10)):"(+"+format(tmp.qu.gain,0)+")"))
 
-    unl = quUnl()
+    unl = quUnl() && !CHALS.inChal(13)
     tmp.el.gs1_div.setDisplay(unl)
     if (unl) tmp.el.preQGSpeed.setHTML(formatMult(tmp.preQUGlobalSpeed))
 
-    unl = hasTree("unl4")
+    unl = hasTree("unl4") && !CHALS.inChal(13)
     tmp.el.br_div.setDisplay(unl)
     if (unl) tmp.el.brAmt.setHTML(player.qu.rip.amt.format(0)+"<br>"+(player.qu.rip.active || (hasTree("c16"))?gain2?player.qu.rip.amt.formatGain(tmp.rip.gain.div(10)):`(+${tmp.rip.gain.format(0)})`:"(inactive)"))
 

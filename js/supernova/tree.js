@@ -1136,7 +1136,7 @@ branch: ['c11'],
                           desc: `Boost Entropy gain by distance`,
                           effect() {
                             let x = E(1)
-                            x = player.md.break.dist.root(4).max(1)
+                            x = player.md.break.dist.add(1).root(4).max(1)
                            return x
                              },
                              effDesc(x) { return "x"+format(x) },
@@ -1165,7 +1165,7 @@ branch: ['c11'],
                           desc: `Relativistic Energy boosts stardust gain`,
                           effect() {
                             let x = E(1)
-                            x = player.md.break.energy.root(24).pow(0.12).max(1)
+                            x = player.md.break.energy.add(1).root(24).pow(0.12).max(1)
                            return x
                              },
                              effDesc(x) { return "x"+format(x) },

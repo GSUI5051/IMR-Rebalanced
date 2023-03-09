@@ -11,6 +11,7 @@ const BIG_RIP = {
         QUANTUM.enter(false,true,true)
     },
     gain() {
+        
         let x = player.mass.add(1).log10().div(2e5).max(0)
         if (!player.qu.rip.active && (!hasTree("c16"))) return E(0)
         if (hasTree('br1')) x = x.mul(treeEff('br1'))

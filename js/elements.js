@@ -74,7 +74,26 @@ function setupHTML() {
 		</div>`
 	}
 	mass_upgs_table.setHTML(table)
-
+	let sing_upgs_table = new Element("sing_upgs_table")
+	table = ""
+	for (let x = 1; x <= UPGS.sing.cols; x++) {
+		let upg = UPGS.sing[x]
+		table += `<div style="width: 100%; margin-bottom: 5px;" class="table_center" id="sUpg_div_${x}">
+			<div style="width: 400px">
+				<div class="resources">
+					<img src="images/sing_upg${x}.png">
+					<span style="margin-left: 5px; text-align: left;"><span id="sUpg_scale_${x}"></span>${upg.title} [<span id="sUpg_lvl_${x}">X</span>]</span>
+				</div>
+			</div><button id="sUpg_btn_${x}" class="btn" style="width: 200px;" onclick="UPGS.sing.buy(${x}, true)">Cost: <span id="sUpg_cost_${x}">X</span></button>
+			<button class="btn" style="width: 120px;" onclick="UPGS.sing.buyMax(${x})">Buy Max</button>
+			<button id="sUpg_auto_${x}" class="btn" style="width: 80px;" onclick="UPGS.sing.autoSwitch(${x})">OFF</button>
+			<div style="margin-left: 5px; text-align: left; width: 400px">
+				${upg.title} Power: <span id="sUpg_step_${x}">X</span><br>
+				${upg.title} Effect: <span id="sUpg_eff_${x}">X</span>
+			</div>
+		</div>`
+	}
+	sing_upgs_table.setHTML(table)
 	let ranks_rewards_table = new Element("ranks_rewards_table")
 	table = ""
 	for (let x = 0; x < RANKS.names.length; x++) {
@@ -191,15 +210,15 @@ function updateUpperHTML() {
 	tmp.el.reset_desc.setHTML(player.reset_msg)
 	tmp.el.mass.setHTML(formatMass(player.mass)+"<br>"+formatGain(player.mass, tmp.massGain.mul(gs), true))
 	
-	let unl = !quUnl()
+	let unl = !quUnl() && !CHALS.inChal(13)
 	tmp.el.rp_div.setDisplay(unl)
 	if (unl) tmp.el.rpAmt.setHTML(format(player.rp.points,0)+"<br>"+(player.mainUpg.bh.includes(6)||player.mainUpg.atom.includes(6)?formatGain(player.rp.points, tmp.rp.gain.mul(gs)):"(+"+format(tmp.rp.gain,0)+")"))
 	
-	unl = FORMS.bh.see() && !quUnl()
+	unl = FORMS.bh.see() && !quUnl() && !CHALS.inChal(13)
 	tmp.el.dm_div.setDisplay(unl)
 	if (unl) tmp.el.dmAmt.setHTML(format(player.bh.dm,0)+"<br>"+(player.mainUpg.atom.includes(6)?formatGain(player.bh.dm, tmp.bh.dm_gain.mul(gs)):"(+"+format(tmp.bh.dm_gain,0)+")"))
 	
-	unl = player.bh.unl
+	unl = player.bh.unl && !CHALS.inChal(13)
 	tmp.el.bh_div.setDisplay(unl)
 	tmp.el.atom_div.setDisplay(unl && !quUnl())
 	if (unl) {
@@ -207,7 +226,7 @@ function updateUpperHTML() {
 		tmp.el.atomAmt.setHTML(format(player.atom.points,0)+"<br>"+(hasElement(24)?formatGain(player.atom.points,tmp.atom.gain.mul(gs)):"(+"+format(tmp.atom.gain,0)+")"))
 	}
 	
-	unl = !CHALS.inChal(0)
+	unl = !CHALS.inChal(0) && !CHALS.inChal(13)
 	tmp.el.chal_upper.setVisible(unl)
 	if (unl) {
 		let data = CHALS.getChalData(player.chal.active, tmp.chal.bulk[player.chal.active].max(player.chal.comps[player.chal.active]))
@@ -215,15 +234,15 @@ function updateUpperHTML() {
 		<br>+${tmp.chal.gain} Completions (+1 at ${tmp.chal.format(data.goal)+CHALS.getResName(player.chal.active)})`)
 	}
 	
-	unl = player.atom.unl
+	unl = player.atom.unl && !CHALS.inChal(13) 
 	tmp.el.quark_div.setDisplay(unl)
 	if (unl) tmp.el.quarkAmt.setHTML(format(player.atom.quarks,0)+"<br>"+(hasElement(14)?formatGain(player.atom.quarks,tmp.atom?tmp.atom.quarkGain.mul(tmp.atom.quarkGainSec).mul(gs):0):"(+"+format(tmp.atom.quarkGain,0)+")"))
 	
-	unl = MASS_DILATION.unlocked()
+	unl = MASS_DILATION.unlocked() && !CHALS.inChal(13)
 	tmp.el.md_div.setDisplay(unl)
 	if (unl) tmp.el.md_massAmt.setHTML(format(player.md.particles,0)+"<br>"+(player.md.active?"(+"+format(tmp.md.rp_gain,0)+")":(hasTree("qol3")?formatGain(player.md.particles,tmp.md.passive_rp_gain.mul(gs)):"(inactive)")))
 	
-	unl = player.supernova.post_10
+	unl = player.supernova.post_10 && !CHALS.inChal(13)
 	tmp.el.sn_div.setDisplay(unl)
 	if (unl) tmp.el.supernovaAmt.setHTML(format(player.supernova.times,0)+"<br>(+"+format(tmp.supernova.bulk.sub(player.supernova.times).max(0),0)+")")
 
@@ -231,12 +250,12 @@ function updateUpperHTML() {
 	tmp.el.st_div.setDisplay(unl)
 	if (unl) tmp.el.sdAmt.setHTML(format(player.supernova.stardust,2)+"<br>"+formatGain(player.supernova.stardust, tmp.supernova.stardust_gain))
 		
-		unl = hasTree("c8")
+		unl = hasTree("c8") && !CHALS.inChal(13)
 		if (unl) tmp.el.curPos.setHTML("Current Coordinates: {"+format(player.md.break.curX)+";"+format(player.md.break.curY)+";"+format(player.md.break.curZ)+"} in a total distance of "+format(player.md.break.dist) + " "+ formatGain(player.md.break.dist,tmp.bd.distGain) +"<br>"+formatGain(player.md.break.curX, tmp.bd.curXgain)+" to X"+", "+formatGain(player.md.break.curX, tmp.bd.curYgain)+" to Y & Z" + `. <br> <span class="green">[Boosts stardust gain by x` + format(tmp.bd.distBoost)+ (tmp.bd.distBoost.gte(3500)?" <span class='soft'>(softcapped)</span>":" ") +` ]</span><span class='yellow'><br> [At 500, 1e7, 1e9, 1e24 distance - unlocks new constellation]</span>`)
 
-		unl = player.supernova.stardust.gte(1e24)
+		unl = player.supernova.stardust.gte(1e24) || player.qu.s.gte(1) || player.qu.sTimes.gte(1)
 		tmp.el.ls_div.setDisplay(unl)
-		if (unl) tmp.el.lsAmt.setHTML("Explored Space up to Last Star")
+		if (unl) tmp.el.lsAmt.setHTML(format(player.qu.s,0)+"<br>(+"+format(tmp.qu.sGain,0)+")")
 
 }
 
@@ -256,7 +275,23 @@ function updateMassUpgradesHTML() {
 		}
 	}
 }
-
+function updateSingUpgradesHTML() {
+	for (let x = 1; x <= UPGS.sing.cols; x++) {
+		let upg = UPGS.sing[x]
+		tmp.el["sUpg_div_"+x].setDisplay(upg.unl())
+		if (upg.unl()) {
+			tmp.el["s_times_"].setTxt(format(player.qu.sTimes) + " Times")
+			tmp.el["sUpg_scale_"+x].setTxt(getScalingName("sUpg", x))
+			tmp.el["sUpg_lvl_"+x].setTxt(format(player.sUpg[x]||0,0)+(tmp.upgs.sing[x].bonus.gt(0)?" + "+format(tmp.upgs.sing[x].bonus,0):""))
+			tmp.el["sUpg_btn_"+x].setClasses({btn: true, locked: player.qu.s.lt(tmp.upgs.sing[x].cost)})
+			tmp.el["sUpg_cost_"+x].setTxt(format(tmp.upgs.sing[x].cost) + " Singularity")
+			tmp.el["sUpg_step_"+x].setTxt(tmp.upgs.sing[x].effDesc.step)
+			tmp.el["sUpg_eff_"+x].setHTML(tmp.upgs.sing[x].effDesc.eff)
+			tmp.el["sUpg_auto_"+x].setDisplay(player.mainUpg.rp.includes(3))
+			tmp.el["sUpg_auto_"+x].setTxt(player.autoSingUpg[x]?"ON":"OFF")
+		}
+	}
+}
 function updateTickspeedHTML() {
 	let unl = player.rp.unl
 	tmp.el.tickspeed_div.setDisplay(unl)
@@ -414,6 +449,9 @@ function updateHTML() {
 				updateRanksHTML()
 				updateMassUpgradesHTML()
 				updateTickspeedHTML()
+				if (tmp.rank_tab == 2) {
+
+				}
 								tmp.el.mass_softcaps.setDisplay(tmp.rank_tab == 0);
 				tmp.el.massSoft1.setDisplay(tmp.massGain.gte(tmp.massSoftGain))
 				tmp.el.massSoftStart1.setTxt(formatMass(tmp.massSoftGain))
@@ -436,6 +474,9 @@ function updateHTML() {
 			}
 			if (tmp.stab[0] == 3) {
 				updateStarsHTML()
+			}
+			if (tmp.stab[0] == 5) {
+				updateSingUpgradesHTML()
 			}
 		}
 		if (tmp.tab == 1) {

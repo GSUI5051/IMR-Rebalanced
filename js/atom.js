@@ -15,6 +15,7 @@ const ATOM = {
         return x.floor()
     },
     quarkGain() {
+        if (CHALS.inChal(13)) return E(0)
         if (tmp.atom.gain.lt(1)) return E(0)
         x = tmp.atom.gain.max(1).log10().pow(1.1).add(1)
         if (hasElement(1)) x = E(1.25).pow(tmp.atom.gain.max(1).log10())

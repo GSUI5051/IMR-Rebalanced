@@ -19,7 +19,7 @@ function updateChalHTML() {
             }
         }
         tmp.el.chal_enter.setVisible(player.chal.active != player.chal.choosed)
-        tmp.el.chal_exit.setVisible(player.chal.active != 0)
+        tmp.el.chal_exit.setVisible(player.chal.active != 0 && (!CHALS.inChal(13)))
         tmp.el.chal_exit.setTxt(tmp.chal.canFinish && !hasTree("qol6") ? "Finish Challenge for +"+tmp.chal.gain+" Completions" : "Exit Challenge")
         tmp.el.chal_desc_div.setDisplay(player.chal.choosed != 0)
         if (player.chal.choosed != 0) {
@@ -70,6 +70,7 @@ const CHALS = {
     reset(x, chal_reset=true) {
         if (x < 5) FORMS.bh.doReset()
         else if (x < 9) ATOM.doReset(chal_reset)
+        else if (x == 13) QUANTUM.enter()
         else SUPERNOVA.reset(true, true)
     },
     exit(auto=false) {
@@ -424,7 +425,22 @@ const CHALS = {
         },
         effDesc(x) { return "+"+format(x) },
     },
-    cols: 12,
+    13: {
+        unl() { return hasTree("c19") },
+        title: "error",
+        desc: "You cannot gain Quarks, Dilated Mass, Supernova (Entering a challenge made you unable to quit it).",
+        reward: `Singularize`,
+        max: E(100),
+        inc: E('e2e7'),
+        pow: E(2),
+        start: uni('e8.4e8'),
+        effect(x) {
+            let ret = x.root(hasTree("chal7a")?1.5:2)
+            return ret
+        },
+        effDesc(x) { return "-" },
+    },
+    cols: 13,
 }
 
 /*

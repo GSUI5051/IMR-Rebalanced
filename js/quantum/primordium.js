@@ -2,7 +2,7 @@ const PRIM = {
     unl() { return hasTree('unl2') },
     getTheorems() {
         let b = tmp.prim.t_base
-        let x = player.qu.bp.max(1).log(b).mul(6).scale(10,2,true)
+        let x = player.qu.bp.max(1).log(b).mul(6).scale(10,2,true).mul(hasPrestige(1,28)?2:1)
         return x.floor()
     },
     getNextTheorem() {

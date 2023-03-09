@@ -35,6 +35,7 @@ function resetTemp() {
         upgs: {
             main: {},
             mass: {},
+            sing: {},
         },
 
         elements: {
@@ -105,6 +106,7 @@ function resetTemp() {
     }
     for (let x = 0; x < PRES_LEN; x++) tmp.prestiges.eff[x] = {}
     for (let x = UPGS.mass.cols; x >= 1; x--) tmp.upgs.mass[x] = {}
+    for (let x = UPGS.sing.cols; x >= 1; x--) tmp.upgs.sing[x] = {}
     for (let x = 1; x <= UPGS.main.cols; x++) tmp.upgs.main[x] = {}
     for (let j = 0; j < TREE_TAB.length; j++) {
         tmp.supernova.tree_had2[j] = []
@@ -170,6 +172,7 @@ function updateTickspeedTemp() {
 function updateUpgradesTemp() {
     UPGS.main.temp()
     UPGS.mass.temp()
+    UPGS.sing.temp()
 }
 
 function updateRagePowerTemp() {
