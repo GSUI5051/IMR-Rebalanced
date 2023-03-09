@@ -388,7 +388,7 @@ const PRESTIGES = {
                 return x
             },x=>"+^"+format(x)],
             "465": [_=>{
-                let x = player.ranks.sept.pow(0.75).softcap(15,0.3,0)
+                let x = player.ranks.sept.pow(2.55).softcap(15,0.3,0).add(1)
                 return x
             },x=>"x"+format(x)],
             /*
