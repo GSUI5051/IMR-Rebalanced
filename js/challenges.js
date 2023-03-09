@@ -123,10 +123,10 @@ const CHALS = {
         if (hasElement(70) && (i==7||i==8)) x = x.add(200)
         if (hasElement(73) && (i==5||i==6||i==8)) x = x.add(tmp.elements.effect[73])
         if (hasTree("chal1") && (i==7||i==8))  x = x.add(100)
-        if (hasTree("chal4b") && (i==9))  x = x.add(100)
-        if (hasTree("chal8") && (i>=9))  x = x.add(200)
-        if (hasElement(104) && (i>=9))  x = x.add(200)
-        if (hasElement(122) && (i>=9))  x = x.add(1000)
+        if (hasTree("chal4b") && (i==9&& i<13))  x = x.add(100)
+        if (hasTree("chal8") && (i>=9&& i<13))  x = x.add(200)
+        if (hasElement(104) && (i>=9&& i<13))  x = x.add(200)
+        if (hasElement(122) && (i>=9 && i<13))  x = x.add(1000)
         return x.floor()
     },
     getScaleName(i) {
@@ -430,10 +430,10 @@ const CHALS = {
         title: "error",
         desc: "You cannot gain Quarks, Dilated Mass, Supernova (Entering a challenge made you unable to quit it).",
         reward: `Singularize`,
-        max: E(100),
+        max: E(1),
         inc: E('e2e7'),
         pow: E(2),
-        start: uni('e8.4e8'),
+        start: uni(1e309),
         effect(x) {
             let ret = x.root(hasTree("chal7a")?1.5:2)
             return ret
