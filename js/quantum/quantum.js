@@ -14,7 +14,7 @@ const QUANTUM = {
     },
     sGain() {
         if (!CHALS.inChal(13)) return E(0)
-        let x = player.supernova.stardust.max(1).div(5e21)
+        let x = player.supernova.stardust.max(1).div(1e21)
         if (x.lt(1)) return E(0)
         x = x.max(0).pow(0.25)
         if (hasPrestige(1,31)) x = x.mul(2)
@@ -37,7 +37,7 @@ const QUANTUM = {
                 player.qu.qc.shard = tmp.qu.qc_s+tmp.qu.qc_s_bouns
                 player.qu.qc.active = false
             }
-            if (player.supernova.stardust.gte(5e21) && CHALS.inChal(13)) {
+            if (player.supernova.stardust.gte(1e21) && CHALS.inChal(13)) {
                 player.qu.s = player.qu.s.add(tmp.qu.sGain)
                 player.qu.sTimes = player.qu.sTimes.add(1)
                 player.supernova.stardust = E(0)

@@ -242,7 +242,7 @@ if (player.mainUpg.rp.includes(5)) x = x.add(1)
         1: {
             unl() { return player.ranks.rank.gte(1) || player.mainUpg.atom.includes(1) },
             title: "Encoder",
-            start: E(15),
+            start: E(7),
             inc: E(1.15),
             effect(x) {
                 let step = E(0.3)
