@@ -218,7 +218,7 @@ if (player.mainUpg.rp.includes(5)) x = x.add(1)
             let bulk = d.bulk
             let cost = d.cost
             if (player.qu.s.gte(cost)) {
-                let m = player.singUpg[x]
+                let m = player.sUpg[x]
                 if (!m) m = E(0)
                 m = m.max(bulk.floor().max(m.plus(1)))
                 player.sUpg[x] = m
