@@ -351,7 +351,7 @@ const PRESTIGES = {
             "32": `Prestige Base’s exponent is increased based on Prestige Level.`,
             "40": `Chromium-24 is slightly stronger.`,
             "450": `Re-unlock all Stars.`,
-            "465": `Honor-25 is slightly stronger based on Sept.`,
+            "465": `Honor-25 is slightly stronger based on Pent.`,
         },
         {
             "1": `All-Star resources are raised by ^2.`,
@@ -388,7 +388,7 @@ const PRESTIGES = {
                 return x
             },x=>"+^"+format(x)],
             "465": [_=>{
-                let x = player.ranks.sept.pow(2.55).softcap(15,0.3,0).add(1)
+                let x = player.ranks.pent.pow(.55).softcap(15,0.3,0).add(1)
                 return x
             },x=>"x"+format(x)],
             /*
