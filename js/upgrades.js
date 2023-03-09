@@ -274,7 +274,7 @@ if (player.mainUpg.rp.includes(5)) x = x.add(1)
             effDesc(eff) {
                 return {
                     step: "+"+format(eff.step)+"",
-                    eff: "+"+format(eff.eff)+" to Encrypter"
+                    eff: "+"+format(eff.eff)+" to Encoder"
                 }
             },
             bonus() {

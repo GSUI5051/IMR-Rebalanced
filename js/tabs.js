@@ -27,7 +27,7 @@ const TABS = {
             { id: "Atomic Generator", unl() { return player.atom.unl }, style: "atom" },
             { id: "Stars", unl() { return STARS.unlocked() } },
             { id: "Indescribable Matter", unl() { return quUnl() } },
-            { id: "Singularity", unl() { return player.qu.s.gte(1) } },
+            { id: "Singularity", unl() { return player.qu.s.gte(1) || player.qu.sTimes.gte(1) } },
         ],
         1: [
             { id: "Ranks Rewards" },
