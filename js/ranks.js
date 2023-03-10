@@ -282,7 +282,7 @@ const PRESTIGES = {
         let x = E(0)
         if (hasElement(100)) x.add(tmp.elements.effect[100])
         if (hasPrestige(0,32)) x.add(prestigeEff(0,32,0))
-        if (player.qu.s.gte(1) && (CHALS.inChal(13))) x = x.add(tmp.upgs.sing[1]?tmp.upgs.sing[1].eff.eff:0)
+        if (player.qu.s.gte(1) || player.sUpg[1].gte(1) && (CHALS.inChal(13))) x = x.add(tmp.upgs.sing[1]?tmp.upgs.sing[1].eff.eff:0)
         return x.add(1)
     },
     base() {
@@ -501,7 +501,6 @@ function updateRanksTemp() {
     tmp.prestiges.base = tmp.prestiges.baseMul.pow(tmp.prestiges.baseExp).softcap(1e256,0.01,0)
     for (let x = 0; x < PRES_LEN; x++) {
         tmp.prestiges.req[x] = PRESTIGES.req(x)
-		        tmp.prestiges.bulk[x] = PRESTIGES.bulk(x)
         for (let y in PRESTIGES.rewardEff[x]) {
             if (PRESTIGES.rewardEff[x][y]) tmp.prestiges.eff[x][y] = PRESTIGES.rewardEff[x][y][0]()
         }

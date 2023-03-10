@@ -245,7 +245,7 @@ if (player.mainUpg.rp.includes(5)) x = x.add(1)
             start: E(3),
             inc: E(1.15),
             effect(x) {
-                let step = E(0.3)
+                let step = E(0.4)
                 step = step.add(tmp.upgs.sing[2]?tmp.upgs.sing[2].eff.eff:1)
                 let ret = step.mul(x.add(tmp.upgs.sing[1].bonus))
                 return {step: step, eff: ret}
