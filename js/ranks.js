@@ -334,6 +334,11 @@ const PRESTIGES = {
         _=>hasUpgrade('br',11),
         _=>hasPrestige(1,23),
     ],
+	    autoUnl: [
+        ()=>hasPrestige(1,16),
+        ()=>false,
+    ],
+    autoSwitch(x) { player.auto_pres[x] = !player.auto_pres[x] },
     rewards: [
         {
             "1": `All Mass softcaps up to ^5 start ^10 later.`,
@@ -360,6 +365,7 @@ const PRESTIGES = {
             "4": `Gain 5 free levels of each Primordium Particle.`,
             "5": `Pent 5's reward is stronger based on Prestige Base.`,
             "7": `Quarks are boosted based on Honor.`,
+            "16": "Automate Prestige Level.",
             "20": "Re-unlock first Star.",
             "23": "Prestige Level no longer resets.",
             "25": "Singularized Times boosts Stardust gain",
@@ -495,6 +501,7 @@ function updateRanksTemp() {
     tmp.prestiges.base = tmp.prestiges.baseMul.pow(tmp.prestiges.baseExp).softcap(1e256,0.01,0)
     for (let x = 0; x < PRES_LEN; x++) {
         tmp.prestiges.req[x] = PRESTIGES.req(x)
+		        tmp.prestiges.bulk[x] = PRESTIGES.bulk(x)
         for (let y in PRESTIGES.rewardEff[x]) {
             if (PRESTIGES.rewardEff[x][y]) tmp.prestiges.eff[x][y] = PRESTIGES.rewardEff[x][y][0]()
         }
@@ -556,8 +563,8 @@ function updateRanksHTML() {
                 tmp.el["pres_"+x].setClasses({btn: true, reset: true, locked: x==0?tmp.prestiges.base.lt(tmp.prestiges.req[x]):player.prestiges[x-1].lt(tmp.prestiges.req[x])})
                 tmp.el["pres_desc_"+x].setTxt(desc)
                 tmp.el["pres_req_"+x].setTxt(x==0?format(tmp.prestiges.req[x],0)+" of Prestige Base":PRESTIGES.fullNames[x-1]+" "+format(tmp.prestiges.req[x],0))
-                tmp.el["pres_auto_"+x].setDisplay(false)
-                tmp.el["pres_auto_"+x].setTxt(false?"ON":"OFF")
+                tmp.el["pres_auto_"+x].setDisplay(PRESTIGES.autoUnl[x]())
+                tmp.el["pres_auto_"+x].setTxt(player.auto_pres[x]?"ON":"OFF")
             }
         }
     }

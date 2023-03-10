@@ -82,6 +82,7 @@ function calc(dt, dt_offline) {
             let rn = RANKS.names[x]
             if (RANKS.autoUnl[rn]() && player.auto_ranks[rn]) RANKS.bulk(rn)
         }
+	        for (let x = 0; x < PRES_LEN; x++) if (PRESTIGES.autoUnl[x]() && player.auto_pres[x]) PRESTIGES.reset(x,true)
         for (let x = 1; x <= UPGS.main.cols; x++) {
             let id = UPGS.main.ids[x]
             let upg = UPGS.main[x]
@@ -152,6 +153,7 @@ function getPlayerData() {
             rank: false,
             tier: false,
         },
+        auto_pres: [],
         prestiges: [],
         auto_mainUpg: {
             

@@ -776,7 +776,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
             cost: E("1e13"),
         },
         {sd: true,
-            desc:  `Increase distance gain by Pent Effect`,
+            desc:  `Increase distance gain by Sept Effect`,
             effect() {let x = E(0)
                 x = player.ranks.sept.add(1).pow(3).add(player.ranks.sept.mul(4)).max(1)
                 return x
