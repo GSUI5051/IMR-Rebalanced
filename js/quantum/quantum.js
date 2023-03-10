@@ -154,7 +154,6 @@ player.md.mass = E(0)
         for (let x = 1; x <= 12; x++) if (force) player.chal.comps[x] = E(0)
 
         SUPERNOVA.doReset()
-
         tmp.pass = false
     },
     bpGain() {

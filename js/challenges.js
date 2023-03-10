@@ -19,7 +19,7 @@ function updateChalHTML() {
             }
         }
         tmp.el.chal_enter.setVisible(player.chal.active != player.chal.choosed)
-        tmp.el.chal_exit.setVisible(player.chal.active != 0 && (!CHALS.inChal(13)))
+        tmp.el.chal_exit.setVisible(player.chal.active != 0)
         tmp.el.chal_exit.setTxt(tmp.chal.canFinish && !hasTree("qol6") ? "Finish Challenge for +"+tmp.chal.gain+" Completions" : "Exit Challenge")
         tmp.el.chal_desc_div.setDisplay(player.chal.choosed != 0)
         if (player.chal.choosed != 0) {
@@ -108,6 +108,7 @@ const CHALS = {
     getReset(x) {
         if (x < 5) return "Entering challenge will reset with Dark Matters!"
         if (x < 9) return "Entering challenge will reset with Atoms except previous challenges!"
+		        if (x = 13) return "Entering challenge will reset everything!"
         return "Entering challenge will reset without being Supernova!"
     },
     getMax(i) {
@@ -428,7 +429,7 @@ const CHALS = {
     13: {
         unl() { return hasTree("c19") },
         title: "error",
-        desc: "You cannot gain Quarks, Dilated Mass, Supernova (Entering a challenge made you unable to quit it).",
+        desc: "You cannot gain Quarks, Dilated Mass, Supernova and every layer except Stardust and Singularity are disappeared.",
         reward: `Singularize`,
         max: E(1),
         inc: E('e2e7'),

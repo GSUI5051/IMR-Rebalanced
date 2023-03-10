@@ -282,7 +282,7 @@ const PRESTIGES = {
         let x = E(0)
         if (hasElement(100)) x.add(tmp.elements.effect[100])
         if (hasPrestige(0,32)) x.add(prestigeEff(0,32,0))
-        if (player.qu.s.gte(1)) x = x.add(tmp.upgs.sing[1]?tmp.upgs.sing[1].eff.eff:0)
+        if (player.qu.s.gte(1) && (CHALS.inChal(13))) x = x.add(tmp.upgs.sing[1]?tmp.upgs.sing[1].eff.eff:0)
         return x.add(1)
     },
     base() {
@@ -366,7 +366,7 @@ const PRESTIGES = {
             "26": "Passively get Singularized Times based on Honor.",
             "28": `Get 2x of Primordium Particles you have.`,
             "30": `Apply Sept effect to passive generation of Singularized Times at reduced rate but x is Pent.`,
-            "31": `Double Singularity Gain`,
+            "31": `Double Singularity Gain and set Quark to e1e30 whl.`,
         },
     ],
     rewardEff: [
@@ -402,7 +402,7 @@ const PRESTIGES = {
         },
         {
             "3": [_=>{
-                let x = tmp.prestiges.base.max(1).log10().div(10).add(1).root(2)
+                let x = tmp.prestiges.base.max(1).log10().div(10).add(1).root(2).softcap(6,0.3,0)
                 return x
             },x=>"^"+x.format()],
             "5": [_=>{
@@ -410,7 +410,7 @@ const PRESTIGES = {
                 return x
             },x=>"x"+x.format()],
             "7": [_=>{
-                let x = player.prestiges[1].add(1).root(3)
+                let x = player.prestiges[1].add(1).root(3).softcap(2.8,0.01,0)
                 return x
             },x=>"^"+x.format()],
             "25": [_=>{
