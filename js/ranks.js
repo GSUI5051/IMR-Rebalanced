@@ -282,7 +282,7 @@ const PRESTIGES = {
         let x = E(0)
         if (hasElement(100)) x.add(tmp.elements.effect[100])
         if (hasPrestige(0,32)) x.add(prestigeEff(0,32,0))
-        if (player.qu.s.gte(1) || player.sUpg[1].gte(1) && (CHALS.inChal(13))) x = x.add(tmp.upgs.sing[1]?tmp.upgs.sing[1].eff.eff:0)
+        if (player.qu.s.gte(1) || tmp.upgs.sing[1].eff.eff.gt(0) && (CHALS.inChal(13))) x = x.add(tmp.upgs.sing[1]?tmp.upgs.sing[1].eff.eff:0)
         return x.add(1)
     },
     base() {
