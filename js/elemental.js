@@ -758,7 +758,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
             cost: E("e1.3e23"),
         },
 		        {sd: true,
-            desc:  `Decrease requirements of Pent by Stardust`,
+            desc:  `Decrease requirements of Sept by Stardust`,
             effect() {let x = E(0)
                 x = player.supernova.stardust.add(1).log(4).pow(0.55).max(1)
                 return x

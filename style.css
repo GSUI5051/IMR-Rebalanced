@@ -334,16 +334,16 @@ button {
 	color: black;
 	background-color: #ff009d;
 }
-.btn_tab.sd {
+.btn_tab.gc {
 	color: #639bff;
 	border-color: #639bff;
 }
 
-.btn_tab.sd:not(.choosed):hover {
+.btn_tab.gc:not(.choosed):hover {
 	background-color: #500031;
 }
 
-.btn_tab.sd.choosed {
+.btn_tab.gc.choosed {
 	color: black;
 	background-color: #639bff;
 }

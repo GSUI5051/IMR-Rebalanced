@@ -27,7 +27,7 @@ const FORMS = {
         if (hasPrestige(0,5)) x = x.pow(2)
 
         if (QCs.active()) x = x.div(tmp.qu.qc_eff[1])
-        return x
+        return x.softcap(1e308,0,0)
     },
     massGain() {
         let x = E(1)

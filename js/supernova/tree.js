@@ -590,7 +590,7 @@ const TREE_UPGS = {
             desc: `Neutron Star boosts Quarks gain`,
             cost: E(1e43),
             effect() {
-                let x = E(1e15).pow(player.supernova.stars.add(1).log10().pow(5).softcap(1e3,0.25,0))
+                let x = E(1e15).pow(player.supernova.stars.add(1).log10().pow(5).softcap(1e3,0.25,0)).max(1)
                 return x
             },
             effDesc(x) { return format(x)+"x" },
@@ -1115,7 +1115,7 @@ branch: ['c11'],
                           desc: `Stardust boosts Quark gain at boosted rate`,
                           effect() {
                             let x = E(1)
-                            x = player.supernova.stardust.max(1).pow(1.85).root(1.25).max(1).softcap(1e45,0.01,0)
+                            x = player.supernova.stardust.max(1).pow(1.85).root(1.25).max(1).softcap(1e45,0.003,0)
                            return x
                              },
                               effDesc(x) { return "x"+format(x)+(x.gte(1e45)?" <span class='soft'>(softcapped)</span>":"") },

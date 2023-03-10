@@ -14,7 +14,7 @@ const TABS = {
         { id: "Main" },
         { id: "Stats" },
         { id: "Upgrades", unl() { return player.rp.unl } },
-        { id: "Challenges", unl() { return player.chal.unl } },
+        { id: "Challenges", unl() { return (player.chal.unl)} },
         { id: "Atom", unl() { return player.atom.unl }, style: "atom" },
         { id: "Supernova", unl() { return player.supernova.times.gte(1) || quUnl() }, style: "sn" },
         { id: "Quantum", unl() { return quUnl() }, style: "qu" },
@@ -35,7 +35,8 @@ const TABS = {
             { id: "Prestige Rewards", unl() { return hasUpgrade("br",9) } },
         ],
         3: [
-            { id: "Challenges" },
+		            { id: " Galactic Challenges", unl() {return (player.chal.comps[13].gte(1))}, style: "gc" },
+            { id: "Challenges", unl() {return (!CHALS.inChal(13))} },
             { id: "Quantum Challenge", unl() { return hasTree("unl3") }, style: "qu" },
             //{ id: "Big Rip", unl() { return hasTree("unl4") }, style: "qu" },
         ],

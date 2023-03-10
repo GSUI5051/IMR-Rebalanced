@@ -366,7 +366,7 @@ const PRESTIGES = {
             "26": "Passively get Singularized Times based on Honor.",
             "28": `Get 2x of Primordium Particles you have.`,
             "30": `Apply Sept effect to passive generation of Singularized Times at reduced rate but x is Pent.`,
-            "31": `Double Singularity Gain and set Quark to e1e30 whl.`,
+            "31": `Double Singularity Gain and Quark gain works <b class="s_text">only</b> in C13.`,
         },
     ],
     rewardEff: [
@@ -388,7 +388,7 @@ const PRESTIGES = {
                 return x
             },x=>"+^"+format(x)],
             "465": [_=>{
-                let x = player.ranks.pent.pow(.55).softcap(15,0.3,0).add(1)
+                let x = player.ranks.pent.add(1).pow(.55).softcap(15,0.3,0).add(1)
                 return x
             },x=>"x"+format(x)],
             /*
@@ -402,19 +402,19 @@ const PRESTIGES = {
         },
         {
             "3": [_=>{
-                let x = tmp.prestiges.base.max(1).log10().div(10).add(1).root(2).softcap(6,0.3,0)
+                let x = tmp.prestiges.base.max(1).log10().div(10).add(1).root(2).softcap(4.5,0.1,0)
                 return x
             },x=>"^"+x.format()],
             "5": [_=>{
-                let x = tmp.prestiges.base.max(1).log10().div(10).add(1).root(3)
+                let x = tmp.prestiges.base.max(1).log10().div(10).add(1).root(3).softcap(2.6,0.005,0)
                 return x
             },x=>"x"+x.format()],
             "7": [_=>{
-                let x = player.prestiges[1].add(1).root(3).softcap(2.8,0.01,0)
+                let x = player.prestiges[1].add(1).root(3).softcap(2.6,0.005,0)
                 return x
             },x=>"^"+x.format()],
             "25": [_=>{
-                let x = player.qu.sTimes.pow(1.35).mul(hasPrestige(0,465)?prestigeEff(0,465):1).softcap(45000,0.8,1).softcap(1e9,0.0001,0)
+                let x = player.qu.sTimes.add(1).pow(1.35).mul(hasPrestige(0,465)?prestigeEff(0,465):1).softcap(45000,0.8,1).softcap(1e9,0.0001,0)
                 return x
             },x=>"x"+x.format()+ (prestigeEff(1,25).gte(45000)?" (softcapped)":"") ],
             "26": [_=>{
@@ -492,7 +492,7 @@ function updateRanksTemp() {
 
     tmp.prestiges.baseMul = PRESTIGES.base()
     tmp.prestiges.baseExp = PRESTIGES.baseExponent()
-    tmp.prestiges.base = tmp.prestiges.baseMul.pow(tmp.prestiges.baseExp)
+    tmp.prestiges.base = tmp.prestiges.baseMul.pow(tmp.prestiges.baseExp).softcap(1e256,0.01,0)
     for (let x = 0; x < PRES_LEN; x++) {
         tmp.prestiges.req[x] = PRESTIGES.req(x)
         for (let y in PRESTIGES.rewardEff[x]) {
