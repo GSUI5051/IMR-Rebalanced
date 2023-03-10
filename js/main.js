@@ -431,7 +431,7 @@ const FORMS = {
             md: "Dilate mass, then cancel",
             br: "Big Rip the Dimension, then go back",
             st: "Earn stardust to explore the constellations (Neutron Tree Extension)",
-            ls: "Unlocks at 1e24 Stardust. <br>Require over 1e21 Stardust in C13 to reset all previous features for gain <span class='s_text'>Singularity</span>",
+            ls: "Unlocks at 1e24 Stardust. <br>Require over 1e13 Stardust in C13 to reset all previous features for gain <span class='s_text'>Singularity</span>",
         },
         set(id) {
             if (id=="sn") {

@@ -8,7 +8,7 @@ function setupChalHTML() {
 }
 
 function updateChalHTML() {
-    if (tmp.stab[3]==0){
+    if (tmp.stab[3]==1){
         for (let x = 1; x <= CHALS.cols; x++) {
             let chal = CHALS[x]
             let unl = chal.unl ? chal.unl() : true
@@ -32,7 +32,7 @@ function updateChalHTML() {
             tmp.el.chal_ch_eff.setHTML("Currently: "+chal.effDesc(tmp.chal.eff[player.chal.choosed]))
         }
     }
-    if (tmp.stab[3]==1){
+    if (tmp.stab[3]==2){
         updateQCHTML()
     }
 }

@@ -488,7 +488,7 @@ function updateHTML() {
 			updateMainUpgradesHTML()
 		}
 		if (tmp.tab == 3) {
-			updateChalHTML()
+updateChalHTML()
 		}
 		if (tmp.tab == 4) {
 			if (tmp.stab[4] == 0) updateAtomHTML()
