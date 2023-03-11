@@ -336,7 +336,7 @@ const PRESTIGES = {
     ],
 	    autoUnl: [
         ()=>hasPrestige(1,16),
-        ()=>false,
+        ()=>hasPrestige(1,32),
     ],
     autoSwitch(x) { player.auto_pres[x] = !player.auto_pres[x] },
     rewards: [
@@ -373,6 +373,7 @@ const PRESTIGES = {
             "28": `Get 2x of Primordium Particles you have.`,
             "30": `Apply Sept effect to passive generation of Singularized Times at reduced rate but x is Pent.`,
             "31": `Double Singularity Gain and Quark gain works in <b class="s_text">C13</b>.`,
+            "32": "Automate Honors.",
         },
     ],
     rewardEff: [
