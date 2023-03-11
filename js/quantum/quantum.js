@@ -127,7 +127,7 @@ player.md.mass = E(0)
     lsReset(force=false) {
         player.supernova.times = E(0)
         player.supernova.stars = E(0)
-player.prestiges[1] = E(16)
+if (!CHALS.inChal(13))player.prestiges[1] = E(16)
 
         player.supernova.bosons = {
             pos_w: E(0),
