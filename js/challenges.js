@@ -108,7 +108,7 @@ const CHALS = {
     getReset(x) {
         if (x < 5) return "Entering challenge will reset with Dark Matters!"
         if (x < 9) return "Entering challenge will reset with Atoms except previous challenges!"
-		        if (x = 13) return "Entering challenge will reset everything!"
+		        if (x = 13) return "Entering challenge will reset everything! (Quitting challenge will set Honors to 16)"
         return "Entering challenge will reset without being Supernova!"
     },
     getMax(i) {
