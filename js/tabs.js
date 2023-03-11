@@ -27,7 +27,7 @@ const TABS = {
             { id: "Atomic Generator", unl() { return player.atom.unl }, style: "atom" },
             { id: "Stars", unl() { return STARS.unlocked() } },
             { id: "Indescribable Matter", unl() { return quUnl() } },
-            { id: "Singularity", unl() { return player.qu.s.gte(1) || player.qu.sTimes.gte(1) } },
+            { id: "Singularity", unl() { return player.qu.s.gte(1) || player.qu.sTimes.gte(1) }, style:'s' },
         ],
         1: [
             { id: "Ranks Rewards" },
@@ -35,8 +35,8 @@ const TABS = {
             { id: "Prestige Rewards", unl() { return hasUpgrade("br",9) } },
         ],
         3: [
-		            { id: " Galactic Challenges", unl() {return (player.chal.comps[13].gte(1))}, style: "gc" },
-            { id: "Challenges", unl() {return (!CHALS.inChal(13))} },
+		            { id: " Galactic Challenges", unl() {return false} },
+            { id: "Challenges" },
             { id: "Quantum Challenge", unl() { return hasTree("unl3") }, style: "qu" },
             //{ id: "Big Rip", unl() { return hasTree("unl4") }, style: "qu" },
         ],

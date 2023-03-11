@@ -334,18 +334,18 @@ button {
 	color: black;
 	background-color: #ff009d;
 }
-.btn_tab.gc {
-	color: #639bff;
-	border-color: #639bff;
+.btn_tab.s {
+	animation: s_tab 3s ease infinite;
+	color: white;
 }
 
-.btn_tab.gc:not(.choosed):hover {
+.btn_tab.s:not(.choosed):hover {
 	background-color: #500031;
 }
 
-.btn_tab.gc.choosed {
-	color: black;
-	background-color: #639bff;
+.btn_tab.s.choosed {
+	animation: s_tab 3s ease infinite ;
+	color: white;
 }
 .btn_tab.qu {
 	color: lightgreen;
@@ -463,6 +463,9 @@ button {
 	color: white;
 	animation: s_text 3s ease infinite ;
 }
+.s_tab {
+	animation: s_tab 6s ease infinite ;
+}
 @keyframes sing_text {
 	0%,
 	100% {
@@ -519,6 +522,58 @@ button {
 
 	90% {		text-shadow: 2px -2px 0px #15aa29, -1px 1px 0px #ff5555;
 		transform: translateX(-0.5px);
+	}
+}
+@keyframes s_tab {
+	0%,
+	100% {
+				border-top-color:  #aaa015;
+				border-left-color: #ff5555;
+				border-right-color: #1f15aa;
+				border-bottom-color: #15aa7d;
+		text-shadow: 2px 2px 0px #aaa015, 1px 1px 0px #ff5555;
+	}
+
+	10%{
+		border-top-color:  #aa25e4;
+		border-left-color: #1ab2bc;
+		border-right-color: #ac5555;
+		border-bottom-color: #15aa29;
+text-shadow: 2px 2px 0px #aa8215, 1px 1px 0px #ff55b8;
+}
+	30%,
+	50%,
+	70% {
+				border-top-color:  #ff55b8;
+				border-left-color: #1f15aa;
+				border-right-color: #cb2155;
+				border-bottom-color: #15aa29;
+		text-shadow: 2px 2px 0px #aa8215, 1px 1px 0px #ff55b8;
+	}
+
+	20%,
+	40%,
+	60% {				border-top-color:  #ff5555;
+		border-left-color: #15aa29;
+		border-right-color: #15aa7d;
+		border-bottom-color: #aaa015;
+		text-shadow: -2px 2px 0px #1f15aa, 1px -1px 0px #ff5555;
+	}
+
+	80% {
+		border-top-color:  #1f15aa;
+		border-left-color: #ff55b8;
+		border-right-color: #aaa015;
+		border-bottom-color: #ff5555;
+	text-shadow: 2px 2px 0px #15aa7d, -1px -1px 0px #5582ff;
+	}
+
+	90% {
+		border-top-color:  #1f15aa;
+		border-left-color: #ff5555;
+		border-right-color: #5582ff;
+		border-bottom-color: #15aa29;
+	text-shadow: 2px -2px 0px #15aa29, -1px 1px 0px #ff5555;
 	}
 }
 .elements {

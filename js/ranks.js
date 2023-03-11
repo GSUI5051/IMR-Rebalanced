@@ -282,7 +282,7 @@ const PRESTIGES = {
         let x = E(0)
         if (hasElement(100)) x.add(tmp.elements.effect[100])
         if (hasPrestige(0,32)) x.add(prestigeEff(0,32,0))
-        if (player.qu.s.gte(1) || tmp.upgs.sing[1].eff.eff.gt(0) && (CHALS.inChal(13))) x = x.add(tmp.upgs.sing[1]?tmp.upgs.sing[1].eff.eff:0)
+        if (tmp.upgs.sing[1].eff.eff.gt(0) && (CHALS.inChal(13))) x = x.add(tmp.upgs.sing[1]?tmp.upgs.sing[1].eff.eff:0)
         return x.add(1)
     },
     base() {
@@ -372,7 +372,7 @@ const PRESTIGES = {
             "26": "Passively get Singularized Times based on Honor.",
             "28": `Get 2x of Primordium Particles you have.`,
             "30": `Apply Sept effect to passive generation of Singularized Times at reduced rate but x is Pent.`,
-            "31": `Double Singularity Gain and Quark gain works <b class="s_text">only</b> in C13.`,
+            "31": `Double Singularity Gain and Quark gain works in <b class="s_text">C13</b>.`,
         },
     ],
     rewardEff: [
