@@ -532,7 +532,7 @@ function updateRanksHTML() {
                 tmp.el["ranks_amt_"+x].setTxt(format(player.ranks[rn],0))
                 tmp.el["ranks_"+x].setClasses({btn: true, reset: true, locked: !tmp.ranks[rn].can})
                 tmp.el["ranks_desc_"+x].setTxt(desc)
-                tmp.el["ranks_req_"+x].setTxt(x==0?formatMass(tmp.ranks[rn].req):RANKS.fullNames[x-1]+" "+format(tmp.ranks[rn].req,0))
+                tmp.el["ranks_req_"+x].setTxt(x==0?"[" + formatMass(tmp.ranks[rn].req) + '].':RANKS.fullNames[x-1]+" [" +format(tmp.ranks[rn].req,0) + "].")
                 tmp.el["ranks_auto_"+x].setDisplay(RANKS.autoUnl[rn]())
                 tmp.el["ranks_auto_"+x].setTxt(player.auto_ranks[rn]?"ON":"OFF")
             }
@@ -558,10 +558,10 @@ function updateRanksHTML() {
                 }
 
                 tmp.el["pres_scale_"+x].setTxt(getScalingName("prestige"+x))
-                tmp.el["pres_amt_"+x].setTxt(format(p,0))
+                tmp.el["pres_amt_"+x].setTxt("[" +format(p,0)+ "]")
                 tmp.el["pres_"+x].setClasses({btn: true, reset: true, locked: x==0?tmp.prestiges.base.lt(tmp.prestiges.req[x]):player.prestiges[x-1].lt(tmp.prestiges.req[x])})
                 tmp.el["pres_desc_"+x].setTxt(desc)
-                tmp.el["pres_req_"+x].setTxt(x==0?format(tmp.prestiges.req[x],0)+" of Prestige Base":PRESTIGES.fullNames[x-1]+" "+format(tmp.prestiges.req[x],0))
+                tmp.el["pres_req_"+x].setTxt(x==0?"[" + format(tmp.prestiges.req[x],0)+"] of Prestige Base. ":PRESTIGES.fullNames[x-1]+" ["+format(tmp.prestiges.req[x],0) + "].")
                 tmp.el["pres_auto_"+x].setDisplay(PRESTIGES.autoUnl[x]())
                 tmp.el["pres_auto_"+x].setTxt(player.auto_pres[x]?"ON":"OFF")
             }

@@ -801,7 +801,21 @@ h2 {
 	margin-bottom: 10px;
 	align-items: center;
 }
-
+.massStyle {
+	background-color: hsla(0, 0%, 15%, 0.219);
+	font-size: 13px;
+	width: 100%;
+	min-height: 0px;
+	margin-bottom: 2px;
+	align-items: center;
+}
+.coordStyle {
+	background-color: hsla(70, 92%, 9%, 0.144);
+	font-size: 15px;
+	width: 100%;
+	min-height: 0px;
+	margin-bottom: 2px;
+}
 .btn.rad {
 	width: 200px;
 	height: 60px;

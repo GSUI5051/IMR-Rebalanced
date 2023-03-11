@@ -31,10 +31,9 @@ function setupHTML() {
 		let rn = RANKS.names[x]
 		table += `<div style="width: 300px" id="ranks_div_${x}">
 			<button id="ranks_auto_${x}" class="btn" style="width: 80px;" onclick="RANKS.autoSwitch('${rn}')">OFF</button>
-			<span id="ranks_scale_${x}""></span>${RANKS.fullNames[x]} <span id="ranks_amt_${x}">X</span><br><br>
+			<span id="ranks_scale_${x}""></span>${RANKS.fullNames[x]} [<span style="font-size: 13.5px;"id="ranks_amt_${x}">X</span>]<br><br>
 			<button onclick="RANKS.reset('${rn}')" class="btn reset" id="ranks_${x}">
-				Reset your ${x>0?RANKS.fullNames[x-1]+"s":'mass and upgrades'}, but ${RANKS.fullNames[x]} up.<span id="ranks_desc_${x}"></span><br>
-				Req: <span id="ranks_req_${x}">X</span>
+				<span style="font-size: 14px"><b>Reset your ${x>0?RANKS.fullNames[x-1]+"s":'mass and upgrades'}, but ${RANKS.fullNames[x]} up.</b></span><br>Requires <span id="ranks_req_${x}">X</span><br>-----------------------------<br><span id="ranks_desc_${x}"></span>
 			</button>
 		</div>`
 	}
@@ -45,9 +44,9 @@ function setupHTML() {
 	for (let x = 0; x < PRES_LEN; x++) {
 		table += `<div style="width: 300px" id="pres_div_${x}">
 			<button id="pres_auto_${x}" class="btn" style="width: 80px;" onclick="PRESTIGES.autoSwitch(${x})">OFF</button>
-			<span id="pres_scale_${x}""></span>${PRESTIGES.fullNames[x]} <span id="pres_amt_${x}">X</span><br><br>
+			<span id="pres_scale_${x}""></span>${PRESTIGES.fullNames[x]} <span style="font-size: 13.5px;" id="pres_amt_${x}">X</span><br><br>
 			<button onclick="PRESTIGES.reset(${x})" class="btn reset" id="pres_${x}">
-				${x>0?"Reset your "+PRESTIGES.fullNames[x-1]+"s":'Force a Quantum reset'}, but ${PRESTIGES.fullNames[x]} up.<span id="pres_desc_${x}"></span><br>
+				${x>0?"Reset your "+PRESTIGES.fullNames[x-1]+"s":'Force a Quantum reset'}, but ${PRESTIGES.fullNames[x]} up.<br>Requires <span id="pres_req_${x}">X</span><br>-------------------------------<br><span id="pres_desc_${x}"><br>
 				Req: <span id="pres_req_${x}">X</span>
 			</button>
 		</div>`
@@ -58,7 +57,7 @@ function setupHTML() {
 	table = ""
 	for (let x = 1; x <= UPGS.mass.cols; x++) {
 		let upg = UPGS.mass[x]
-		table += `<div style="width: 100%; margin-bottom: 5px;" class="table_center" id="massUpg_div_${x}">
+		table += `<div style="width: 100%; margin-bottom: 5px;" class="table_center massStyle" id="massUpg_div_${x}">
 			<div style="width: 400px">
 				<div class="resources">
 					<img src="images/mass_upg${x}.png">
@@ -78,15 +77,15 @@ function setupHTML() {
 	table = ""
 	for (let x = 1; x <= UPGS.sing.cols; x++) {
 		let upg = UPGS.sing[x]
-		table += `<div style="width: 100%; margin-bottom: 5px;" class="table_center" id="sUpg_div_${x}">
+		table += `<div style="width: 100%; margin-bottom: 5px;" class="table_center massStyle" id="sUpg_div_${x}">
 			<div style="width: 400px">
 				<div class="resources">
 					<img src="images/sing_upg${x}.png">
 					<span style="margin-left: 5px; text-align: left;"><span id="sUpg_scale_${x}"></span>${upg.title} [<span id="sUpg_lvl_${x}">X</span>]</span>
 				</div>
-			</div><button id="sUpg_btn_${x}" class="btn" style="width: 200px;" onclick="UPGS.sing.buy(${x}, true)">Cost: <span id="sUpg_cost_${x}">X</span></button>
-			<button class="btn" style="width: 120px;" onclick="UPGS.sing.buyMax(${x})">Buy Max</button>
-			<button id="sUpg_auto_${x}" class="btn" style="width: 80px;" onclick="UPGS.sing.autoSwitch(${x})">OFF</button>
+			</div><button id="sUpg_btn_${x}" class="btn" style="width: 200px;" onclick="UPGS.sing.buy(${x}, true)"><span style="font-size: 11px">Cost: <span id="sUpg_cost_${x}">X</span></span></button>
+			<button class="btn" style="width: 120px;font-size: 11px;" onclick="UPGS.sing.buyMax(${x})">Buy Max</button>
+			<button id="sUpg_auto_${x}" class="btn" style="width: 80px;font-size: 11px;" onclick="UPGS.sing.autoSwitch(${x})">OFF</button>
 			<div style="margin-left: 5px; text-align: left; width: 400px">
 				${upg.title} Power: <span id="sUpg_step_${x}">X</span><br>
 				${upg.title} Effect: <span id="sUpg_eff_${x}">X</span>
@@ -101,7 +100,8 @@ function setupHTML() {
 		table += `<div id="ranks_reward_div_${x}">`
 		let keys = Object.keys(RANKS.desc[rn])
 		for (let y = 0; y < keys.length; y++) {
-			table += `<span id="ranks_reward_${rn}_${y}"><b>${RANKS.fullNames[x]} ${keys[y]}:</b> ${RANKS.desc[rn][keys[y]]}${RANKS.effect[rn][keys[y]]?` Currently: <span id='ranks_eff_${rn}_${y}'></span></span>`:""}<br>`
+			table += `
+			<span id="ranks_reward_${rn}_${y}"><b>${RANKS.fullNames[x]} ${keys[y]}:</b> ${RANKS.desc[rn][keys[y]]}${RANKS.effect[rn][keys[y]]?` Currently: <span id='ranks_eff_${rn}_${y}'></span></span>`:""}<br>`
 		}
 		table += `</div>`
 	}
@@ -298,7 +298,7 @@ function updateTickspeedHTML() {
 	if (unl) {
 		let teff = tmp.tickspeedEffect
 		tmp.el.tickspeed_scale.setTxt(getScalingName('tickspeed'))
-		tmp.el.tickspeed_lvl.setTxt(format(player.tickspeed,0)+(teff.bonus.gte(1)?" + "+format(teff.bonus,0):""))
+		tmp.el.tickspeed_lvl.setTxt(format(player.tickspeed,0) +(teff.bonus.gte(1)?" + "+format(teff.bonus,0):""))
 		tmp.el.tickspeed_btn.setClasses({btn: true, locked: !FORMS.tickspeed.can()})
 		tmp.el.tickspeed_cost.setTxt(format(tmp.tickspeedCost,0))
 		tmp.el.tickspeed_step.setHTML((teff.step.gte(10)?format(teff.step)+"x":format(teff.step.sub(1).mul(100))+"%")
