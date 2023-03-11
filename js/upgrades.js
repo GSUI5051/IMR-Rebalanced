@@ -177,7 +177,7 @@ const UPGS = {
             effDesc(eff) {
                 return {
                     step: "+x"+format(eff.step),
-                    eff: "x"+format(eff.eff)+" to Stronger Power"+(eff.eff.gte(eff.ss)?` <span class='soft'>(softcapped${eff.eff.gte(1.8e5)?eff.eff.gte(5e15)&&!player.ranks.pent.gte(15)?"^3":"^2":""})</span>`:"")
+                    eff: "x<span style='font-size: 11px;'>"+format(eff.eff)+" to Stronger Power</span>"+(eff.eff.gte(eff.ss)?` <span class='soft' style='font-size: 11px;'>(softcapped${eff.eff.gte(1.8e5)?eff.eff.gte(5e12)&&!player.ranks.pent.gte(15)?"^3":"^2":""})</span>`:"")
                 }
             },
             bonus() {

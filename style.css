@@ -805,8 +805,7 @@ h2 {
 	background-color: hsla(0, 0%, 15%, 0.219);
 	font-size: 13px;
 	width: 100%;
-	min-height: 0px;
-	margin-bottom: 2px;
+	min-height: 30px;
 	align-items: center;
 }
 .coordStyle {

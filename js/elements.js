@@ -57,7 +57,7 @@ function setupHTML() {
 	table = ""
 	for (let x = 1; x <= UPGS.mass.cols; x++) {
 		let upg = UPGS.mass[x]
-		table += `<div style="width: 100%; margin-bottom: 5px;" class="table_center massStyle" id="massUpg_div_${x}">
+		table += `<div style="width: 100%;" class="table_center massStyle" id="massUpg_div_${x}">
 			<div style="width: 400px">
 				<div class="resources">
 					<img src="images/mass_upg${x}.png">
@@ -77,7 +77,7 @@ function setupHTML() {
 	table = ""
 	for (let x = 1; x <= UPGS.sing.cols; x++) {
 		let upg = UPGS.sing[x]
-		table += `<div style="width: 100%; margin-bottom: 5px;" class="table_center massStyle" id="sUpg_div_${x}">
+		table += `<div style="width: 100%;" class="table_center massStyle" id="sUpg_div_${x}">
 			<div style="width: 400px">
 				<div class="resources">
 					<img src="images/sing_upg${x}.png">

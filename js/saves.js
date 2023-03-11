@@ -110,6 +110,7 @@ function calc(dt, dt_offline) {
                 for (let y = 0; y < BOSONS.upgs[id].length; y++) BOSONS.upgs.buy(id,y)
             }
         }
+        if (player.qu.s.gte(1) && (player.prestiges[1].gte(16)) && (!CHALS.inChal(13))) player.prestiges[1] = E(16)
         RADIATION.autoBuyBoosts()
         calcStars(du_gs)
         calcSupernova(dt, dt_offline)
