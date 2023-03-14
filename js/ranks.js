@@ -437,7 +437,7 @@ const PRESTIGES = {
                 return x
             },x=>"^"+x.format()],
             "20": [_=>{
-                let x = player.qu.sTimes.add(1).pow(1.35).mul(hasElement(130)?tmp.elements.effect[130].eff.div(100).add(1):1).mul(hasPrestige(0,465)?prestigeEff(0,465):1).softcap(45000,0.8,1)
+                let x = player.qu.sTimes.add(1).pow(1.35).mul(hasElement(130)?tmp.elements.effect[130].eff.div(100).add(1):1).mul(hasPrestige(0,465)?prestigeEff(0,465):1).softcap(45000,0.8,1).max(1)
                 return x
             },x=>"x"+x.format()+ (prestigeEff(1,25).gte(45000)?" (softcapped)":"") ],
             "21": [_=>{

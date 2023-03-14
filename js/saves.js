@@ -116,7 +116,7 @@ function calc(dt, dt_offline) {
         calcStars(du_gs)
         calcSupernova(dt, dt_offline)
         calcQuantum(dt, dt_offline)
-
+if (player.prestiges[1].gte(24)) player.offline.active = false
         if (hasTree("qu_qol4")) SUPERNOVA.reset(false,false,true)
 
         if (hasTree("qol6")) CHALS.exit(true)
