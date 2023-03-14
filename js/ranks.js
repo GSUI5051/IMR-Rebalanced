@@ -347,7 +347,7 @@ const PRESTIGES = {
     ],
 	    autoUnl: [
         ()=>hasPrestige(1,16)|| player.prestiges[2].gte(1),
-        ()=>hasPrestige(1,32)|| player.prestiges[2].gte(1),
+        ()=>hasPrestige(1,25)|| player.prestiges[2].gte(1),
         ()=>false,
     ],
     autoSwitch(x) { player.auto_pres[x] = !player.auto_pres[x] },
