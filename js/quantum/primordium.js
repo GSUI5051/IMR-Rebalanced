@@ -58,7 +58,8 @@ const PRIM = {
             },
         ],
         effDesc: [
-            x=>{ return `Boost Stronger Power by ${format(x[0])}x /<br> Boost Singularity gain by ${format(x[1])}x /<br> Adds Prestige Exponent. +${format(x[2])}` },
+            x=>{ if (hasUpgrade("sg",3))return `Boost Stronger Power by ${format(x[0])}x /<br> Boost Singularity gain by ${format(x[1])}x /<br> Adds Prestige Exponent. +${format(x[2])}`
+            else return `Boost Stronger Power by ${format(x[0])}x}` },
             x=>{ return `Boost Rage Powers gain by ^${format(x[0])} /<br> Boost Non-Bonus Tickspeed by ${format(x[1])}x` },
             x=>{ return `Boost Dark Matters gain by ^${format(x[0])} /<br> Boost BH Condenser Power by ${format(x[1])}x` },
             x=>{ return `Boost Atoms gain by ^${format(x[0])} /<br> Boost Cosmic Ray Power by ${format(x[1])}x` },
