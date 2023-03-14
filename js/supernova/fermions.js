@@ -274,6 +274,7 @@ const FERMIONS = {
                     if (hasTree("fn9")) x += 2
                     if (hasTree("fn11")) x += 5
 					if (hasElement(123)) x = 250
+                    if (hasElement(135)) x += 250
                     return x
                 },
                 nextTierAt(x) {
@@ -299,6 +300,7 @@ const FERMIONS = {
                 maxTier() {
                     let x = 25
                     if (hasTree("fn11")) x += 5
+                    if (hasElement(135)) x += 250
                     return x
                 },
                 nextTierAt(x) {

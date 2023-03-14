@@ -254,8 +254,9 @@ function updateUpperHTML() {
 		if (unl) tmp.el.curPos.setHTML("Current Coordinates: {"+format(player.md.break.curX)+";"+format(player.md.break.curY)+";"+format(player.md.break.curZ)+"} in a total distance of "+format(player.md.break.dist) + " "+ formatGain(player.md.break.dist,tmp.bd.distGain) +"<br>"+formatGain(player.md.break.curX, tmp.bd.curXgain)+" to X"+", "+formatGain(player.md.break.curX, tmp.bd.curYgain)+" to Y & Z" + `. <br> <span class="green">[Boosts stardust gain by x` + format(tmp.bd.distBoost)+ (tmp.bd.distBoost.gte(3500)?" <span class='soft'>(softcapped)</span>":" ") +` ]</span><span class='yellow'><br> [At 500, 1e7, 1e9, 1e24 distance - unlocks new constellation]</span>`)
 
 		unl = player.supernova.stardust.gte(1e24) || player.qu.s.gte(1) || player.qu.sTimes.gte(1)
+		let gain2 = hasElement(130)
 		tmp.el.ls_div.setDisplay(unl)
-		if (unl) tmp.el.lsAmt.setHTML(format(player.qu.s,0)+"<br>(+"+format(tmp.qu.sGain,0)+")")
+		if (unl) tmp.el.lsAmt.setHTML(gain2?format(player.qu.s,0)+"<br>"+formatGain(player.qu.s,tmp.qu.sGain.div(3))+" (+"+format(tmp.qu.sGain,0)+")":format(player.qu.s,0)+"<br>(+"+format(tmp.qu.sGain,0)+")")
 
 }
 

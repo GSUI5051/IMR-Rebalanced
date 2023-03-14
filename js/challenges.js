@@ -128,6 +128,8 @@ const CHALS = {
         if (hasTree("chal8") && (i>=9&& i<13))  x = x.add(200)
         if (hasElement(104) && (i>=9&& i<13))  x = x.add(200)
         if (hasElement(122) && (i>=9 && i<13))  x = x.add(1000)
+        if (hasElement(133) && (i>=9 && i<=11) && i<13)  x = x.add(tmp.elements.effect[133])
+        if (hasElement(134) && (i==12 && i<13))  x = x.add(tmp.elements.effect[134])
         return x.floor()
     },
     getScaleName(i) {

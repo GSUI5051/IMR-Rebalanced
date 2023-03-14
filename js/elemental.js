@@ -1,5 +1,5 @@
 const ELEMENTS = {
-    map: `x_________________xvxx___________xxxxxxvxx___________xxxxxxvxx_xxxxxxxxxxxxxxxxvxx_xxxxxxxxxxxxxxxxvxx1xxxxxxxxxxxxxxxxvxx2xxxxxxxxxxxxxxxxv_v__3xxxxxxxxxxxxxx__v__4xxxxxxxxxxxxxx__v_vxxxxxxxxxxx`,
+    map: `x_________________xvxx___________xxxxxxvxx___________xxxxxxvxxx_xxxxxxxxxxxxxxxvxxx_xxxxxxxxxxxxxxxvxxx1xxxxxxxxxxxxxxxvxxx2xxxxxxxxxxxxxxxvxxx5_______________v__3xxxxxxxxxxxxxx__v__4xxxxxxxxxxxxxx__v_v___5xxxxxxxxxxxxxxxxxxx`,
     la: [null,'*','**','*','**','***'],
     names: [
         null,
@@ -15,7 +15,8 @@ const ELEMENTS = {
         'Pa','U','Np','Pu','Am','Cm','Bk','Cf','Es','Fm',
         'Md','No','Lr','Rf','Db','Sg','Bh','Hs','Mt','Ds',
         'Rg','Cn','Nh','Fl','Mc','Lv','Ts','Og','Uue','Ubn',
-        'Ubu','Ubb', 'Ubt','Ubq','Ubp','Ubh','Ubs',"Ubo","Ube"
+        'Ubu','Ubb', 'Ubt','Ubq','Ubp','Ubh','Ubs',"Ubo","Ube",
+        'Utn','Utu','Utb','Utt','Utq','Utp','Uth','Uts','Uto'
     ],
     fullNames: [
         null,
@@ -31,13 +32,15 @@ const ELEMENTS = {
         'Protactinium','Uranium','Neptunium','Plutonium','Americium','Curium','Berkelium','Californium','Einsteinium','Fermium',
         'Mendelevium','Nobelium','Lawrencium','Ruthefordium','Dubnium','Seaborgium','Bohrium','Hassium','Meitnerium','Darmstadium',
         'Roeritgenium','Copernicium','Nihonium','Flerovium','Moscovium','Livermorium','Tennessine','Oganesson','Ununennium','Unbinilium',
-        'Unbiunium','Unbibium','Unbitrium','Unbiquadium','Unbipentium','Unbihexium','Unbiseptium',"Unbioctium","Unbiennium"
+        'Unbiunium','Unbibium','Unbitrium','Unbiquadium','Unbipentium','Unbihexium','Unbiseptium',"Unbioctium","Unbiennium",'Untrinilium',
+        'Untriunium','Untribium','Untritrium','Untriquadium','Untripentium','Untrihexium','Untriseptium','Untrioctium',
     ],
-    canBuy(x) {        let res = this.upgs[x].sd ? player.supernova.stardust : player.atom.quarks
+    canBuy(x) {      if (this.upgs[x].sg) res = this.upgs[x].sg? player.qu.s : player.atom.quarks
+          else res = this.upgs[x].sd ? player.supernova.stardust : player.atom.quarks
 return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? true : !BR_ELEM.includes(x)) && !tmp.elements.cannot.includes(x)},
     buyUpg(x) {
         if (this.canBuy(x)) {
-             {
+             {if (this.upgs[x].sg) player.qu.s =  player.qu.s.sub(this.upgs[x].cost)
 				 if (this.upgs[x].sd) player.supernova.stardust =  player.supernova.stardust.sub(this.upgs[x].cost)
                 player.atom.quarks = player.atom.quarks.sub(this.upgs[x].cost)
                 player.atom.elements.push(x)
@@ -757,7 +760,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
             desc: `Uncap [Bottom] and [Top]`,
             cost: E("e1.3e23"),
         },
-		        {sd: true,
+        {sd: true,
             desc:  `Decrease requirements of Sept by Stardust`,
             effect() {let x = E(0)
                 x = player.supernova.stardust.add(1).log(4).pow(0.55).max(1)
@@ -787,12 +790,71 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
         {sd: true,
             desc:  `Death Shards affects Pre-Quantum Global Speed at reduced rate`,
             effect() {let x = E(0)
-               if (hasElement(129)) x = player.qu.rip.amt.max(1).pow(0.35).root(3).max(1)
+               if (hasElement(129)) x = player.qu.rip.amt.add(1).pow(0.35).root(3).max(1)
                else x = E(1)
                 return x
             },
             effDesc(x) { return "x"+format(x) },
             cost: E("5e23"),
+        },
+        {sg: true,
+            desc:  `Honor-25, Honor-30 effects is stronger by singularity amount and gain 30% of singularity per second.`,
+            cost: E("12500"),
+            effect() {let x = E(0)
+                x = player.qu.s.add(1).pow(0.85).max(1).softcap(10000,0.25,0)
+                x2 = player.qu.s.add(1).pow(0.75).max(1).softcap(10000,0.25,0)
+                return {eff: x2, ret: x, ss: ss}
+             },
+             effDesc(x) { return "<br>Honor-30: "+format(tmp.elements.effect[130].ret) + "% stronger."+"<br> Honor-25: "+format(tmp.elements.effect[130].eff) + "% stronger."},
+        },
+        {sg: true,
+            desc:  `[Encoder] have a better formula`,
+            cost: E("175000"),
+        },
+        {sg: true,
+            desc:  `[qn1] is slightly better and softcap is weaker.`,
+            cost: E("1360000"),
+        },
+        {
+            desc:  `For every C12 completions, add 5 C9-C11 completions`,
+            effect() {let x = E(0)
+               if (hasElement(129)) x = player.chal.comps[12].div(5)
+               else x = E(1)
+                return x
+            },
+            effDesc(x) { return "+"+format(x) },
+            cost: E("e2.2930e52"),
+        },
+        {sd: true,
+            desc:  `For every C11 completions, add 2 C12 completions`,
+            effect() {let x = E(0)
+               if (hasElement(130)) x = player.chal.comps[11].div(2)
+               else x = E(1)
+                return x
+            },
+            effDesc(x) { return "+"+format(x) },
+            cost: E("1e43"),
+        },
+        {sg: true,
+            desc: `Add +250 to [Neut-Muon] and [Neutrino]`,
+            cost: E("2500000"),
+        },
+		        {
+            desc:  `Singularity is boosted by Relativistic Mass`,
+            effect() {let x = E(1)
+                x = player.md.break.mass.add(1).log10().pow(0.15).max(1)
+                return x
+            },
+            effDesc(x) { return "x"+format(x) },
+            cost: E("e4.5e56"),
+        },
+        {sg: true,
+            desc: `Unlock more Break Dilation upgrades`,
+            cost: E("7500000"),
+        },
+		        {sg: true,
+            desc:  `Reach the current [endgame].`,
+            cost: E("34500000"),
         },
     ],
     /*
@@ -826,7 +888,7 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
         if (player.qu.rip.first) u += 9
         if (hasUpgrade("br",9)) u += 23 // 23
 		if (hasTree("c13")) u += 11
-
+        if (hasPrestige(2,1)) u += 11
         return u
     },
 }
@@ -838,6 +900,11 @@ const BR_ELEM = (()=>{
 const SD_ELEM = (()=>{
     let x = []
     for (let i in ELEMENTS.upgs) if (i>0&&ELEMENTS.upgs[i].sd) x.push(Number(i))
+    return x
+})()
+const SG_ELEM = (()=>{
+    let x = []
+    for (let i in ELEMENTS.upgs) if (i>0&&ELEMENTS.upgs[i].sg) x.push(Number(i))
     return x
 })()
 function hasElement(x) { return player.atom.elements.includes(x) }
@@ -856,8 +923,8 @@ function setupElementsHTML() {
             :`<button class="elements ${num == 121 ? 'final' : ''}" id="elementID_${num}" onclick="ELEMENTS.buyUpg(${num}); ssf[0]('${ELEMENTS.names[num]}')" onmouseover="tmp.elements.choosed = ${num}" onmouseleave="tmp.elements.choosed = 0"><div style="font-size: 12px;">${num}</div>${ELEMENTS.names[num]}</button>`
             if (num==57 || num==89) num += 14
             else if (num==71) num += 18
-            else if (num==118) num = 57
-			else if (num==103) num = 118
+            else if (num==121) num = 57
+			else if (num==103) num = 121
         }
 	}
     table += "</div>"
@@ -870,8 +937,10 @@ function updateElementsHTML() {
     if (ch) {
         let eu = ELEMENTS.upgs[ch]
         let res = eu.sd?" Stardust":" Quarks"
+        let sres = eu.sg?" Singularity":" Quarks"
         tmp.el.elem_desc.setHTML("<b>["+ELEMENTS.fullNames[ch]+"]</b> "+ELEMENTS.upgs[ch].desc)
         tmp.el.elem_cost.setTxt(format(eu.cost,0)+res+(BR_ELEM.includes(ch)?" in Big Rip":"")+(player.qu.rip.active&&tmp.elements.cannot.includes(ch)?" [CANNOT AFFORD in Big Rip]":""))
+        if (eu.sg) tmp.el.elem_cost.setTxt(format(eu.cost,0)+sres+(BR_ELEM.includes(ch)?" in Big Rip":"")+(player.qu.rip.active&&tmp.elements.cannot.includes(ch)?" [CANNOT AFFORD in Big Rip]":""))
         tmp.el.elem_eff.setHTML(ELEMENTS.upgs[ch].effDesc?"Currently: "+ELEMENTS.upgs[ch].effDesc(tmp.elements.effect[ch]):"")
     }
     tmp.el.element_la_1.setVisible(tmp.elements.unl_length>57)
@@ -883,7 +952,7 @@ function updateElementsHTML() {
         if (upg) {
             upg.setVisible(x <= tmp.elements.unl_length)
             if (x <= tmp.elements.unl_length) {
-                upg.setClasses({elements: true, locked: !ELEMENTS.canBuy(x), bought: hasElement(x), br: BR_ELEM.includes(x), sd: SD_ELEM.includes(x),final: x == 118})
+                upg.setClasses({elements: true, locked: !ELEMENTS.canBuy(x), bought: hasElement(x), br: BR_ELEM.includes(x), sd: SD_ELEM.includes(x), sg: SG_ELEM.includes(x),final: x == 118})
             }
         }
     }

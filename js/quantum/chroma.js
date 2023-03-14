@@ -21,18 +21,18 @@ const CHROMA = {
         i => {
             let x = i.add(1).log10().add(1).root(3)
             if (hasUpgrade('br',10)) x = x.mul(1.1)
-            return x
+            return x.softcap(6.2,0.1,0)
         },
         i => {
             let x = E(1.01).pow(i.add(1).log10().max(0).pow(0.8))
             if (hasUpgrade('br',7) && player.qu.rip.active) x = x.pow(2)
             if (hasUpgrade('br',10)) x = x.pow(1.1)
-            return x
+            return x.softcap(2.2,0.1,0)
         },
         i => {
             let x = E(1.1).pow(i.add(1).log10().max(0).pow(0.75))
             if (hasUpgrade('br',10)) x = x.pow(1.1)
-            return x
+            return x.softcap(1500,0.1,0)
         },
     ],
     effDesc: [

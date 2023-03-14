@@ -20,7 +20,7 @@ const BIG_RIP = {
         if (hasPrestige(0,2)) x = x.mul(4)
         if (player.md.break.upgs[6].gte(1)) x = x.mul(tmp.bd.upgs[6].eff?tmp.bd.upgs[6].eff[1]:1)
         if (hasUpgrade('br',13)) x = x.mul(upgEffect(4,13))
-        if (player.qu.s.gte(1)) x = x.softcap(1e100,0.06,0)
+        if (CHALS.inChal(13)) x = x.softcap(1e105,0.01,0)
         return x.floor()
     },
 }

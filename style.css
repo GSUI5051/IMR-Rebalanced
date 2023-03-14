@@ -452,12 +452,13 @@ button {
 	box-shadow: 0px 0px 10px 0px #4083f7;
 	background-color: #0961fa;
 }
+.elements.bought.sg {
+	border-color: white;
+	background-color: #202020da;
+	animation: s_div 6s ease infinite ;
+}
 .btn_tree.choosed {
 	transform: scale(1.25);
-}
-.sing_text {
-	color: white;
-	animation: sing_text 12s ease infinite ;
 }
 .s_text {
 	color: white;
@@ -466,33 +467,39 @@ button {
 .s_tab {
 	animation: s_tab 6s ease infinite ;
 }
-@keyframes sing_text {
+.s_div {
+	animation: s_div 6s ease infinite ;
+}
+@keyframes s_div {
 	0%,
-	100% {
-		text-shadow: 2px 2px 0px #15aa15, 1px 1px 0px #55ff55;
+	100% {		text-shadow: 2px 2px 0px #aaa015, 1px 1px 0px #ff5555;
+		box-shadow: 3px 3px 0px #aaa015, 2px 2px 0px #ff5555;
 		transform: translateX(0);
 	}
 
 	10%,
 	30%,
 	50%,
-	70% {
-		text-shadow: 2px 2px 0px #15aa15, 1px 1px 0px #55ff55;
-		transform: translateX(-10px);
+	70% {		text-shadow: 2px 2px 0px #aa8215, 1px 1px 0px #ff55b8;
+		box-shadow: 3px 3px 0px #aa8215, 2px 2px 0px #ff55b8;
+		transform: translateX(-0.2px);
 	}
 
 	20%,
 	40%,
-	60% {		text-shadow: -2px 2px 0px #15aa15, 1px -1px 0px #55ff55;
-		transform: translateX(10px);
+	60% {		text-shadow: -2px 2px 0px #1f15aa, 1px -1px 0px #ff5555;	
+			box-shadow: -3px 3px 0px #1f15aa, 2px -2px 0px #ff5555;
+		transform: translateX(0.2px);
 	}
 
-	80% {		text-shadow: 2px 2px 0px #15aa15, -1px -1px 0px #55ff55;
-		transform: translateX(8px);
+	80% {text-shadow: 2px 2px 0px #15aa7d, -1px -1px 0px #5582ff;	
+			box-shadow: 3px 3px 0px #15aa7d, -2px -2px 0px #5582ff;
+		transform: translateX(0.5px);
 	}
 
-	90% {		text-shadow: 2px -2px 0px #15aa15, -1px 1px 0px #55ff55;
-		transform: translateX(-8px);
+	90% {text-shadow: 2px -2px 0px #15aa29, -1px 1px 0px #ff5555;	
+			box-shadow: 3px -3px 0px #15aa29, -2px 2px 0px #ff5555;
+		transform: translateX(-0.5px);
 	}
 }
 @keyframes s_text {

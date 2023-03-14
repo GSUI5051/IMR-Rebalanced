@@ -88,7 +88,8 @@ function calc(dt, dt_offline) {
             let upg = UPGS.main[x]
             if (upg.auto_unl ? upg.auto_unl() : false) if (player.auto_mainUpg[id]) for (let y = 1; y <= upg.lens; y++) if (upg[y].unl ? upg[y].unl() : true) upg.buy(y)
         }
-        if (hasPrestige(1,26)) player.qu.sTimes = player.qu.sTimes.add(prestigeEff(1,26).mul(dt_offline))
+        if (hasPrestige(1,21)) player.qu.sTimes = player.qu.sTimes.add(prestigeEff(1,21).mul(dt_offline))
+        if (hasElement(130)) player.qu.s = player.qu.s.add(tmp.qu.sGain.div(3).mul(dt_offline))
         if (player.mainUpg.bh.includes(6) || player.mainUpg.atom.includes(6)) player.rp.points = player.rp.points.add(tmp.rp.gain.mul(du_gs))
         if (player.mainUpg.atom.includes(6)) player.bh.dm = player.bh.dm.add(tmp.bh.dm_gain.mul(du_gs))
         if (hasElement(14)) player.atom.quarks = player.atom.quarks.add(tmp.atom.quarkGain.mul(du_gs*tmp.atom.quarkGainSec))
@@ -142,6 +143,7 @@ function calc(dt, dt_offline) {
 
 function getPlayerData() {
     let s = {
+        pmass: E(0),
         mass: E(0),
         ranks: {
             rank: E(0),
@@ -201,6 +203,7 @@ function getPlayerData() {
             ratio: 0,
             dRatio: [1,1,1],
             elements: [],
+            elemTier: 1,
         },
         md: {
             active: false,

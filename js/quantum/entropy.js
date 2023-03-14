@@ -49,7 +49,7 @@ const ENTROPY = {
         {
             title: "Entropic Multiplier",
 
-            start: E(10),
+            start: E(100),
             inc: E(10),
 
             eff(i) {
@@ -60,7 +60,7 @@ const ENTROPY = {
         },{
             title: "Entropic Accelerator",
 
-            start: E(100),
+            start: E(1000),
             inc: E(20),
 
             eff(i) {
@@ -71,7 +71,7 @@ const ENTROPY = {
         },{
             title: "Entropic Evaporation",
 
-            start: E(100),
+            start: E(10000),
             inc: E(2),
 
             scale: {s: 10, p: 2},
@@ -86,7 +86,7 @@ const ENTROPY = {
         },{
             title: "Entropic Converter",
 
-            start: E(1000),
+            start: E(100000),
             inc: E(1.2),
 
             eff(i) {
@@ -98,7 +98,7 @@ const ENTROPY = {
         },{
             title: "Entropic Booster",
 
-            start: E(25000),
+            start: E(250000),
             inc: E(1.2),
 
             eff(i) {
@@ -109,7 +109,7 @@ const ENTROPY = {
         },{
             title: "Entropic Scaling",
 
-            start: E(1e6),
+            start: E(1e7),
             inc: E(10),
 
             eff(i) {
@@ -120,7 +120,7 @@ const ENTROPY = {
         },{
             title: "Entropic Condenser",
 
-            start: E(3e6),
+            start: E(3e7),
             inc: E(100),
 
             scale: {s: 5, p: 2.5},
@@ -133,7 +133,7 @@ const ENTROPY = {
         },{
             title: "Entropic Radiation",
 
-            start: E(1e8),
+            start: E(1e10),
             inc: E(1.5),
 
             scale: {s: 20, p: 2.5},

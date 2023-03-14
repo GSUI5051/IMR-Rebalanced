@@ -18,13 +18,13 @@ const PRIM = {
     },
     particle: {
         names: ["Delta [Δ]","Alpha [Α]","Omega [Ω]","Sigma [Σ]","Phi [Φ]","Epsilon [Ε]","Theta [Θ]","Beta [Β]"],
-        weight: [6,6,6,6,2,2,2,1],
+        weight: [6,6,6,2,2,2,1],
         total_w: 31,
         chance: [],
 
         eff: [
             p=>{
-                let x = p.add(1).root(2)
+                let x = [p.add(1).root(2),CHALS.inChal(13)?E(2).pow(p.add(1).root(7).pow(0.75)):1,CHALS.inChal(13)?E(1).mul(p.add(1).root(10).pow(0.25)):0]
                 return x
             },
             p=>{
@@ -58,7 +58,7 @@ const PRIM = {
             },
         ],
         effDesc: [
-            x=>{ return `Boost Stronger Power by ${format(x)}x` },
+            x=>{ return `Boost Stronger Power by ${format(x[0])}x /<br> Boost Singularity gain by ${format(x[1])}x /<br> Adds Prestige Exponent. +${format(x[2])}` },
             x=>{ return `Boost Rage Powers gain by ^${format(x[0])} /<br> Boost Non-Bonus Tickspeed by ${format(x[1])}x` },
             x=>{ return `Boost Dark Matters gain by ^${format(x[0])} /<br> Boost BH Condenser Power by ${format(x[1])}x` },
             x=>{ return `Boost Atoms gain by ^${format(x[0])} /<br> Boost Cosmic Ray Power by ${format(x[1])}x` },
@@ -71,6 +71,11 @@ const PRIM = {
 }
 
 function giveRandomPParticles(v, max=false) {
+    if (hasUpgrade('sg',3) && PRIM.particle.weight[0]){
+		PRIM.particle.weight[0]=0;
+		PRIM.particle.total_w-=6;
+        calcPartChances();
+    }
     if (!PRIM.unl()) return
 
     let s = max?tmp.prim.unspent:E(v)
@@ -91,7 +96,13 @@ function giveRandomPParticles(v, max=false) {
 
     updatePrimordiumTemp()
 }
-
+function equalPPtoL(id) {
+	let res = E(0)
+	if (hasUpgrade('sg',3) && id == 0) res = player.qu.prim.theorems,player.qu.prim.particles[0] = E(0)
+	if (hasPrestige(1,4)) res = res.add(5)
+    if (hasPrestige(1,22)) res = res.add(player.qu.prim.theorems.div(15))
+	return res
+}
 function respecPParticles() {
     if (confirm("Are you sure you want to respec all Particles?")) {
         for (let i =0; i < 8; i++) player.qu.prim.particles[i] = E(0)
@@ -116,18 +127,18 @@ function updatePrimordiumTemp() {
     tmp.prim.next_theorem = PRIM.getNextTheorem()
     tmp.prim.unspent = player.qu.prim.theorems.sub(PRIM.spentTheorems()).max(0)
     for (let i = 0; i < player.qu.prim.particles.length; i++) {
-        let pp = player.qu.prim.particles[i]
-        if (hasPrestige(1,4)) pp = pp.add(5)
+        let pp = equalPPtoL(i)
+		pp = pp.add(player.qu.prim.particles[i])
         if (player.qu.rip.active) pp = pp.mul(i==5?hasElement(95)?0.1:0:1/2)
         tmp.prim.eff[i] = PRIM.particle.eff[i](pp.softcap(100,0.75,0))
     }
-}
+    }
 
 function updatePrimordiumHTML() {
     tmp.el.prim_theorem.setTxt(format(tmp.prim.unspent,0)+" / "+format(player.qu.prim.theorems,0))
     tmp.el.prim_next_theorem.setTxt(format(player.qu.bp,1)+" / "+format(tmp.prim.next_theorem,1))
     for (let i = 0; i < player.qu.prim.particles.length; i++) {
-        tmp.el["prim_part"+i].setTxt(format(player.qu.prim.particles[i],0))
+        if (equalPPtoL(i).gt(0))tmp.el["prim_part"+i].setTxt(format(player.qu.prim.particles[i],0)+" + "+format(equalPPtoL(i),0))
         tmp.el["prim_part_eff"+i].setHTML(PRIM.particle.effDesc[i](tmp.prim.eff[i]))
     }
 }

@@ -16,8 +16,7 @@ const SUPERNOVA = {
         let br = player.qu.rip.active
         tmp.supernova.time = 0
         player.atom.points = E(0)
-         if (hasPrestige(1,31)) player.atom.quarks = E('e1e30')
-			 else player.atom.quarks = E(0)
+         player.atom.quarks = E(0)
         player.atom.particles = [E(0),E(0),E(0)]
         player.atom.powers = [E(0),E(0),E(0)]
         player.atom.atomic = E(0)
@@ -80,7 +79,8 @@ const SUPERNOVA = {
         xx = xx.pow(tmp.elements.effect[119])
 	      if (player.ranks.sept.gte(1)) xx = xx.mul(RANKS.effect.sept[1]())
           if (hasTree("c20")) xx = xx.mul(tmp.supernova.tree_eff.c20)
-          if (hasPrestige(1,25)) xx = xx.mul(prestigeEff(1,25))
+          if (hasPrestige(1,20)) xx = xx.mul(prestigeEff(1,20))
+          if (hasUpgrade("sg",1)) xx = xx.mul(player.atom.quarks.add(1).log(20).pow(0.125).max(1))
         return xx
     },
     req(x=player.supernova.times) {
@@ -107,7 +107,7 @@ function calcSupernova(dt, dt_offline) {
         }
     }
     if (su.times.gte(1) || quUnl()) su.stars = su.stars.add(tmp.supernova.star_gain.mul(dt_offline).mul(tmp.preQUGlobalSpeed))
-    if (hasElement(118)) su.stardust = su.stardust.add(tmp.supernova.stardust_gain.mul(dt))
+    if (hasElement(118)) su.stardust = su.stardust.add(tmp.supernova.stardust_gain.mul(dt_offline))
     if (!su.post_10 && su.times.gte(10)) {
         su.post_10 = true
         addPopup(POPUP_GROUPS.supernova10)

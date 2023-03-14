@@ -140,7 +140,7 @@ const UPGS = {
                     ss2 = ss2.mul(3)
                 }
                 let ret = step.mul(xx.mul(hasElement(80)?25:1)).add(1).softcap(ss,sp,0).softcap(1.8e5,hasPrestige(0,12)?0.525:0.5,0).softcap(1.8e7,hasTree("c16")?0.15:0.5,0)
-                ret = ret.mul(tmp.prim.eff[0])
+                ret = ret.mul(tmp.prim.eff[0][0])
                 if (!player.ranks.pent.gte(15)) ret = ret.softcap(ss2,sp2,0)
                 return {step: step, eff: ret, ss: ss}
             },
@@ -167,6 +167,7 @@ const UPGS = {
                 let xx = x.add(tmp.upgs.mass[4].bonus)
                 let ss = E(10)
                 let step = E(1.5).add(RANKS.effect.tier[20]())
+                if (hasElement(131)) step = E(1.5).mul(xx.div(5)).add(RANKS.effect.tier[20]())
                 let sp = 0.5
                 let sp2 = 0.1
                 let ss2 = E(5e12)
@@ -245,15 +246,15 @@ if (player.mainUpg.rp.includes(5)) x = x.add(1)
             start: E(3),
             inc: E(1.15),
             effect(x) {
-                let step = E(0.4)
-                step = step.add(tmp.upgs.sing[2]?tmp.upgs.sing[2].eff.eff:1)
+                let step = E(3).mul((hasElement(131))?12.5:1)
+                step = step.mul(tmp.upgs.sing[2]?tmp.upgs.sing[2].eff.eff:1)
                 let ret = step.mul(x.add(tmp.upgs.sing[1].bonus))
                 return {step: step, eff: ret}
             },
             effDesc(eff) {
                 return {
-                    step: "+"+format(eff.step),
-                    eff: "+"+format(eff.eff)+" to Prestige Exponent"
+                    step: "^"+format(eff.step),
+                    eff: "^"+format(eff.eff)+" to Quarks"
                 }
             },
             bonus() {
@@ -267,14 +268,15 @@ if (player.mainUpg.rp.includes(5)) x = x.add(1)
             start: E(600),
             inc: E(2),
             effect(x) {
-                let step = E(0.05)
-                let ret = step.mul(x.add(tmp.upgs.sing[2].bonus))//.softcap("ee14",0.95,2)
+                let step = E(1.2)
+                step = step.mul(tmp.upgs.sing[3]?tmp.upgs.sing[3].eff.eff:1)
+                let ret = step.mul(x.add(tmp.upgs.sing[2].bonus).add(1))//.softcap("ee14",0.95,2)
                 return {step: step, eff: ret}
             },
             effDesc(eff) {
                 return {
-                    step: "+"+format(eff.step)+"",
-                    eff: "+"+format(eff.eff)+" to Encoder"
+                    step: "x"+format(eff.step)+"",
+                    eff: "x"+format(eff.eff)+" to Encoder Power"
                 }
             },
             bonus() {
@@ -290,7 +292,7 @@ if (player.mainUpg.rp.includes(5)) x = x.add(1)
             effect(x) {
                 let xx = x.add(tmp.upgs.sing[3].bonus)
                 let ss = E(50)
-                let step = E(0.15)
+                let step = E(1.5)
                 let sp = 0.5
                 let sp2 = 0.1
                 let ss2 = E(5e10)
@@ -298,14 +300,14 @@ if (player.mainUpg.rp.includes(5)) x = x.add(1)
                     sp2 **= 0.3
                     ss2 = ss2.mul(3)
                 }
-                let ret = step.mul(xx).softcap(ss,sp,0)
+                let ret = step.mul(xx).add(1).softcap(ss,sp,0)
                 if (!player.ranks.pent.gte(15)) ret = ret.softcap(ss2,sp2,0)
                 return {step: step, eff: ret, ss: ss}
             },
             effDesc(eff) {
                 return {
-                    step: "+"+format(eff.step) + "/s",
-                    eff: "+"+format(eff.eff)+" Memory/s"+(eff.eff.gte(eff.ss)?` <span class='soft'>(softcapped${eff.eff.gte(1.8e5)?eff.eff.gte(5e15)&&!player.ranks.pent.gte(15)?"^3":"^2":""})</span>`:"")
+                    step: "x"+format(eff.step) + "",
+                    eff: "x"+format(eff.eff)+" to Encrypter Power"+(eff.eff.gte(eff.ss)?` <span class='soft'>(softcapped${eff.eff.gte(1.8e5)?eff.eff.gte(5e15)&&!player.ranks.pent.gte(15)?"^3":"^2":""})</span>`:"")
                 }
             },
             bonus() {
@@ -323,8 +325,8 @@ if (player.mainUpg.rp.includes(5)) x = x.add(1)
                 }
             }
         },
-        ids: [null, 'rp', 'bh', 'atom', 'br'],
-        cols: 4,
+        ids: [null, 'rp', 'bh', 'atom', 'br','sg'],
+        cols: 5,
         over(x,y) { player.main_upg_msg = [x,y] },
         reset() { player.main_upg_msg = [0,0] },
         1: {
@@ -851,6 +853,44 @@ if (player.mainUpg.rp.includes(5)) x = x.add(1)
                     return x
                 },
                 effDesc(x=this.effect()) { return "x"+format(x) },
+            },
+        },
+        5: {
+            title: "Singularity Upgrades",
+            res: "Singularity",
+            getRes() { return player.qu.s },
+            unl() { return player.qu.sTimes.gte(1)},
+            can(x) { return player.qu.s.gte(this[x].cost) && !player.mainUpg.sg.includes(x) },
+            buy(x) {
+                if (this.can(x)) {
+                    player.qu.s = player.qu.s.sub(this[x].cost)
+                    player.mainUpg.sg.push(x)
+                }
+            },
+            auto_unl() { return false },
+            lens: 3,
+            1: {
+                desc: `Stardust are boosted by Quarks.`,
+                cost: E(150),
+                effect() {
+                    let x = player.atom.quarks.add(1).log(20).pow(0.125).max(1)
+                    return x
+                },
+                effDesc(x=this.effect()) { return "x"+format(x) },
+            },
+            2: {
+                desc: `Singularity adds Prestige Exponent. (Only in C13)`,
+                cost: E(1250),
+                effect() {
+                    if (CHALS.inChal(13)) x = player.qu.s.log(1.5).pow(0.35).softcap(3,0.1,0)
+                    else return E(0)
+                    return x
+                },
+                effDesc(x=this.effect()) { return "+"+format(x) },
+            },
+            3: {
+                desc: `Delta [D] Particles will obtain 2 new effects and equal its Level to Primordium Theorems amount. (Only in C13)`,
+                cost: E(7500),
             },
         },
     },

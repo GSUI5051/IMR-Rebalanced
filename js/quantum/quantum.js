@@ -16,9 +16,12 @@ const QUANTUM = {
         if (!CHALS.inChal(13)) return E(0)
         let x = player.supernova.stardust.max(1).div(1e13)
         if (x.lt(1)) return E(0)
-        if (x.gte(300)) x = x.max(0).pow(0.075)
+        if (x.gte(300)) x = x.max(0).pow(0.125)
         else x = x.max(0).pow(0.15)
         if (hasPrestige(1,31)) x = x.mul(2)
+        if (hasUpgrade('sg',3)) x = x.mul(tmp.prim.eff[0][1])
+        if (hasElement(136)) x = x.mul(tmp.elements.effect[136])
+        if (player.md.break.upgs[15].gte(1)) x = x.mul(tmp.bd.upgs[15].eff||1)
         return x.floor()
     },
     gainTimes() {

@@ -277,12 +277,13 @@ const RANKS = {
 }
 
 const PRESTIGES = {
-    fullNames: ["Prestige Level", "Honor"],
+    fullNames: ["Prestige Level", "Honor",'Glory'],
     baseExponent() {
         let x = E(0)
-        if (hasElement(100)) x.add(tmp.elements.effect[100])
-        if (hasPrestige(0,32)) x.add(prestigeEff(0,32,0))
-        if (tmp.upgs.sing[1].eff.eff.gt(0) && (CHALS.inChal(13))) x = x.add(tmp.upgs.sing[1]?tmp.upgs.sing[1].eff.eff:0)
+        if (hasElement(100))x= x.add(tmp.elements.effect[100])
+        if (hasPrestige(0,32))x= x.add(prestigeEff(0,32,0))
+        if (hasUpgrade('sg',2) && (CHALS.inChal(13))) x = x.add(player.qu.s.log(1.5).pow(0.35).softcap(4,0.1,0))
+        if (hasUpgrade('sg',3)&& (CHALS.inChal(13))) x = x.add(tmp.prim.eff[0][2])
         return x.add(1)
     },
     base() {
@@ -300,11 +301,15 @@ const PRESTIGES = {
         let x = EINF, y = player.prestiges[i]
         switch (i) {
             case 0:
-                x = Decimal.pow(1.1,y.scaleEvery('prestige0').pow(1.1)).mul(2e13)
+                if (player.prestiges[1].gte(19)) x = Decimal.pow(1.08,y.scaleEvery('prestige0').pow(1.08)).mul(2e13)
+               else x = Decimal.pow(1.1,y.scaleEvery('prestige0').pow(1.1)).mul(2e13)
                 break;
             case 1:
                 x = y.scaleEvery('prestige1').pow(1.25).mul(3).add(4)
                 break;
+                case 2:
+                    x = y.add(1).scaleEvery('prestige2').pow(1.15).mul(2).add(24)
+                    break;
             default:
                 x = EINF
                 break;
@@ -315,11 +320,15 @@ const PRESTIGES = {
         let x = E(0), y = i==0?tmp.prestiges.base:player.prestiges[i-1]
         switch (i) {
             case 0:
+                if (player.prestiges[1].gte(19) && y.gte(2e13)) x = y.div(2e13).max(1).log(1.08).max(0).root(1.08).scaleEvery('prestige0',true).add(1)
                 if (y.gte(2e13)) x = y.div(2e13).max(1).log(1.1).max(0).root(1.1).scaleEvery('prestige0',true).add(1)
                 break;
             case 1:
                 if (y.gte(4)) x = y.sub(4).div(2).max(0).root(1.5).scaleEvery('prestige1',true).add(1)
                 break
+                case 2:
+                    if (y.gte(24)) x = y.sub(2).sub(24).div(2).max(0).root(1.45).scaleEvery('prestige1',true).add(1)
+                    break
             default:
                 x = E(0)
                 break;
@@ -329,14 +338,17 @@ const PRESTIGES = {
     unl: [
         _=>true,
         _=>true,
+        _=>hasPrestige(1,26) || player.prestiges[2].gte(1),
     ],
     noReset: [
         _=>hasUpgrade('br',11),
-        _=>hasPrestige(1,23),
+        _=>hasPrestige(1,19) || player.prestiges[2].gte(1),
+        _=>true,
     ],
 	    autoUnl: [
-        ()=>hasPrestige(1,16),
-        ()=>hasPrestige(1,32),
+        ()=>hasPrestige(1,16)|| player.prestiges[2].gte(1),
+        ()=>hasPrestige(1,32)|| player.prestiges[2].gte(1),
+        ()=>false,
     ],
     autoSwitch(x) { player.auto_pres[x] = !player.auto_pres[x] },
     rewards: [
@@ -366,14 +378,18 @@ const PRESTIGES = {
             "5": `Pent 5's reward is stronger based on Prestige Base.`,
             "7": `Quarks are boosted based on Honor.`,
             "16": "Automate Prestige Level.",
-            "20": "Re-unlock first Star.",
-            "23": "Prestige Level no longer resets.",
-            "25": "Singularized Times boosts Stardust gain",
-            "26": "Passively get Singularized Times based on Honor.",
-            "28": `Get 2x of Primordium Particles you have.`,
-            "30": `Apply Sept effect to passive generation of Singularized Times at reduced rate but x is Pent.`,
-            "31": `Double Singularity Gain and Quark gain works in <b class="s_text">C13</b>.`,
-            "32": "Automate Honors.",
+            "18": "Re-unlock first Star.",
+            "19": "Prestige Level no longer resets.",
+            "20": "Singularized Times boosts Stardust gain",
+            "21": "Passively get Singularized Times based on Honor.",
+            "22": `Get 2x of Primordium Particles you have.`,
+            "23": `Apply Sept effect to passive generation of Singularized Times at reduced rate but x is Pent.`,
+            "24": `Double Singularity Gain.`,
+            "25": "Automate Honors.",
+            "26": "Unlock Glory.",
+        },
+        {
+            "1": "Unlock More Elements and keep Prestige Level, Honor Automation.",
         },
     ],
     rewardEff: [
@@ -409,29 +425,31 @@ const PRESTIGES = {
         },
         {
             "3": [_=>{
-                let x = tmp.prestiges.base.max(1).log10().div(10).add(1).root(2).softcap(4.5,0.1,0)
+                let x = tmp.prestiges.base.max(1).log10().div(10).add(1).root(2).softcap(3,0.001,0)
                 return x
             },x=>"^"+x.format()],
             "5": [_=>{
-                let x = tmp.prestiges.base.max(1).log10().div(10).add(1).root(3).softcap(2.6,0.005,0)
+                let x = tmp.prestiges.base.max(1).log10().div(10).add(1).root(3).softcap(2.2,0.005,0)
                 return x
             },x=>"x"+x.format()],
             "7": [_=>{
                 let x = player.prestiges[1].add(1).root(3).softcap(2.6,0.005,0)
                 return x
             },x=>"^"+x.format()],
-            "25": [_=>{
-                let x = player.qu.sTimes.add(1).pow(1.35).mul(hasPrestige(0,465)?prestigeEff(0,465):1).softcap(45000,0.8,1).softcap(1e9,0.0001,0)
+            "20": [_=>{
+                let x = player.qu.sTimes.add(1).pow(1.35).mul(hasElement(130)?tmp.elements.effect[130].eff.div(100).add(1):1).mul(hasPrestige(0,465)?prestigeEff(0,465):1).softcap(45000,0.8,1)
                 return x
             },x=>"x"+x.format()+ (prestigeEff(1,25).gte(45000)?" (softcapped)":"") ],
-            "26": [_=>{
-                let x = player.prestiges[1].add(1).root(5).mul(hasPrestige(1,30)?prestigeEff(1,30):1)
+            "21": [_=>{
+                let x = player.prestiges[1].add(1).root(5).mul(hasPrestige(1,23)?prestigeEff(1,23):1).max(1)
                 return x
             },x=>"+"+x.format() + "/s"],
-            "30": [_=>{
-                let x = player.ranks.pent.add(1).pow(0.75).add(player.ranks.pent.add(1).div(2)).softcap(2500,0.1,0)
+            "23": [_=>{
+                let x = player.ranks.pent.add(1).pow(0.75).add(player.ranks.pent.add(1).div(2)).mul(hasElement(130)?tmp.elements.effect[130].ret.div(100).add(1):1).softcap(2500,0.1,0)
                 return x
             },x=>"x"+x.format()],
+        },
+        {
         },
     ],
     reset(i) {
@@ -475,7 +493,6 @@ function updateRanksTemp() {
     if (hasElement(9)) fp = fp.mul(1/0.85)
     if (player.ranks.pent.gte(1)) fp = fp.mul(1/0.85)
     if (hasElement(72)) fp = fp.mul(1/0.85)
-    if (hasElement(126)) fp = fp.mul(tmp.elements.effect[126])
     tmp.ranks.tetr.req = player.ranks.tetr.div(fp2).scaleEvery('tetr').div(fp).pow(pow).mul(3).add(10).floor()
     tmp.ranks.tetr.bulk = player.ranks.tier.sub(10).div(3).max(0).root(pow).mul(fp).scaleEvery('tetr',true).mul(fp2).add(1).floor();
 
@@ -499,7 +516,7 @@ function updateRanksTemp() {
 
     tmp.prestiges.baseMul = PRESTIGES.base()
     tmp.prestiges.baseExp = PRESTIGES.baseExponent()
-    tmp.prestiges.base = tmp.prestiges.baseMul.pow(tmp.prestiges.baseExp).softcap(1e256,0.01,0)
+    tmp.prestiges.base = tmp.prestiges.baseMul.pow(tmp.prestiges.baseExp).softcap(1e285,0.03,0).max(1)
     for (let x = 0; x < PRES_LEN; x++) {
         tmp.prestiges.req[x] = PRESTIGES.req(x)
         for (let y in PRESTIGES.rewardEff[x]) {
@@ -541,7 +558,6 @@ function updateRanksHTML() {
     }
     if (tmp.rank_tab == 1) {
         tmp.el.pres_base.setHTML(`${tmp.prestiges.baseMul.format(0)}<sup>${format(tmp.prestiges.baseExp)}</sup> = ${tmp.prestiges.base.format(0)}`)
-
         for (let x = 0; x < PRES_LEN; x++) {
             let unl = PRESTIGES.unl[x]?PRESTIGES.unl[x]():true
 

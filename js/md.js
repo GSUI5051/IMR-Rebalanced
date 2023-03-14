@@ -245,6 +245,8 @@ distBoost() {
             if (player.md.break.upgs[8].gte(1)) x = x.mul(tmp.bd.upgs[8].eff||1)
             if (hasTree("c3")) x = x.mul(tmp.supernova.tree_eff.c3)
             if (player.md.break.upgs[10].gte(1)) x = x.mul(tmp.bd.upgs[10].eff||1)
+           if (player.md.break.upgs[13].gte(1)) x = x.mul(tmp.bd.upgs[13].eff||1)
+           if (player.md.break.upgs[14].gte(1)) x = x.mul(tmp.bd.upgs[14].eff||1)
             return x
         },
 
@@ -377,6 +379,41 @@ distBoost() {
                     maxLvl: 1,
                     cost(x) { return uni('1e930') },
                     bulk() { return player.md.break.mass.gte(uni(1e120))?E(1):E(0) },
+                },
+                {
+                    desc: `Triple Relativistic Mass gain.`,
+                    unl() {return hasElement(137)},
+                    cost(x) { return E(10).pow(x.pow(1.01)).mul('1e2750') },
+                    bulk() { return player.md.break.mass.gte('1e2750')?player.md.break.mass.div('1e2750').max(1).log10().root(1.01).add(1).floor():E(0) },
+                    effect(y) {
+                        let x = Decimal.pow(3,y)
+                        return x.softcap(1e150,0.5,0)
+                    },
+                    effDesc(x) { return format(x,0)+"x"+x.softcapHTML(1e150) },
+                },
+                {
+                    desc: `Stardust boosts Relativistic Mass gain.`,
+									unl() {return (hasElement(137))},
+                    maxLvl: 1,
+                    cost(x) { return uni('1e2780') },
+                    bulk() { return player.md.break.mass.gte(uni('1e2780'))?E(1):E(0) },
+                    effect(y) {
+                        let x = player.supernova.stardust.pow(0.75)
+                        return x.softcap(1e150,0.5,0)
+                    },
+                    effDesc(x) { return format(x,0)+"x"+x.softcapHTML(1e150) },
+                },
+                {
+                    desc: `Relativistic Mass boosts Singularity gain.`,
+									unl() {return (hasElement(137))},
+                    maxLvl: 1,
+                    cost(x) { return uni('1e2910') },
+                    bulk() { return player.md.break.mass.gte(uni('1e2910'))?E(1):E(0) },
+                    effect(y) {
+                        let x =  player.md.break.mass.log10(2).pow(0.35)
+                        return x.softcap(1e150,0.5,0)
+                    },
+                    effDesc(x) { return format(x,3)+"x"+x.softcapHTML(1e150) },
                 },
             ],
         }
