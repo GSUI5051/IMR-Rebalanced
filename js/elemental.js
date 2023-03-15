@@ -1,6 +1,6 @@
 const ELEMENTS = {
-    map: `x_________________xvxx___________xxxxxxvxx___________xxxxxxvxxx_xxxxxxxxxxxxxxxvxxx_xxxxxxxxxxxxxxxvxxx1xxxxxxxxxxxxxxxvxxx2xxxxxxxxxxxxxxxvxxx5_______________v__3xxxxxxxxxxxxxx__v__4xxxxxxxxxxxxxx__v_v___5xxxxxxxxxxxxxxxxxxx`,
-    la: [null,'*','**','*','**','***'],
+    map: `x_________________xvxx___________xxxxxxvxx___________xxxxxxvxxx_xxxxxxxxxxxxxxxvxxx_xxxxxxxxxxxxxxxvxxx1xxxxxxxxxxxxxxxvxxx2xxxxxxxxxxxxxxxvxxx5_______________v__3xxxxxxxxxxxxxx__v__4xxxxxxxxxxxxxx__v_v___6xxxxxxxxxxxxxxxxxxx`,
+    la: [null,'*','**','*','**','***','***'],
     names: [
         null,
         'H','He','Li','Be','B','C','N','O','F','Ne',
@@ -293,9 +293,9 @@ return res.gte(this.upgs[x].cost) && !hasElement(x) && (player.qu.rip.active ? t
             cost: E(1e261),
             effect() {
                 let x = player.stars.points.add(1).pow(0.5)
-                return x
+                return x.softcap('e1e28',0.01,0)
             },
-            effDesc(x) { return format(x)+"x" },
+            effDesc(x) { return format(x)+"x" + (x.gte('e1e28')?"<span class='soft'> (softcapped)</span>":"") },
         },
         {
             desc: `Add 50 more C7 maximum completions.`,
@@ -947,6 +947,8 @@ function updateElementsHTML() {
     tmp.el.element_la_3.setVisible(tmp.elements.unl_length>57)
     tmp.el.element_la_2.setVisible(tmp.elements.unl_length>88)
     tmp.el.element_la_4.setVisible(tmp.elements.unl_length>88)
+    tmp.el.element_la_5.setVisible(tmp.elements.unl_length>121)
+    tmp.el.element_la_6.setVisible(tmp.elements.unl_length>122)
     for (let x = 1; x <= tmp.elements.upg_length; x++) {
         let upg = tmp.el['elementID_'+x]
         if (upg) {

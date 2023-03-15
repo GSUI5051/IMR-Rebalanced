@@ -170,15 +170,15 @@ const UPGS = {
                 if (hasElement(131)) step = E(1.5).mul(xx.div(5)).add(RANKS.effect.tier[20]())
                 let sp = 0.5
                 let sp2 = 0.1
-                let ss2 = E(5e12)
-                let ret = step.mul(xx).add(1).softcap(ss,sp,0).softcap(1.8e2,0.02,0)
+                let ss2 = E(100000)
+                let ret = step.mul(xx).add(1).softcap(ss,sp,0)
                 if (hasTree("c1")) ret = step.mul(xx).add(1).mul(hasTree("c18")?tmp.supernova.tree_eff.c18:1).softcap(ss2,sp2,0)
                 return {step: step, eff: ret, ss: ss}
             },
             effDesc(eff) {
                 return {
                     step: "+x"+format(eff.step),
-                    eff: "x<span style='font-size: 11px;'>"+format(eff.eff)+" to Stronger Power</span>"+(eff.eff.gte(eff.ss)?` <span class='soft' style='font-size: 11px;'>(softcapped${eff.eff.gte(1.8e5)?eff.eff.gte(5e12)&&!player.ranks.pent.gte(15)?"^3":"^2":""})</span>`:"")
+                    eff: "x<span style='font-size: 11px;'>"+format(eff.eff)+" to Stronger Power</span>"+(eff.eff.gte(eff.ss)?` <span class='soft' style='font-size: 11px;'>(softcapped${eff.eff.gte(10)?eff.eff.gte(100000)&&!player.ranks.pent.gte(15)?"^3":"^2":""})</span>`:"")
                 }
             },
             bonus() {
