@@ -28,9 +28,9 @@ const ATOM = {
         x = x.mul(tmp.md.upgs[9].eff)
         if (hasElement(47)) x = x.pow(1.1)
         if (hasPrestige(1,7)) x = x.pow(prestigeEff(1,7))
-		if (hasTree("qn1")) x = x.mul(tmp.supernova.tree_eff.qn1)
-        if (hasTree("c15")) x = x.mul(tmp.supernova.tree_eff.c15)
-        if (tmp.upgs.sing[1]) x = x.pow(tmp.upgs.sing[1].eff.eff)
+		if (hasTree("qn1")) x = x.mul(tmp.supernova.tree_eff.qn1.max(1))
+        if (hasTree("c15")) x = x.mul(tmp.supernova.tree_eff.c15.max(1))
+        if (tmp.upgs.sing[1]) x = x.pow(tmp.upgs.sing[1].eff.eff.max(1))
        return x.floor()
     },
     canReset() { return tmp.atom.gain.gte(1) },
